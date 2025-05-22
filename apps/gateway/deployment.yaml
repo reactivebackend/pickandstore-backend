@@ -22,6 +22,11 @@ spec:
              - containerPort: PORT_CONTAINER
 
            env:
+             - name: PORT
+               valueFrom:
+                 secretKeyRef:
+                   name: gateway-mono-production-config-secret
+                   key: PORT
              - name: DATABASE_URL
                valueFrom:
                  secretKeyRef:
