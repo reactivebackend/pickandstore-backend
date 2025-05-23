@@ -21,6 +21,8 @@
     "build:gateway": "nest build gateway",
     "start:gateway": "node dist/apps/gateway/main",
     "start:dev:gateway": "cross-env NODE_ENV=development nest start gateway --watch",
+    "build:files": "nest build files",
+    "start:files": "node dist/apps/files/main",
     "start:dev:files": "cross-env NODE_ENV=development nest start files --watch"
   },
   "dependencies": {
