@@ -5,4 +5,7 @@ export class FilesService {
   getHello(): string {
     return 'Hello World!';
   }
+  sendMessage(message: string): string {
+    return message;
+  }
 }
