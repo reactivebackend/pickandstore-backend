@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('test-message')
+  sendMessage(): Promise<string | undefined> {
+    return this.appService.testMessage();
+  }
 }
