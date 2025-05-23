@@ -6,9 +6,21 @@ describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
+    const mockClientProxy = {
+      send: jest.fn(() => ({
+        toPromise: () => Promise.resolve({ reply: 'mocked reply' }),
+      })),
+    };
+
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        AppService,
+        {
+          provide: 'FILE_SERVICE',
+          useValue: mockClientProxy,
+        },
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);
