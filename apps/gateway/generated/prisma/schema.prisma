@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DeletionStatus {
+  NotDeleted
+  Deleted
+}
+
+model User {
+  id             Int            @id @default(autoincrement())
+  username       String         @unique
+  email          String         @unique
+  passwordHash   String
+  deletionStatus DeletionStatus @default(NotDeleted)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  userMetadata   UserMetadata?  @relation("UserToMetadata")
+}
+
+model UserMetadata {
+  userId                      Int       @id
+  user                        User      @relation("UserToMetadata", fields: [userId], references: [id])
+  emailConfirmationCode       String?   @db.VarChar(255)
+  emailConfirmationExpiration DateTime?
+  isEmailConfirmed            Boolean   @default(false)
+  passwordRecoveryCode        String?   @db.VarChar(255)
+  passwordRecoveryExpiration  DateTime?
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+}
