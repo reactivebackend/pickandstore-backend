@@ -7,6 +7,7 @@ import { FilesController } from '../../files/src/files.controller';
 import { FilesService } from '../../files/src/files.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { CoreModule } from '../../../libs/config/core.module';
+import { AuthController } from './features/auth/api/auth.controller';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { CoreModule } from '../../../libs/config/core.module';
       },
     ]),
   ],
-  controllers: [AppController, FilesController],
+  controllers: [AppController, FilesController, AuthController],
   providers: [AppService, CoreConfig, FilesService],
   exports: [CoreConfig],
 })
