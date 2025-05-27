@@ -5,6 +5,17 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { Request, Response } from 'express';
+
+type ErrorMessage = {
+  statusCode: number;
+  field: string;
+  message: string;
+};
+
+type ErrorResponse = {
+  errorsMessages: ErrorMessage[];
+};
 
 @Catch()
 export class CommonExceptionFilter implements ExceptionFilter {
@@ -14,14 +25,15 @@ export class CommonExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     debugger;
-    const status =
+    const status: number =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-    const errorResponse = { errorsMessages: [] };
+    const errorResponse: ErrorResponse = { errorsMessages: [] };
 
     if (exception instanceof HttpException) {
       const mistakeBody: any = exception.getResponse();
+      debugger;
       const arr = Array.isArray(mistakeBody.message)
         ? mistakeBody.message
         : [
@@ -37,20 +49,19 @@ export class CommonExceptionFilter implements ExceptionFilter {
           field: el.field,
           message: el.message,
         };
-        //errorResponse.errorsMessages.push(obj);
-        errorResponse.errorsMessages.push();
+        errorResponse.errorsMessages.push(obj);
       });
-      // response.status(status).json(errorResponse);
+      response.status(status).json(errorResponse);
     }
     // Some 500 error , no HttpException error
     else {
-      /* errorResponse.errorsMessages.push({
+      errorResponse.errorsMessages.push({
         statusCode: status,
         field: request.url,
         message: 'Common error or guess, go to bed... everything is broken.',
       });
 
-      response.status(status).json(errorResponse);*/
+      response.status(status).json(errorResponse);
     }
   }
 }

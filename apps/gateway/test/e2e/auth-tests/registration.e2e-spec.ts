@@ -32,7 +32,7 @@ describe('tests for endpoint /api/v1/auth/registration', () => {
     await app.close();
   });
 
-  /*  it('registration  user', async () => {
+  it('registration  user', async () => {
     const res = await request(app.getHttpServer())
       .post('/api/v1/auth/registration')
       .send({
@@ -44,14 +44,14 @@ describe('tests for endpoint /api/v1/auth/registration', () => {
     //.expect(204);
 
     console.log(res.body);
-  });*/
+  });
 
   it('registration  user', async () => {
     const res = await request(app.getHttpServer())
       .post('/api/v1/auth/registration')
       .send({
         username: '',
-        password,
+        password: '1',
         email: 'kawboy1',
         isTermsAgreed,
       });

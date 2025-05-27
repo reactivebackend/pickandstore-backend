@@ -8,10 +8,13 @@ import { FilesService } from '../../files/src/files.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { CoreModule } from '../../../libs/config/core.module';
 import { AuthController } from './features/auth/api/auth.controller';
+import { RegistrationUserHandler } from './features/auth/application/usecases/registration-user.usecase';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
     configModule,
+    CqrsModule,
     CoreModule,
     ClientsModule.registerAsync([
       {
@@ -29,7 +32,7 @@ import { AuthController } from './features/auth/api/auth.controller';
     ]),
   ],
   controllers: [AppController, FilesController, AuthController],
-  providers: [AppService, CoreConfig, FilesService],
+  providers: [AppService, CoreConfig, FilesService, RegistrationUserHandler],
   exports: [CoreConfig],
 })
 export class AppModule {}
