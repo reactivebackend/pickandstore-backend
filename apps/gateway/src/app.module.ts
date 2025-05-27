@@ -10,6 +10,11 @@ import { CoreModule } from '../../../libs/config/core.module';
 import { AuthController } from './features/auth/api/auth.controller';
 import { RegistrationUserHandler } from './features/auth/application/usecases/registration-user.usecase';
 import { CqrsModule } from '@nestjs/cqrs';
+import { UsersRepository } from './features/auth/infrastructure/repository/user.repository';
+import { PrismaService } from '../prisma/prisma.service';
+import { EmailCreatorService } from './common/email/emai-creator-service';
+import { EmailAdapter } from './common/email/email-adapter';
+import { HashPassword } from './common/utils/hash-password';
 
 @Module({
   imports: [
@@ -32,7 +37,17 @@ import { CqrsModule } from '@nestjs/cqrs';
     ]),
   ],
   controllers: [AppController, FilesController, AuthController],
-  providers: [AppService, CoreConfig, FilesService, RegistrationUserHandler],
+  providers: [
+    AppService,
+    CoreConfig,
+    FilesService,
+    RegistrationUserHandler,
+    UsersRepository,
+    PrismaService,
+    EmailCreatorService,
+    EmailAdapter,
+    HashPassword,
+  ],
   exports: [CoreConfig],
 })
 export class AppModule {}

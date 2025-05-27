@@ -20,11 +20,9 @@ type ErrorResponse = {
 @Catch()
 export class CommonExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
-    debugger;
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    debugger;
     const status: number =
       exception instanceof HttpException
         ? exception.getStatus()
@@ -55,10 +53,12 @@ export class CommonExceptionFilter implements ExceptionFilter {
     }
     // Some 500 error , no HttpException error
     else {
+      const a = request.url;
+      debugger;
       errorResponse.errorsMessages.push({
         statusCode: status,
         field: request.url,
-        message: 'Common error or guess, go to bed... everything is broken.',
+        message: 'This error, maybe from  databases',
       });
 
       response.status(status).json(errorResponse);

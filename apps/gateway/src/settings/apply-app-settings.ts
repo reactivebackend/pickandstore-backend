@@ -11,6 +11,8 @@ type ErrorResponseType = {
 };
 
 export const applyAppSettings = (app: INestApplication) => {
+  app.enableCors();
+
   app.setGlobalPrefix('api/v1');
 
   app.useGlobalPipes(

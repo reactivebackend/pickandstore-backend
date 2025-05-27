@@ -4,11 +4,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { applyAppSettings } from '../../../src/settings/apply-app-settings';
+import { PrismaService } from '../../../prisma/prisma.service';
+import { EmailAdapter } from '../../../src/common/email/email-adapter';
+import { MockEmailAdapter } from '../../../src/common/email/mock-email-adapter';
 
 describe('tests for endpoint /api/v1/auth/registration', () => {
   let app: INestApplication;
 
-  const email = 'kawboy1@mail.ru';
+  let prisma: PrismaService;
+
+  const email = 'pavelminsk1979@mail.ru';
 
   const username = 'dedBaraded1';
 
@@ -19,13 +24,21 @@ describe('tests for endpoint /api/v1/auth/registration', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(EmailAdapter)
+      .useValue(new MockEmailAdapter())
+      .compile();
 
     app = moduleFixture.createNestApplication();
+
+    prisma = app.get(PrismaService);
 
     applyAppSettings(app);
 
     await app.init();
+
+    // ! ATTENTION method removes everything from the table user
+    await prisma.user.deleteMany();
   });
 
   afterAll(async () => {

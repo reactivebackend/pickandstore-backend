@@ -8,19 +8,19 @@ import {
   MinLength,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-//import { ApiProperty } from '@nestjs/swagger';
-import { validationConstants } from '../../../../common/utils/validation-constants';
+import { validationConstants } from '../../../../common/validation-constants';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RegistrationInputDto {
-  /*  @ApiProperty({
-      description: 'Username for registration',
-      type: String,
-      required: true,
-      example: 'qwerTy1',
-      minLength: validationConstants.USERNAME_MIN_LENGTH,
-      maxLength: validationConstants.USERNAME_MAX_LENGTH,
-      pattern: validationConstants.USERNAME_PATTERN,
-    })*/
+  @ApiProperty({
+    description: 'Username for registration',
+    type: String,
+    required: true,
+    example: 'qwerTy1',
+    minLength: validationConstants.USERNAME_MIN_LENGTH,
+    maxLength: validationConstants.USERNAME_MAX_LENGTH,
+    pattern: validationConstants.USERNAME_PATTERN,
+  })
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams): string =>
@@ -37,15 +37,15 @@ export class RegistrationInputDto {
   })
   username: string;
 
-  /*  @ApiProperty({
-      description: 'Password for registration',
-      type: String,
-      required: true,
-      example: 'qwerTy1@',
-      minLength: validationConstants.PASSWORD_MIN_LENGTH,
-      maxLength: validationConstants.PASSWORD_MAX_LENGTH,
-      pattern: validationConstants.PASSWORD_PATTERN,
-    })*/
+  @ApiProperty({
+    description: 'Password for registration',
+    type: String,
+    required: true,
+    example: 'qwerTy1@',
+    minLength: validationConstants.PASSWORD_MIN_LENGTH,
+    maxLength: validationConstants.PASSWORD_MAX_LENGTH,
+    pattern: validationConstants.PASSWORD_PATTERN,
+  })
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams): string =>
@@ -67,13 +67,13 @@ export class RegistrationInputDto {
   )
   password: string;
 
-  /*@ApiProperty({
+  @ApiProperty({
     description: 'Email for registration',
     type: String,
     required: true,
     example: 'qwerty@mail.ru',
     pattern: validationConstants.EMAIL_PATTERN,
-  })*/
+  })
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams): string =>
@@ -84,13 +84,13 @@ export class RegistrationInputDto {
   })
   email: string;
 
-  /* @ApiProperty({
-     description: 'IsTermsAgreed for registration',
-     type: String,
-     required: true,
-     example: 'true',
-     pattern: validationConstants.TERMS_AGREED_PATTERN,
-   })*/
+  @ApiProperty({
+    description: 'IsTermsAgreed for registration',
+    type: String,
+    required: true,
+    example: 'true',
+    pattern: validationConstants.TERMS_AGREED_PATTERN,
+  })
   @IsNotEmpty()
   @IsIn(['true', 'false'], {
     message: 'The checkbox must match  "true" or "false".',

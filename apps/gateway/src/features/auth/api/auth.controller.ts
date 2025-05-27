@@ -1,32 +1,19 @@
-import {
-  Body,
-  Controller,
-  ForbiddenException,
-  HttpCode,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { RegistrationInputDto } from './dto/registration.input-dto';
-import { ErrorObject } from '../../../../../../libs/utils/error-object';
 import { RegistrationUserUsecase } from '../application/usecases/registration-user.usecase';
 import { CommandBus } from '@nestjs/cqrs';
+import { SwaggerRegistration } from './swagger/swagger-registartion.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(protected commandBus: CommandBus) {}
 
-  //@HttpCode(HttpStatus.NO_CONTENT)
-  @HttpCode(HttpStatus.OK)
-  // @SwaggerRegistration()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @SwaggerRegistration()
   @Post('registration')
-  //: Promise<void>
-  async handleRegistration(@Body() registrationInputDto: RegistrationInputDto) {
-    /* throw new ForbiddenException(
-       ErrorObject.createError('User with this email is already registered'),
-     );*/
-    //throw new Error('Сообщение об ошибке');
-
-    //return registrationInputDto;
+  async handleRegistration(
+    @Body() registrationInputDto: RegistrationInputDto,
+  ): Promise<void> {
     return await this.commandBus.execute(
       new RegistrationUserUsecase(registrationInputDto),
     );
