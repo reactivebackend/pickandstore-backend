@@ -7,11 +7,16 @@ import { FilesController } from '../../files/src/files.controller';
 import { FilesService } from '../../files/src/files.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { CoreModule } from '../../../libs/config/core.module';
+import { EmailModule } from './notifications/email.module';
+import { UserModule } from './user-accounts/user-accounts.module';
+import { AllExceptionsFilter } from '../../../libs/exceptions/filters/all-exceptions-filter';
 
 @Module({
   imports: [
     configModule,
     CoreModule,
+    EmailModule,
+    UserModule,
     ClientsModule.registerAsync([
       {
         name: 'FILE_SERVICE',
@@ -28,7 +33,7 @@ import { CoreModule } from '../../../libs/config/core.module';
     ]),
   ],
   controllers: [AppController, FilesController],
-  providers: [AppService, CoreConfig, FilesService],
+  providers: [AppService, CoreConfig, FilesService, AllExceptionsFilter],
   exports: [CoreConfig],
 })
 export class AppModule {}
