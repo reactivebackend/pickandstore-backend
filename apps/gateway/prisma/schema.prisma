@@ -25,18 +25,28 @@ model User {
 }
 
 model UserMetadata {
-  userId                      Int     @id
-  user                        User    @relation("UserToMetadata", fields: [userId], references: [id])
-  emailConfirmationCode       String? @db.VarChar(255)
+  userId                      Int       @id
+  user                        User      @relation("UserToMetadata", fields: [userId], references: [id])
+  emailConfirmationCode       String?   @db.VarChar(255)
   emailConfirmationExpiration DateTime?
-  isEmailConfirmed            Boolean @default(false)
-  passwordRecoveryCode        String? @db.VarChar(255)
+  isEmailConfirmed            Boolean   @default(false)
+  passwordRecoveryCode        String?   @db.VarChar(255)
   passwordRecoveryExpiration  DateTime?
 }
 
 model Post {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   title     String
   content   String
-  createdAt DateTime    @default(now())
+  createdAt DateTime @default(now())
+}
+
+model Device {
+  id             Int    @id @default(autoincrement())
+  deviceId       String @unique
+  ip             String
+  title          String
+  lastActiveDate Int
+  expirationDate Int
+  userId         Int
 }

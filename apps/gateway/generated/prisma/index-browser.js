@@ -146,6 +146,16 @@ exports.Prisma.PostScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.DeviceScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  ip: 'ip',
+  title: 'title',
+  lastActiveDate: 'lastActiveDate',
+  expirationDate: 'expirationDate',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -168,7 +178,8 @@ exports.DeletionStatus = exports.$Enums.DeletionStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   UserMetadata: 'UserMetadata',
-  Post: 'Post'
+  Post: 'Post',
+  Device: 'Device'
 };
 
 /**
