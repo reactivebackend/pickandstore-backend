@@ -1,21 +1,20 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
-import { ValidateLoginAndPasswordCommand } from '../application/usecases/validate-login-pass.use-case';
+import { User } from '../../../generated/prisma';
+import { AuthService } from '../application/auth.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private commandBus: CommandBus) {
+  constructor(private authService: AuthService) {
     super({
-      usernameField: 'loginOrEmail',
+      usernameField: 'usernameOrEmail',
     });
   }
 
-  async validate(loginOrEmail: string, password: string): Promise<any> {
-    const user = await this.commandBus.execute(
-      new ValidateLoginAndPasswordCommand(loginOrEmail, password),
-    );
+  async validate(usernameOrEmail: string, password: string): Promise<User> {
+    const user = await this.authService.validateUser(usernameOrEmail, password);
+
     if (!user) {
       throw new UnauthorizedException();
     }
