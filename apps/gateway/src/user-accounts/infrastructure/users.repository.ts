@@ -104,10 +104,12 @@ export class UsersRepository {
     });
   }
 
-  async findUserForLoginValidation(loginOrEmail: string): Promise<User | null> {
+  async getUserByUsernameOrEmail(
+    usernameOrEmail: string,
+  ): Promise<User | null> {
     return this.prismaService.user.findFirst({
       where: {
-        OR: [{ email: loginOrEmail }, { username: loginOrEmail }],
+        OR: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
       },
     });
   }

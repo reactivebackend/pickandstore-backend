@@ -9,35 +9,33 @@ import { PrismaModule } from '../../prisma/prisma.module';
 import { EmailModule } from '../notifications/email.module';
 import { RegistrationConfirmationUseCase } from './application/usecases/registration-confirmation.usecase';
 import { RegistrationEmailResendingUseCase } from './application/usecases/registration-email-resending.usecase';
-import { ValidateLoginAndPasswordUseCase } from './application/usecases/validate-login-pass.use-case';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtRefreshTokenStrategy } from './strategies/jwt-refresh.strategy';
 import { JwtBearerStrategy } from './strategies/jwt-bearer.strategy';
 import { BasicStrategy } from './strategies/basic.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { TokensCreateUseCase } from './application/usecases/tokens-create.use-case';
-import { DeviceCreateForLoginUseCase } from './application/usecases/devices/device-create-for-login.use-case';
-import {
-  DeviceUpdateForTokensCommand,
-  DeviceUpdateForTokensUseCase,
-} from './application/usecases/devices/device-update-for-tokens.use-case';
-import { DeviceDeleteForLogoutUseCase } from './application/usecases/devices/device-delete-for-logout.use-case';
+import { RefreshTokenUseCase } from './application/usecases/refresh-token.usecase';
+import { CreateDeviceUseCase } from './application/usecases/devices/create-device.usecase';
+import { UpdateDeviceDataUseCase } from './application/usecases/devices/update-device-data.usecase';
+import { LogoutUserUseCase } from './application/usecases/logout-user.usecase';
 import { JwtModule } from '@nestjs/jwt';
 import { DevicesRepository } from './infrastructure/device.repository';
-import { ValidateRefreshTokenUseCase } from './application/usecases/validate-refresh-token.use-case';
+import { AuthConfig } from './config/auth.config';
+import { JwtConfig } from './config/jwt.config';
+import { AuthService } from './application/auth.service';
+import { UsersQueryRepository } from './infrastructure/query/users.query-repository';
+import { LoginUserUseCase } from './application/usecases/login-user.usecase';
 
-const useUseCases = [
+const userUseCases = [
   CreateUserUseCase,
   RegisterUserUseCase,
   RegistrationConfirmationUseCase,
   RegistrationEmailResendingUseCase,
-  ValidateLoginAndPasswordUseCase,
-  TokensCreateUseCase,
-  DeviceCreateForLoginUseCase,
-  DeviceUpdateForTokensCommand,
-  DeviceDeleteForLogoutUseCase,
-  ValidateRefreshTokenUseCase,
-  DeviceUpdateForTokensUseCase,
+  RefreshTokenUseCase,
+  CreateDeviceUseCase,
+  LogoutUserUseCase,
+  UpdateDeviceDataUseCase,
+  LoginUserUseCase,
 ];
 
 const strategies = [
@@ -52,10 +50,14 @@ const strategies = [
   imports: [CqrsModule, PrismaModule, EmailModule, PassportModule, JwtModule],
   controllers: [AuthController],
   providers: [
+    AuthConfig,
+    JwtConfig,
     UsersRepository,
+    UsersQueryRepository,
     DevicesRepository,
     CryptoService,
-    ...useUseCases,
+    AuthService,
+    ...userUseCases,
     ...strategies,
   ],
 })
