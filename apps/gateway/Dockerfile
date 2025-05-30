@@ -26,6 +26,7 @@ RUN yarn install --frozen-lockfile
 # Bundle app source code
 COPY --chown=node . .
 
+RUN yarn prisma generate
 RUN yarn build:${SERVICE}
 
 # Bind to all network interfaces so that it can be mapped to the host OS
