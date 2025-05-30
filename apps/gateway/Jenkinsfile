@@ -72,6 +72,21 @@ pipeline {
                  }
              }
         }
+        stage('Run DB Migrations') {
+            steps {
+                echo "Running DB migrations..."
+                script {
+                    sh '''
+                        export NVM_DIR="$HOME/.nvm"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                        nvm use --lts
+                        yarn install --immutable
+                        npx prisma migrate deploy --schema=apps/gateway/prisma/schema.prisma
+                    '''
+                }
+            }
+        }
+
         stage('Preparing deployment') {
              steps {
                  echo "Preparing started..."
