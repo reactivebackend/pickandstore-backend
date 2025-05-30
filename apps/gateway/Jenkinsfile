@@ -12,18 +12,12 @@ pipeline {
         DEPLOYMENT_NAME = "gateway-mono-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
         DOCKER_BUILD_NAME = "${env.REGISTRY_HOSTNAME}/${env.PROJECT}:${env.IMAGE_NAME}"
-        DATABASE_URL = "${env.DATABASE_URL}"
     }
 
     stages {
         stage('Clone repository') {
             steps {
                 checkout scm
-            }
-        }
-        stage('Debug env') {
-            steps {
-                sh 'echo DATABASE_URL=$DATABASE_URL'
             }
         }
         stage('Unit tests') {
@@ -78,21 +72,6 @@ pipeline {
                  }
              }
         }
-        stage('Run DB Migrations') {
-            steps {
-                echo "Running DB migrations..."
-                script {
-                    sh '''
-                        export NVM_DIR="$HOME/.nvm"
-                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                        nvm use --lts
-                        yarn install --immutable
-                        npx prisma migrate deploy --schema=apps/gateway/prisma/schema.prisma
-                    '''
-                }
-            }
-        }
-
         stage('Preparing deployment') {
              steps {
                  echo "Preparing started..."

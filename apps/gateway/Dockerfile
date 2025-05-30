@@ -32,4 +32,4 @@ RUN yarn build:${SERVICE}
 
 EXPOSE ${PORT}
 
-CMD yarn start:gateway
+CMD npx prisma migrate deploy --schema=apps/gateway/prisma/schema.prisma && yarn start:gateway
