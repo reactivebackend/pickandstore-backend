@@ -25,17 +25,23 @@ export class CreateDeviceUseCase
     ip,
     userAgent,
   }: CreateDeviceCommand): Promise<any> {
-    const tokenData = await this.authService.getRefreshTokenData(refreshToken);
+    try {
+      const tokenData =
+        await this.authService.getRefreshTokenData(refreshToken);
 
-    const deviceData: CreateDeviceDto = {
-      deviceId: tokenData.deviceId,
-      ip: ip,
-      title: userAgent,
-      lastActiveDate: tokenData.issuedAt,
-      expirationDate: tokenData.expiresAt,
-      userId: +tokenData.sub,
-    };
+      const deviceData: CreateDeviceDto = {
+        deviceId: tokenData.deviceId,
+        ip: ip,
+        title: userAgent,
+        lastActiveDate: tokenData.issuedAt,
+        expirationDate: tokenData.expiresAt,
+        userId: +tokenData.sub, // возможно, здесь ошибка, если tokenData.sub не число
+      };
 
-    return this.deviceRepository.createDevice(deviceData);
+      return this.deviceRepository.createDevice(deviceData);
+    } catch (error) {
+      console.error('Error in CreateDeviceUseCase:', error);
+      throw error;
+    }
   }
 }

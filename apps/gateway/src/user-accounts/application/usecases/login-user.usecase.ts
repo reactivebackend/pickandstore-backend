@@ -25,32 +25,36 @@ export class LoginUserUseCase implements ICommandHandler<LoginUserCommand> {
     userAgent,
     ip,
   }: LoginUserCommand): Promise<{ accessToken: string; refreshToken: string }> {
-    const accessTokenPayload = { sub: userId };
+    try {
+      const accessTokenPayload = { sub: userId };
+      const deviceId = randomUUID();
 
-    const deviceId = randomUUID();
+      const refreshTokenPayload = {
+        sub: userId,
+        deviceId: deviceId,
+      };
 
-    const refreshTokenPayload = {
-      sub: userId,
-      deviceId: deviceId,
-    };
+      const accessToken = this.jwtService.sign(accessTokenPayload, {
+        secret: this.jwtConfig.accessTokenSecret,
+        expiresIn: this.jwtConfig.accessTokenExpirationTime,
+      });
 
-    const accessToken = this.jwtService.sign(accessTokenPayload, {
-      secret: this.jwtConfig.accessTokenSecret,
-      expiresIn: this.jwtConfig.accessTokenExpirationTime,
-    });
+      const refreshToken = this.jwtService.sign(refreshTokenPayload, {
+        secret: this.jwtConfig.refreshTokenSecret,
+        expiresIn: this.jwtConfig.refreshTokenExpirationTime,
+      });
 
-    const refreshToken = this.jwtService.sign(refreshTokenPayload, {
-      secret: this.jwtConfig.refreshTokenSecret,
-      expiresIn: this.jwtConfig.refreshTokenExpirationTime,
-    });
+      await this.commandBus.execute(
+        new CreateDeviceCommand(refreshToken, ip, userAgent),
+      );
 
-    await this.commandBus.execute(
-      new CreateDeviceCommand(refreshToken, ip, userAgent),
-    );
-
-    return {
-      accessToken,
-      refreshToken,
-    };
+      return {
+        accessToken,
+        refreshToken,
+      };
+    } catch (error) {
+      console.error('Error in LoginUserUseCase:', error);
+      throw error; // чтобы Nest обработал ошибку дальше и ответил клиенту 500
+    }
   }
 }
