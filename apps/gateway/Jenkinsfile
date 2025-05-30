@@ -21,6 +21,11 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Debug env') {
+            steps {
+                sh 'echo DATABASE_URL=$DATABASE_URL'
+            }
+        }
         stage('Unit tests') {
             steps {
                 script {
