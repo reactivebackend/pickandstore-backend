@@ -40,7 +40,9 @@ export class UsersTestManager {
       .expect(statusCode);
 
     if (autoConfirm) {
-      const user = await this.usersRepository.getUserByEmail(createModel.email);
+      const user = await this.usersRepository.getUserWithMetadataByEmail(
+        createModel.email,
+      );
       await request(this.app.getHttpServer())
         .post(`/${GLOBAL_PREFIX}/auth/registration-confirmation`)
         .send({ code: user?.userMetadata?.emailConfirmationCode })

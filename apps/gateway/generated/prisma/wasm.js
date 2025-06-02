@@ -139,6 +139,14 @@ exports.Prisma.UserMetadataScalarFieldEnum = {
   passwordRecoveryExpiration: 'passwordRecoveryExpiration'
 };
 
+exports.Prisma.AuthAccountScalarFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  providerId: 'providerId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -178,6 +186,7 @@ exports.DeletionStatus = exports.$Enums.DeletionStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   UserMetadata: 'UserMetadata',
+  AuthAccount: 'AuthAccount',
   Post: 'Post',
   Device: 'Device'
 };
