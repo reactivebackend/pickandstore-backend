@@ -1,7 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { DeletionStatus, Prisma, User } from '../../../generated/prisma';
+import {
+  DeletionStatus,
+  Prisma,
+  User,
+  UserMetadata,
+} from '../../../generated/prisma';
 import { add } from 'date-fns';
+import { RecoveryDataDto } from '../dto/udate-recovery.dto';
 
 export type UserWithMetadata = Prisma.UserGetPayload<{
   include: { userMetadata: true };
@@ -110,6 +116,38 @@ export class UsersRepository {
     return this.prismaService.user.findFirst({
       where: {
         OR: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
+      },
+    });
+  }
+  async updateRecoveryDate(dto: RecoveryDataDto): Promise<void> {
+    await this.prismaService.userMetadata.update({
+      where: {
+        userId: dto.userId,
+      },
+      data: {
+        passwordRecoveryCode: dto.recoveryCode,
+        passwordRecoveryExpiration: dto.expirationDate,
+      },
+    });
+  }
+
+  async getUserMetadataByPasswordRecoveryCode(
+    code: string,
+  ): Promise<UserMetadata | null> {
+    return this.prismaService.userMetadata.findFirst({
+      where: {
+        passwordRecoveryCode: code,
+      },
+    });
+  }
+
+  async updatePasswordHash(userId: number, hash: string): Promise<void> {
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        passwordHash: hash,
       },
     });
   }
