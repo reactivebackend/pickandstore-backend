@@ -25,8 +25,8 @@ import { JwtConfig } from './config/jwt.config';
 import { AuthService } from './application/auth.service';
 import { UsersQueryRepository } from './infrastructure/query/users.query-repository';
 import { LoginUserUseCase } from './application/usecases/login-user.usecase';
-import { PasswordRecoveryUseCase } from './application/usecases/password/password-recovery.use-case';
-import { PasswordUpdateUseCase } from './application/usecases/password/password-update.use-case';
+import { PasswordRecoveryUseCase } from './application/usecases/password/password-recovery.usecase';
+import { PasswordUpdateUseCase } from './application/usecases/password/password-update.usecase';
 
 const userUseCases = [
   CreateUserUseCase,

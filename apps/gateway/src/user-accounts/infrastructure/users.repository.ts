@@ -131,13 +131,16 @@ export class UsersRepository {
     });
   }
 
-  async findUserForPasswordUpdate(code: string): Promise<UserMetadata | null> {
+  async getUserMetadataByPasswordRecoveryCode(
+    code: string,
+  ): Promise<UserMetadata | null> {
     return this.prismaService.userMetadata.findFirst({
       where: {
         passwordRecoveryCode: code,
       },
     });
   }
+
   async updatePasswordHash(userId: number, hash: string): Promise<void> {
     await this.prismaService.user.update({
       where: {

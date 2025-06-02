@@ -28,9 +28,9 @@ import { UsersQueryRepository } from '../infrastructure/query/users.query-reposi
 import { ExtractRefreshTokenFromCookie } from '../guards/decorators/extract-refresh-token-from-cookie.decorator';
 import { ExtractDeviceFromCookie } from '../guards/decorators/extract-device-from-cookie.decorator';
 import { LoginUserCommand } from '../application/usecases/login-user.usecase';
-import { PasswordRecoveryCommand } from '../application/usecases/password/password-recovery.use-case';
-import { NewPasswordInputDto } from '../dto/new-password.input.dto';
-import { PasswordUpdateCommand } from '../application/usecases/password/password-update.use-case';
+import { PasswordRecoveryCommand } from '../application/usecases/password/password-recovery.usecase';
+import { NewPasswordInputDto } from './input-dto/new-password.input.dto';
+import { PasswordUpdateCommand } from '../application/usecases/password/password-update.usecase';
 import { MeViewDto } from './view-dto/users.view-dto';
 
 @Controller('auth')

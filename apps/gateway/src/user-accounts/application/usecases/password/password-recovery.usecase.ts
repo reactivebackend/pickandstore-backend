@@ -18,37 +18,22 @@ export class PasswordRecoveryUseCase
     private readonly mailService: EmailService,
   ) {}
 
-  async execute(command: PasswordRecoveryCommand): Promise<boolean | null> {
-    const user = await this.usersRepository.getUserByEmail(
-      command.emailInputDto.email,
-    );
+  async execute({ emailInputDto }: PasswordRecoveryCommand): Promise<void> {
+    const user = await this.usersRepository.getUserByEmail(emailInputDto.email);
 
     if (!user) {
-      return null;
+      return;
     }
 
     const recoveryCode = randomUUID();
     const expirationDate = add(new Date(), { hours: 1 });
+
     await this.usersRepository.updateRecoveryDate({
       userId: user.id,
       recoveryCode,
       expirationDate,
     });
 
-    await this.sendPasswordRecoveryMail(user.email, recoveryCode);
-    return true;
-  }
-
-  private async sendPasswordRecoveryMail(
-    email: string,
-    confirmationCode: string,
-  ): Promise<any> {
-    try {
-      await this.mailService.sendPasswordRecoveryEmail(email, confirmationCode);
-    } catch (e) {
-      console.error(e);
-      console.log(e);
-      return null;
-    }
+    this.mailService.sendPasswordRecoveryEmail(user.email, recoveryCode);
   }
 }
