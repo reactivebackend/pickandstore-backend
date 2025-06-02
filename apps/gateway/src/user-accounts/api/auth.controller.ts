@@ -7,10 +7,11 @@ import {
   HttpStatus,
   Ip,
   Post,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateUserInputDto, EmailInputDto } from './input-dto/users.input-dto';
@@ -28,6 +29,7 @@ import { UsersQueryRepository } from '../infrastructure/query/users.query-reposi
 import { ExtractRefreshTokenFromCookie } from '../guards/decorators/extract-refresh-token-from-cookie.decorator';
 import { ExtractDeviceFromCookie } from '../guards/decorators/extract-device-from-cookie.decorator';
 import { LoginUserCommand } from '../application/usecases/login-user.usecase';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -119,5 +121,59 @@ export class AuthController {
   @Get('me')
   async getUserProfile(@ExtractUserFromRequest() userId: string) {
     return this.usersQueryRepository.getUserProfile(userId);
+  }
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {}
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleAuthRedirect(
+    @Req() req: Request,
+    @Ip() ip: string,
+    @Headers() headers: IncomingHttpHeaders,
+    @Res() res: Response,
+  ) {
+    const userAgent = headers['user-agent'] || 'unknown';
+    const userId = (req.user as { id: number }).id.toString();
+
+    const { accessToken, refreshToken } = await this.commandBus.execute(
+      new LoginUserCommand(userId, userAgent, ip),
+    );
+
+    res
+      .cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true,
+      })
+      .json({ accessToken: accessToken });
+  }
+
+  @Get('github')
+  @UseGuards(AuthGuard('github'))
+  async githubAuth() {}
+
+  @Get('github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubAuthRedirect(
+    @Req() req: Request,
+    @Ip() ip: string,
+    @Headers() headers: IncomingHttpHeaders,
+    @Res() res: Response,
+  ) {
+    const userAgent = headers['user-agent'] || 'unknown';
+    const userId = (req.user as { id: number }).id.toString();
+
+    const { accessToken, refreshToken } = await this.commandBus.execute(
+      new LoginUserCommand(userId, userAgent, ip),
+    );
+
+    res
+      .cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true,
+      })
+      .json({ accessToken: accessToken });
   }
 }

@@ -17,11 +17,12 @@ model User {
   id             Int            @id @default(autoincrement())
   username       String         @unique
   email          String         @unique
-  passwordHash   String
+  passwordHash   String?
   deletionStatus DeletionStatus @default(NotDeleted)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   userMetadata   UserMetadata?  @relation("UserToMetadata")
+  authAccounts   AuthAccount[]  @relation("UserAccounts")
 }
 
 model UserMetadata {
@@ -32,6 +33,17 @@ model UserMetadata {
   isEmailConfirmed            Boolean   @default(false)
   passwordRecoveryCode        String?   @db.VarChar(255)
   passwordRecoveryExpiration  DateTime?
+}
+
+model AuthAccount {
+  id           Int      @id @default(autoincrement())
+  provider     String
+  providerId   String
+  userId       Int
+  user         User     @relation("UserAccounts", fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+
+  @@unique([provider, providerId])
 }
 
 model Post {

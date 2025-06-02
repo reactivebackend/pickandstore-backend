@@ -18,7 +18,7 @@ export class RegistrationEmailResendingUseCase
   ) {}
 
   async execute({ email }: RegistrationEmailResendingCommand): Promise<void> {
-    const user = await this.usersRepository.getUserByEmail(email);
+    const user = await this.usersRepository.getUserWithMetadataByEmail(email);
 
     const metadata = user?.userMetadata;
 

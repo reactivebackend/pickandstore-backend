@@ -20,7 +20,7 @@ export class AuthService {
     const user =
       await this.usersRepository.getUserByUsernameOrEmail(usernameOrEmail);
 
-    if (!user) {
+    if (!user || !user.passwordHash) {
       return null;
     }
 
@@ -36,9 +36,7 @@ export class AuthService {
     return user;
   }
 
-  async getRefreshTokenData(
-    refreshToken: string,
-  ): Promise<RefreshTokenDataDto> {
+  getRefreshTokenData(refreshToken: string): RefreshTokenDataDto {
     const decoded: any = this.jwtService.decode(refreshToken);
 
     if (!decoded) {
@@ -51,5 +49,46 @@ export class AuthService {
       issuedAt: decoded.iat,
       expiresAt: decoded.exp,
     };
+  }
+
+  async validateOAuthLogin(profile: any, provider: 'google' | 'github') {
+    const providerId = profile.id;
+    const email = profile.emails?.[0]?.value;
+
+    console.log('providerId: ', providerId);
+    console.log('email: ', email);
+
+    const account =
+      await this.usersRepository.getUserAuthAccountByProviderAndProviderId(
+        provider,
+        providerId,
+      );
+
+    if (account) return account.user;
+
+    let user = await this.usersRepository.getUserByEmail(email);
+
+    if (!user) {
+      let username: string;
+
+      if (provider === 'github') {
+        username = profile.username;
+      } else {
+        username = profile.displayName;
+      }
+
+      user = await this.usersRepository.createUser(username, email);
+      await this.usersRepository.updateEmailConfirmationStatus(
+        user.id.toString(),
+      );
+    }
+
+    await this.usersRepository.createAuthAccountForUser(
+      user.id.toString(),
+      provider,
+      providerId,
+    );
+
+    return user;
   }
 }
