@@ -25,6 +25,11 @@ import { JwtConfig } from './config/jwt.config';
 import { AuthService } from './application/auth.service';
 import { UsersQueryRepository } from './infrastructure/query/users.query-repository';
 import { LoginUserUseCase } from './application/usecases/login-user.usecase';
+import { OAuthConfig } from './config/oauth.config';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { GithubStrategy } from './strategies/github.strategy';
+import { PasswordRecoveryUseCase } from './application/usecases/password/password-recovery.usecase';
+import { PasswordUpdateUseCase } from './application/usecases/password/password-update.usecase';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -36,6 +41,8 @@ const userUseCases = [
   LogoutUserUseCase,
   UpdateDeviceDataUseCase,
   LoginUserUseCase,
+  PasswordRecoveryUseCase,
+  PasswordUpdateUseCase,
 ];
 
 const strategies = [
@@ -43,6 +50,8 @@ const strategies = [
   JwtBearerStrategy,
   JwtRefreshTokenStrategy,
   LocalStrategy,
+  GoogleStrategy,
+  GithubStrategy,
 ];
 
 @Global()
@@ -52,6 +61,7 @@ const strategies = [
   providers: [
     AuthConfig,
     JwtConfig,
+    OAuthConfig,
     UsersRepository,
     UsersQueryRepository,
     DevicesRepository,

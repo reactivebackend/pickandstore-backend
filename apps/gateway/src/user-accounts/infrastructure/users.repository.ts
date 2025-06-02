@@ -1,33 +1,55 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { DeletionStatus, Prisma, User } from '../../../generated/prisma';
+import {
+  DeletionStatus,
+  Prisma,
+  User,
+  UserMetadata,
+} from '../../../generated/prisma';
 import { add } from 'date-fns';
+import { RecoveryDataDto } from '../dto/udate-recovery.dto';
 
 export type UserWithMetadata = Prisma.UserGetPayload<{
   include: { userMetadata: true };
+}>;
+
+export type AuthAccountWithUser = Prisma.AuthAccountGetPayload<{
+  include: { user: true };
 }>;
 
 @Injectable()
 export class UsersRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createUser(username: string, email: string, passwordHash: string) {
+  async createUser(
+    username: string,
+    email: string,
+    passwordHash?: string,
+  ): Promise<User> {
     return this.prismaService.user.create({
       data: {
         username,
         email,
-        passwordHash,
+        passwordHash: passwordHash ?? null,
         userMetadata: {
           create: {},
         },
       },
-      include: {
-        userMetadata: true,
+    });
+  }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    return this.prismaService.user.findFirst({
+      where: {
+        email: email,
+        deletionStatus: DeletionStatus.NotDeleted,
       },
     });
   }
 
-  async getUserByEmail(email: string): Promise<UserWithMetadata | null> {
+  async getUserWithMetadataByEmail(
+    email: string,
+  ): Promise<UserWithMetadata | null> {
     return this.prismaService.user.findFirst({
       where: {
         email: email,
@@ -110,6 +132,68 @@ export class UsersRepository {
     return this.prismaService.user.findFirst({
       where: {
         OR: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
+      },
+    });
+  }
+
+  async getUserAuthAccountByProviderAndProviderId(
+    provider: string,
+    providerId: string,
+  ): Promise<AuthAccountWithUser | null> {
+    return this.prismaService.authAccount.findUnique({
+      where: {
+        provider_providerId: {
+          provider,
+          providerId,
+        },
+      },
+      include: { user: true },
+    });
+  }
+
+  async createAuthAccountForUser(
+    userId: string,
+    provider: string,
+    providerId: string,
+  ): Promise<void> {
+    await this.prismaService.authAccount.create({
+      data: {
+        provider,
+        providerId,
+        userId: +userId,
+      },
+    });
+  }
+
+  async updateRecoveryDate(dto: RecoveryDataDto): Promise<void> {
+    await this.prismaService.userMetadata.update({
+      where: {
+        userId: dto.userId,
+      },
+      data: {
+        passwordRecoveryCode: dto.recoveryCode,
+        passwordRecoveryExpiration: dto.expirationDate,
+      },
+    });
+  }
+
+  async getUserMetadataByPasswordRecoveryCode(
+    code: string,
+  ): Promise<UserMetadata | null> {
+    return this.prismaService.userMetadata.findFirst({
+      where: {
+        passwordRecoveryCode: code,
+      },
+    });
+  }
+
+  async updatePasswordHash(userId: number, hash: string): Promise<void> {
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        passwordHash: hash,
       },
     });
   }
