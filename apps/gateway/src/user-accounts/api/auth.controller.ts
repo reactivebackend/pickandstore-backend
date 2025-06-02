@@ -181,6 +181,7 @@ export class AuthController {
         secure: true,
       })
       .json({ accessToken: accessToken });
+  }
 
   @Post('password-recovery')
   @HttpCode(HttpStatus.NO_CONTENT)
