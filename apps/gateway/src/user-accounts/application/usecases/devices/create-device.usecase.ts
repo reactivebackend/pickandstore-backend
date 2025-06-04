@@ -26,8 +26,7 @@ export class CreateDeviceUseCase
     userAgent,
   }: CreateDeviceCommand): Promise<any> {
     try {
-      const tokenData =
-        await this.authService.getRefreshTokenData(refreshToken);
+      const tokenData = this.authService.getRefreshTokenData(refreshToken);
 
       const deviceData: CreateDeviceDto = {
         deviceId: tokenData.deviceId,
@@ -35,7 +34,7 @@ export class CreateDeviceUseCase
         title: userAgent,
         lastActiveDate: tokenData.issuedAt,
         expirationDate: tokenData.expiresAt,
-        userId: +tokenData.sub, // возможно, здесь ошибка, если tokenData.sub не число
+        userId: +tokenData.sub,
       };
 
       return this.deviceRepository.createDevice(deviceData);

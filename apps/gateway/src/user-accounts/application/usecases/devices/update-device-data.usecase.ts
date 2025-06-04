@@ -25,7 +25,7 @@ export class UpdateDeviceDataUseCase
     ip,
     userAgent,
   }: UpdateDeviceDataCommand): Promise<Device | null> {
-    const tokenData = await this.authService.getRefreshTokenData(refreshToken);
+    const tokenData = this.authService.getRefreshTokenData(refreshToken);
 
     await this.devicesRepository.getDeviceByIdOrNotFoundFail(
       tokenData.deviceId,

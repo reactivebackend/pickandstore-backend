@@ -54,7 +54,7 @@ export class LoginUserUseCase implements ICommandHandler<LoginUserCommand> {
       };
     } catch (error) {
       console.error('Error in LoginUserUseCase:', error);
-      throw error; // чтобы Nest обработал ошибку дальше и ответил клиенту 500
+      throw error;
     }
   }
 }

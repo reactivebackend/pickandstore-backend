@@ -1,10 +1,19 @@
-import { OmitType } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { User } from '../../../../generated/prisma';
 
 export class UserViewDto {
   id: string;
+
+  @ApiProperty({
+    example: 'user123',
+  })
   username: string;
+
+  @ApiProperty({
+    example: 'user@example.com',
+  })
   email: string;
+
   createdAt: Date;
 
   static mapToView(user: User): UserViewDto {
@@ -23,6 +32,9 @@ export class MeViewDto extends OmitType(UserViewDto, [
   'createdAt',
   'id',
 ] as const) {
+  @ApiProperty({
+    example: '322',
+  })
   userId: string;
 
   static mapToView(user: User): MeViewDto {

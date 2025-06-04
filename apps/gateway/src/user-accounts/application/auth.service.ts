@@ -55,9 +55,6 @@ export class AuthService {
     const providerId = profile.id;
     const email = profile.emails?.[0]?.value;
 
-    console.log('providerId: ', providerId);
-    console.log('email: ', email);
-
     const account =
       await this.usersRepository.getUserAuthAccountByProviderAndProviderId(
         provider,
