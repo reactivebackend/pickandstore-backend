@@ -1,7 +1,7 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from '../../../generated/prisma';
+import { DeletionStatus, User } from '../../../generated/prisma';
 import { AuthService } from '../application/auth.service';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException();
     }
-    if (user.deletionStatus === 'Deleted') {
+    if (user.deletionStatus === DeletionStatus.Deleted) {
       throw new UnauthorizedException();
     }
 
