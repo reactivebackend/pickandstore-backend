@@ -45,7 +45,7 @@ import {
   ApiOperation,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { APIErrorResult } from 'libs/exceptions/dto/api-error-result.dto';
+import { APIErrorResult } from '../../../../../libs/exceptions/dto/api-error-result.dto';
 import { LoginUserInputDto } from './input-dto/login-user.input-dto';
 import { AccessTokenViewDto } from './view-dto/access-token.view-dto';
 
