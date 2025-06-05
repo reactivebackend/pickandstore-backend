@@ -48,6 +48,7 @@ import {
 import { APIErrorResult } from '../../../../../libs/exceptions/dto/api-error-result.dto';
 import { LoginUserInputDto } from './input-dto/login-user.input-dto';
 import { AccessTokenViewDto } from './view-dto/access-token.view-dto';
+import { RecaptchaGuard } from '../guards/recaptcha.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -223,6 +224,7 @@ export class AuthController {
     type: APIErrorResult,
   })
   @ApiBody({ type: EmailInputDto })
+  @UseGuards(RecaptchaGuard)
   @Post('password-recovery')
   @HttpCode(HttpStatus.NO_CONTENT)
   async recoverPassword(@Body() emailInputDto: EmailInputDto): Promise<void> {

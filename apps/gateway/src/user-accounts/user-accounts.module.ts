@@ -30,6 +30,8 @@ import { GoogleStrategy } from './strategies/google.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
 import { PasswordRecoveryUseCase } from './application/usecases/password/password-recovery.usecase';
 import { PasswordUpdateUseCase } from './application/usecases/password/password-update.usecase';
+import { RecaptchaService } from './application/recaptchaService';
+import { HttpModule } from '@nestjs/axios';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -56,7 +58,14 @@ const strategies = [
 
 @Global()
 @Module({
-  imports: [CqrsModule, PrismaModule, EmailModule, PassportModule, JwtModule],
+  imports: [
+    CqrsModule,
+    PrismaModule,
+    EmailModule,
+    PassportModule,
+    JwtModule,
+    HttpModule.register({}),
+  ],
   controllers: [AuthController],
   providers: [
     AuthConfig,
@@ -66,6 +75,7 @@ const strategies = [
     UsersQueryRepository,
     DevicesRepository,
     CryptoService,
+    RecaptchaService,
     AuthService,
     ...userUseCases,
     ...strategies,
