@@ -1,5 +1,5 @@
 export class UpdateDeviceDto {
-  lastActiveDate: number;
+  lastActiveDate: Date;
   ip: string;
   title: string;
 }

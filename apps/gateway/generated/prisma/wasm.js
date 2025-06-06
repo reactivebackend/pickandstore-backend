@@ -156,12 +156,12 @@ exports.Prisma.PostScalarFieldEnum = {
 
 exports.Prisma.DeviceScalarFieldEnum = {
   id: 'id',
-  deviceId: 'deviceId',
-  ip: 'ip',
+  userId: 'userId',
   title: 'title',
+  ip: 'ip',
   lastActiveDate: 'lastActiveDate',
   expirationDate: 'expirationDate',
-  userId: 'userId'
+  deletionStatus: 'deletionStatus'
 };
 
 exports.Prisma.SortOrder = {
