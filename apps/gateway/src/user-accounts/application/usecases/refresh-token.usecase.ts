@@ -5,7 +5,7 @@ import { UpdateDeviceDataCommand } from './devices/update-device-data.usecase';
 
 export class RefreshTokenCommand {
   constructor(
-    public userId: string,
+    public userId: number,
     public deviceId: string,
     public ip: string,
     public userAgent: string,
@@ -22,7 +22,15 @@ export class RefreshTokenUseCase
     private commandBus: CommandBus,
   ) {}
 
-  async execute({ userId, deviceId, ip, userAgent }: RefreshTokenCommand) {
+  async execute({
+    userId,
+    deviceId,
+    ip,
+    userAgent,
+  }: RefreshTokenCommand): Promise<{
+    newAccessToken: string;
+    newRefreshToken: string;
+  }> {
     const accessTokenPayload = { sub: userId };
     const refreshTokenPayload = {
       sub: userId,
@@ -43,9 +51,6 @@ export class RefreshTokenUseCase
       new UpdateDeviceDataCommand(newRefreshToken, ip, userAgent),
     );
 
-    return {
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToken,
-    };
+    return { newAccessToken, newRefreshToken };
   }
 }

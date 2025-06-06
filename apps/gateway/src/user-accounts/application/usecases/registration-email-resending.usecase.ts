@@ -36,10 +36,10 @@ export class RegistrationEmailResendingUseCase
       );
     }
 
-    const confirmCode = randomUUID().toString();
+    const confirmCode = randomUUID();
 
     await this.usersRepository.updateEmailConfirmationData(
-      user.id.toString(),
+      user.id,
       confirmCode,
     );
 
