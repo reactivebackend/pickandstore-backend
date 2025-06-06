@@ -34,8 +34,9 @@ import { DevicesController } from './api/devices.controller';
 import { DevicesQueryRepository } from './infrastructure/query/devices.query-repository';
 import { TerminateAllOtherDevicesUseCase } from './application/usecases/devices/terminate-all-other-devices.usecase';
 import { TerminateDeviceUseCase } from './application/usecases/devices/terminate-device.usecase';
-import { RecaptchaService } from './application/recaptchaService';
+import { RecaptchaService } from './application/recaptcha.service';
 import { HttpModule } from '@nestjs/axios';
+import { RecaptchaConfig } from './config/recaptcha.config';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -80,6 +81,7 @@ const strategies = [
     AuthConfig,
     JwtConfig,
     OAuthConfig,
+    RecaptchaConfig,
     UsersRepository,
     UsersQueryRepository,
     DevicesRepository,
