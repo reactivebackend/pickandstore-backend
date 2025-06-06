@@ -220,7 +220,7 @@ export class AuthController {
   })
   @ApiBadRequestResponse({
     description:
-      'If the input model has invalid email (for example 222^gmail.com)',
+      'If the input model has invalid email (for example 222^gmail.com) or recaptcha token is missing.',
     type: APIErrorResult,
   })
   @ApiBody({ type: EmailInputDto })

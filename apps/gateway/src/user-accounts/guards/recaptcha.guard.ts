@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { RecaptchaService } from '../application/recaptchaService';
+import { RecaptchaService } from '../application/recaptcha.service';
 import { EmailInputDto } from '../api/input-dto/users.input-dto';
 import { BadRequestDomainException } from '../../../../../libs/exceptions/domain-exceptions';
 
