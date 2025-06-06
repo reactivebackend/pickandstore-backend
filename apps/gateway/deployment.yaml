@@ -107,6 +107,11 @@ spec:
                 secretKeyRef:
                   name: gateway-mono-production-config-secret
                   key: GITHUB_CALLBACK_URL
+            - name: RECAPTCHA_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gateway-mono-production-config-secret
+                  key: RECAPTCHA_SECRET_KEY
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
