@@ -6,7 +6,7 @@ import { CreateDeviceCommand } from './devices/create-device.usecase';
 
 export class LoginUserCommand {
   constructor(
-    public userId: string,
+    public userId: number,
     public userAgent: string,
     public ip: string,
   ) {}

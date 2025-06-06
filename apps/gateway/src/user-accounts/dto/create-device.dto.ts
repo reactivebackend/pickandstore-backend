@@ -1,8 +1,8 @@
 export class CreateDeviceDto {
-  deviceId: string;
+  id: string;
+  userId: number;
   ip: string;
   title: string;
-  lastActiveDate: number;
-  expirationDate: number;
-  userId: number;
+  lastActiveDate: Date;
+  expirationDate: Date;
 }

@@ -48,6 +48,7 @@ import {
 import { APIErrorResult } from '../../../../../libs/exceptions/dto/api-error-result.dto';
 import { LoginUserInputDto } from './input-dto/login-user.input-dto';
 import { AccessTokenViewDto } from './view-dto/access-token.view-dto';
+import { RecaptchaGuard } from '../guards/recaptcha.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -134,7 +135,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(
-    @ExtractUserFromRequest() userId: string,
+    @ExtractUserFromRequest() userId: number,
     @Ip() ip: string,
     @Headers() headers: IncomingHttpHeaders,
     @Res() res: Response,
@@ -189,7 +190,7 @@ export class AuthController {
   @Post('refresh-token')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(
-    @ExtractUserFromRequest() userId: string,
+    @ExtractUserFromRequest() userId: number,
     @ExtractRefreshTokenFromCookie() refreshToken: string,
     @ExtractDeviceFromCookie() deviceId: string,
     @Ip() ip: string,
@@ -219,10 +220,11 @@ export class AuthController {
   })
   @ApiBadRequestResponse({
     description:
-      'If the input model has invalid email (for example 222^gmail.com)',
+      'If the input model has invalid email (for example 222^gmail.com) or recaptcha token is missing.',
     type: APIErrorResult,
   })
   @ApiBody({ type: EmailInputDto })
+  @UseGuards(RecaptchaGuard)
   @Post('password-recovery')
   @HttpCode(HttpStatus.NO_CONTENT)
   async recoverPassword(@Body() emailInputDto: EmailInputDto): Promise<void> {
@@ -264,7 +266,7 @@ export class AuthController {
   @UseGuards(JwtBearerGuard)
   @Get('me')
   async getUserProfile(
-    @ExtractUserFromRequest() userId: string,
+    @ExtractUserFromRequest() userId: number,
   ): Promise<MeViewDto> {
     return this.usersQueryRepository.getUserProfile(userId);
   }
@@ -300,7 +302,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const userAgent = headers['user-agent'] || 'unknown';
-    const userId = (req.user as { id: number }).id.toString();
+    const userId = (req.user as { id: number }).id;
 
     const { accessToken, refreshToken } = await this.commandBus.execute(
       new LoginUserCommand(userId, userAgent, ip),
@@ -342,7 +344,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const userAgent = headers['user-agent'] || 'unknown';
-    const userId = (req.user as { id: number }).id.toString();
+    const userId = (req.user as { id: number }).id;
 
     const { accessToken, refreshToken } = await this.commandBus.execute(
       new LoginUserCommand(userId, userAgent, ip),

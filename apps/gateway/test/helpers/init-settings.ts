@@ -7,6 +7,7 @@ import { EmailService } from '../../src/notifications/email.service';
 import { appSetup } from '../../../../libs/setup/app.setup';
 import { AuthConfig } from '../../src/user-accounts/config/auth.config';
 import { UsersRepository } from '../../src/user-accounts/infrastructure/users.repository';
+import { DevicesTestManager } from './devices-test-manager';
 
 export const initSettings = async (
   addSettingsToModuleBuilder?: (moduleBuilder: TestingModuleBuilder) => void,
@@ -40,10 +41,12 @@ export const initSettings = async (
     authConfig,
     usersRepository,
   );
+  const devicesTestManager = new DevicesTestManager(app, usersTestManager);
 
   return {
     app,
     httpServer,
     usersTestManager,
+    devicesTestManager,
   };
 };

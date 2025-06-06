@@ -19,7 +19,7 @@ import { CreateDeviceUseCase } from './application/usecases/devices/create-devic
 import { UpdateDeviceDataUseCase } from './application/usecases/devices/update-device-data.usecase';
 import { LogoutUserUseCase } from './application/usecases/logout-user.usecase';
 import { JwtModule } from '@nestjs/jwt';
-import { DevicesRepository } from './infrastructure/device.repository';
+import { DevicesRepository } from './infrastructure/devices.repository';
 import { AuthConfig } from './config/auth.config';
 import { JwtConfig } from './config/jwt.config';
 import { AuthService } from './application/auth.service';
@@ -30,6 +30,13 @@ import { GoogleStrategy } from './strategies/google.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
 import { PasswordRecoveryUseCase } from './application/usecases/password/password-recovery.usecase';
 import { PasswordUpdateUseCase } from './application/usecases/password/password-update.usecase';
+import { DevicesController } from './api/devices.controller';
+import { DevicesQueryRepository } from './infrastructure/query/devices.query-repository';
+import { TerminateAllOtherDevicesUseCase } from './application/usecases/devices/terminate-all-other-devices.usecase';
+import { TerminateDeviceUseCase } from './application/usecases/devices/terminate-device.usecase';
+import { RecaptchaService } from './application/recaptcha.service';
+import { HttpModule } from '@nestjs/axios';
+import { RecaptchaConfig } from './config/recaptcha.config';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -37,12 +44,17 @@ const userUseCases = [
   RegistrationConfirmationUseCase,
   RegistrationEmailResendingUseCase,
   RefreshTokenUseCase,
-  CreateDeviceUseCase,
   LogoutUserUseCase,
-  UpdateDeviceDataUseCase,
   LoginUserUseCase,
   PasswordRecoveryUseCase,
   PasswordUpdateUseCase,
+];
+
+const deviceUseCases = [
+  CreateDeviceUseCase,
+  UpdateDeviceDataUseCase,
+  TerminateAllOtherDevicesUseCase,
+  TerminateDeviceUseCase,
 ];
 
 const strategies = [
@@ -56,18 +68,29 @@ const strategies = [
 
 @Global()
 @Module({
-  imports: [CqrsModule, PrismaModule, EmailModule, PassportModule, JwtModule],
-  controllers: [AuthController],
+  imports: [
+    CqrsModule,
+    PrismaModule,
+    EmailModule,
+    PassportModule,
+    JwtModule,
+    HttpModule.register({}),
+  ],
+  controllers: [AuthController, DevicesController],
   providers: [
     AuthConfig,
     JwtConfig,
     OAuthConfig,
+    RecaptchaConfig,
     UsersRepository,
     UsersQueryRepository,
     DevicesRepository,
+    DevicesQueryRepository,
     CryptoService,
+    RecaptchaService,
     AuthService,
     ...userUseCases,
+    ...deviceUseCases,
     ...strategies,
   ],
 })

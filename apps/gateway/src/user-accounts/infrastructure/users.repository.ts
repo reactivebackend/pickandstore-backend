@@ -70,10 +70,10 @@ export class UsersRepository {
     });
   }
 
-  async getUserByIdOrNotFoundFail(id: string): Promise<User> {
+  async getUserByIdOrNotFoundFail(id: number): Promise<User> {
     const user = await this.prismaService.user.findFirst({
       where: {
-        id: +id,
+        id: id,
         deletionStatus: DeletionStatus.NotDeleted,
       },
     });
@@ -86,12 +86,12 @@ export class UsersRepository {
   }
 
   async updateEmailConfirmationData(
-    userId: string,
+    userId: number,
     confirmCode: string,
   ): Promise<void> {
     await this.prismaService.userMetadata.update({
       where: {
-        userId: +userId,
+        userId: userId,
       },
       data: {
         emailConfirmationCode: confirmCode,
@@ -115,10 +115,10 @@ export class UsersRepository {
     });
   }
 
-  async updateEmailConfirmationStatus(userId: string): Promise<void> {
+  async updateEmailConfirmationStatus(userId: number): Promise<void> {
     await this.prismaService.userMetadata.update({
       where: {
-        userId: +userId,
+        userId: userId,
       },
       data: {
         isEmailConfirmed: true,
@@ -152,7 +152,7 @@ export class UsersRepository {
   }
 
   async createAuthAccountForUser(
-    userId: string,
+    userId: number,
     provider: string,
     providerId: string,
   ): Promise<void> {
@@ -160,7 +160,7 @@ export class UsersRepository {
       data: {
         provider,
         providerId,
-        userId: +userId,
+        userId: userId,
       },
     });
   }

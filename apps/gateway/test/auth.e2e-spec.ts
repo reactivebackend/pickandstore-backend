@@ -209,4 +209,40 @@ describe('auth', () => {
       .send(authDataWithEmail)
       .expect(HttpStatus.OK);
   });
+
+  it('shouldn`t update auth token pairs from expired refresh token', async () => {
+    const userData = {
+      username: 'Madrid',
+      password: 'password1',
+      email: 'madrid@gmail.com',
+    };
+
+    await usersTestManager.registerUser(userData);
+
+    const authDataWithUsername = {
+      usernameOrEmail: 'Madrid',
+      password: 'password1',
+    };
+
+    const response = await request(app.getHttpServer())
+      .post(`/${GLOBAL_PREFIX}/auth/login`)
+      .send(authDataWithUsername)
+      .expect(HttpStatus.OK);
+
+    const refreshToken = usersTestManager.extractRefreshToken(response);
+
+    await delay(1000);
+
+    // Получаем новую пару токенов
+    await request(app.getHttpServer())
+      .post(`/${GLOBAL_PREFIX}/auth/refresh-token`)
+      .set('Cookie', `refreshToken=${refreshToken}`)
+      .expect(HttpStatus.OK);
+
+    // Пытаемся получить новую пару токенов, с помощью истекшего refresh токена.
+    await request(app.getHttpServer())
+      .post(`/${GLOBAL_PREFIX}/auth/refresh-token`)
+      .set('Cookie', `refreshToken=${refreshToken}`)
+      .expect(HttpStatus.UNAUTHORIZED);
+  });
 });
