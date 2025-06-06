@@ -34,6 +34,8 @@ import { DevicesController } from './api/devices.controller';
 import { DevicesQueryRepository } from './infrastructure/query/devices.query-repository';
 import { TerminateAllOtherDevicesUseCase } from './application/usecases/devices/terminate-all-other-devices.usecase';
 import { TerminateDeviceUseCase } from './application/usecases/devices/terminate-device.usecase';
+import { RecaptchaService } from './application/recaptchaService';
+import { HttpModule } from '@nestjs/axios';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -65,7 +67,14 @@ const strategies = [
 
 @Global()
 @Module({
-  imports: [CqrsModule, PrismaModule, EmailModule, PassportModule, JwtModule],
+  imports: [
+    CqrsModule,
+    PrismaModule,
+    EmailModule,
+    PassportModule,
+    JwtModule,
+    HttpModule.register({}),
+  ],
   controllers: [AuthController, DevicesController],
   providers: [
     AuthConfig,
@@ -76,6 +85,7 @@ const strategies = [
     DevicesRepository,
     DevicesQueryRepository,
     CryptoService,
+    RecaptchaService,
     AuthService,
     ...userUseCases,
     ...deviceUseCases,

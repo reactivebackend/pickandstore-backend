@@ -1,5 +1,11 @@
 import { Trim } from '../../../../../../libs/decorators/trim';
-import { IsEmail, IsString, Length, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Length,
+  Matches,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserInputDto {
@@ -52,4 +58,7 @@ export class EmailInputDto {
   @IsString()
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  recaptchaToken: string;
 }
