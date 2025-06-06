@@ -1251,10 +1251,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     authAccounts: number
+    devices: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     authAccounts?: boolean | UserCountOutputTypeCountAuthAccountsArgs
+    devices?: boolean | UserCountOutputTypeCountDevicesArgs
   }
 
   // Custom InputTypes
@@ -1273,6 +1275,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAuthAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuthAccountWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDevicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeviceWhereInput
   }
 
 
@@ -1496,6 +1505,7 @@ export namespace Prisma {
     updatedAt?: boolean
     userMetadata?: boolean | User$userMetadataArgs<ExtArgs>
     authAccounts?: boolean | User$authAccountsArgs<ExtArgs>
+    devices?: boolean | User$devicesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1533,6 +1543,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userMetadata?: boolean | User$userMetadataArgs<ExtArgs>
     authAccounts?: boolean | User$authAccountsArgs<ExtArgs>
+    devices?: boolean | User$devicesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1543,6 +1554,7 @@ export namespace Prisma {
     objects: {
       userMetadata: Prisma.$UserMetadataPayload<ExtArgs> | null
       authAccounts: Prisma.$AuthAccountPayload<ExtArgs>[]
+      devices: Prisma.$DevicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1948,6 +1960,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     userMetadata<T extends User$userMetadataArgs<ExtArgs> = {}>(args?: Subset<T, User$userMetadataArgs<ExtArgs>>): Prisma__UserMetadataClient<$Result.GetResult<Prisma.$UserMetadataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     authAccounts<T extends User$authAccountsArgs<ExtArgs> = {}>(args?: Subset<T, User$authAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    devices<T extends User$devicesArgs<ExtArgs> = {}>(args?: Subset<T, User$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2412,6 +2425,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AuthAccountScalarFieldEnum | AuthAccountScalarFieldEnum[]
+  }
+
+  /**
+   * User.devices
+   */
+  export type User$devicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Device
+     */
+    select?: DeviceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Device
+     */
+    omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    where?: DeviceWhereInput
+    orderBy?: DeviceOrderByWithRelationInput | DeviceOrderByWithRelationInput[]
+    cursor?: DeviceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DeviceScalarFieldEnum | DeviceScalarFieldEnum[]
   }
 
   /**
@@ -5629,93 +5666,81 @@ export namespace Prisma {
   }
 
   export type DeviceAvgAggregateOutputType = {
-    id: number | null
-    lastActiveDate: number | null
-    expirationDate: number | null
     userId: number | null
   }
 
   export type DeviceSumAggregateOutputType = {
-    id: number | null
-    lastActiveDate: number | null
-    expirationDate: number | null
     userId: number | null
   }
 
   export type DeviceMinAggregateOutputType = {
-    id: number | null
-    deviceId: string | null
-    ip: string | null
-    title: string | null
-    lastActiveDate: number | null
-    expirationDate: number | null
+    id: string | null
     userId: number | null
+    title: string | null
+    ip: string | null
+    lastActiveDate: Date | null
+    expirationDate: Date | null
+    deletionStatus: $Enums.DeletionStatus | null
   }
 
   export type DeviceMaxAggregateOutputType = {
-    id: number | null
-    deviceId: string | null
-    ip: string | null
-    title: string | null
-    lastActiveDate: number | null
-    expirationDate: number | null
+    id: string | null
     userId: number | null
+    title: string | null
+    ip: string | null
+    lastActiveDate: Date | null
+    expirationDate: Date | null
+    deletionStatus: $Enums.DeletionStatus | null
   }
 
   export type DeviceCountAggregateOutputType = {
     id: number
-    deviceId: number
-    ip: number
+    userId: number
     title: number
+    ip: number
     lastActiveDate: number
     expirationDate: number
-    userId: number
+    deletionStatus: number
     _all: number
   }
 
 
   export type DeviceAvgAggregateInputType = {
-    id?: true
-    lastActiveDate?: true
-    expirationDate?: true
     userId?: true
   }
 
   export type DeviceSumAggregateInputType = {
-    id?: true
-    lastActiveDate?: true
-    expirationDate?: true
     userId?: true
   }
 
   export type DeviceMinAggregateInputType = {
     id?: true
-    deviceId?: true
-    ip?: true
+    userId?: true
     title?: true
+    ip?: true
     lastActiveDate?: true
     expirationDate?: true
-    userId?: true
+    deletionStatus?: true
   }
 
   export type DeviceMaxAggregateInputType = {
     id?: true
-    deviceId?: true
-    ip?: true
+    userId?: true
     title?: true
+    ip?: true
     lastActiveDate?: true
     expirationDate?: true
-    userId?: true
+    deletionStatus?: true
   }
 
   export type DeviceCountAggregateInputType = {
     id?: true
-    deviceId?: true
-    ip?: true
+    userId?: true
     title?: true
+    ip?: true
     lastActiveDate?: true
     expirationDate?: true
-    userId?: true
+    deletionStatus?: true
     _all?: true
   }
 
@@ -5806,13 +5831,13 @@ export namespace Prisma {
   }
 
   export type DeviceGroupByOutputType = {
-    id: number
-    deviceId: string
-    ip: string
-    title: string
-    lastActiveDate: number
-    expirationDate: number
+    id: string
     userId: number
+    title: string
+    ip: string
+    lastActiveDate: Date
+    expirationDate: Date
+    deletionStatus: $Enums.DeletionStatus
     _count: DeviceCountAggregateOutputType | null
     _avg: DeviceAvgAggregateOutputType | null
     _sum: DeviceSumAggregateOutputType | null
@@ -5836,57 +5861,71 @@ export namespace Prisma {
 
   export type DeviceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    deviceId?: boolean
-    ip?: boolean
+    userId?: boolean
     title?: boolean
+    ip?: boolean
     lastActiveDate?: boolean
     expirationDate?: boolean
-    userId?: boolean
+    deletionStatus?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["device"]>
 
   export type DeviceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    deviceId?: boolean
-    ip?: boolean
+    userId?: boolean
     title?: boolean
+    ip?: boolean
     lastActiveDate?: boolean
     expirationDate?: boolean
-    userId?: boolean
+    deletionStatus?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["device"]>
 
   export type DeviceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    deviceId?: boolean
-    ip?: boolean
+    userId?: boolean
     title?: boolean
+    ip?: boolean
     lastActiveDate?: boolean
     expirationDate?: boolean
-    userId?: boolean
+    deletionStatus?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["device"]>
 
   export type DeviceSelectScalar = {
     id?: boolean
-    deviceId?: boolean
-    ip?: boolean
+    userId?: boolean
     title?: boolean
+    ip?: boolean
     lastActiveDate?: boolean
     expirationDate?: boolean
-    userId?: boolean
+    deletionStatus?: boolean
   }
 
-  export type DeviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "deviceId" | "ip" | "title" | "lastActiveDate" | "expirationDate" | "userId", ExtArgs["result"]["device"]>
+  export type DeviceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "ip" | "lastActiveDate" | "expirationDate" | "deletionStatus", ExtArgs["result"]["device"]>
+  export type DeviceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DeviceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DeviceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
   export type $DevicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Device"
-    objects: {}
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      deviceId: string
-      ip: string
-      title: string
-      lastActiveDate: number
-      expirationDate: number
+      id: string
       userId: number
+      title: string
+      ip: string
+      lastActiveDate: Date
+      expirationDate: Date
+      deletionStatus: $Enums.DeletionStatus
     }, ExtArgs["result"]["device"]>
     composites: {}
   }
@@ -6281,6 +6320,7 @@ export namespace Prisma {
    */
   export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6310,13 +6350,13 @@ export namespace Prisma {
    * Fields of the Device model
    */
   interface DeviceFieldRefs {
-    readonly id: FieldRef<"Device", 'Int'>
-    readonly deviceId: FieldRef<"Device", 'String'>
-    readonly ip: FieldRef<"Device", 'String'>
-    readonly title: FieldRef<"Device", 'String'>
-    readonly lastActiveDate: FieldRef<"Device", 'Int'>
-    readonly expirationDate: FieldRef<"Device", 'Int'>
+    readonly id: FieldRef<"Device", 'String'>
     readonly userId: FieldRef<"Device", 'Int'>
+    readonly title: FieldRef<"Device", 'String'>
+    readonly ip: FieldRef<"Device", 'String'>
+    readonly lastActiveDate: FieldRef<"Device", 'DateTime'>
+    readonly expirationDate: FieldRef<"Device", 'DateTime'>
+    readonly deletionStatus: FieldRef<"Device", 'DeletionStatus'>
   }
     
 
@@ -6333,6 +6373,10 @@ export namespace Prisma {
      * Omit specific fields from the Device
      */
     omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
     /**
      * Filter, which Device to fetch.
      */
@@ -6352,6 +6396,10 @@ export namespace Prisma {
      */
     omit?: DeviceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
      * Filter, which Device to fetch.
      */
     where: DeviceWhereUniqueInput
@@ -6369,6 +6417,10 @@ export namespace Prisma {
      * Omit specific fields from the Device
      */
     omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
     /**
      * Filter, which Device to fetch.
      */
@@ -6418,6 +6470,10 @@ export namespace Prisma {
      */
     omit?: DeviceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
      * Filter, which Device to fetch.
      */
     where?: DeviceWhereInput
@@ -6466,6 +6522,10 @@ export namespace Prisma {
      */
     omit?: DeviceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
      * Filter, which Devices to fetch.
      */
     where?: DeviceWhereInput
@@ -6509,6 +6569,10 @@ export namespace Prisma {
      */
     omit?: DeviceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
+    /**
      * The data needed to create a Device.
      */
     data: XOR<DeviceCreateInput, DeviceUncheckedCreateInput>
@@ -6542,6 +6606,10 @@ export namespace Prisma {
      */
     data: DeviceCreateManyInput | DeviceCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6556,6 +6624,10 @@ export namespace Prisma {
      * Omit specific fields from the Device
      */
     omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
     /**
      * The data needed to update a Device.
      */
@@ -6608,6 +6680,10 @@ export namespace Prisma {
      * Limit how many Devices to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6622,6 +6698,10 @@ export namespace Prisma {
      * Omit specific fields from the Device
      */
     omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
     /**
      * The filter to search for the Device to update in case it exists.
      */
@@ -6648,6 +6728,10 @@ export namespace Prisma {
      * Omit specific fields from the Device
      */
     omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
     /**
      * Filter which Device to delete.
      */
@@ -6680,6 +6764,10 @@ export namespace Prisma {
      * Omit specific fields from the Device
      */
     omit?: DeviceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeviceInclude<ExtArgs> | null
   }
 
 
@@ -6745,12 +6833,12 @@ export namespace Prisma {
 
   export const DeviceScalarFieldEnum: {
     id: 'id',
-    deviceId: 'deviceId',
-    ip: 'ip',
+    userId: 'userId',
     title: 'title',
+    ip: 'ip',
     lastActiveDate: 'lastActiveDate',
     expirationDate: 'expirationDate',
-    userId: 'userId'
+    deletionStatus: 'deletionStatus'
   };
 
   export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
@@ -6878,6 +6966,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     userMetadata?: XOR<UserMetadataNullableScalarRelationFilter, UserMetadataWhereInput> | null
     authAccounts?: AuthAccountListRelationFilter
+    devices?: DeviceListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6890,6 +6979,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userMetadata?: UserMetadataOrderByWithRelationInput
     authAccounts?: AuthAccountOrderByRelationAggregateInput
+    devices?: DeviceOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6905,6 +6995,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     userMetadata?: XOR<UserMetadataNullableScalarRelationFilter, UserMetadataWhereInput> | null
     authAccounts?: AuthAccountListRelationFilter
+    devices?: DeviceListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7106,46 +7197,49 @@ export namespace Prisma {
     AND?: DeviceWhereInput | DeviceWhereInput[]
     OR?: DeviceWhereInput[]
     NOT?: DeviceWhereInput | DeviceWhereInput[]
-    id?: IntFilter<"Device"> | number
-    deviceId?: StringFilter<"Device"> | string
-    ip?: StringFilter<"Device"> | string
-    title?: StringFilter<"Device"> | string
-    lastActiveDate?: IntFilter<"Device"> | number
-    expirationDate?: IntFilter<"Device"> | number
+    id?: UuidFilter<"Device"> | string
     userId?: IntFilter<"Device"> | number
+    title?: StringFilter<"Device"> | string
+    ip?: StringFilter<"Device"> | string
+    lastActiveDate?: DateTimeFilter<"Device"> | Date | string
+    expirationDate?: DateTimeFilter<"Device"> | Date | string
+    deletionStatus?: EnumDeletionStatusFilter<"Device"> | $Enums.DeletionStatus
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type DeviceOrderByWithRelationInput = {
     id?: SortOrder
-    deviceId?: SortOrder
-    ip?: SortOrder
+    userId?: SortOrder
     title?: SortOrder
+    ip?: SortOrder
     lastActiveDate?: SortOrder
     expirationDate?: SortOrder
-    userId?: SortOrder
+    deletionStatus?: SortOrder
+    user?: UserOrderByWithRelationInput
   }
 
   export type DeviceWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    deviceId?: string
+    id?: string
     AND?: DeviceWhereInput | DeviceWhereInput[]
     OR?: DeviceWhereInput[]
     NOT?: DeviceWhereInput | DeviceWhereInput[]
-    ip?: StringFilter<"Device"> | string
-    title?: StringFilter<"Device"> | string
-    lastActiveDate?: IntFilter<"Device"> | number
-    expirationDate?: IntFilter<"Device"> | number
     userId?: IntFilter<"Device"> | number
-  }, "id" | "deviceId">
+    title?: StringFilter<"Device"> | string
+    ip?: StringFilter<"Device"> | string
+    lastActiveDate?: DateTimeFilter<"Device"> | Date | string
+    expirationDate?: DateTimeFilter<"Device"> | Date | string
+    deletionStatus?: EnumDeletionStatusFilter<"Device"> | $Enums.DeletionStatus
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
 
   export type DeviceOrderByWithAggregationInput = {
     id?: SortOrder
-    deviceId?: SortOrder
-    ip?: SortOrder
+    userId?: SortOrder
     title?: SortOrder
+    ip?: SortOrder
     lastActiveDate?: SortOrder
     expirationDate?: SortOrder
-    userId?: SortOrder
+    deletionStatus?: SortOrder
     _count?: DeviceCountOrderByAggregateInput
     _avg?: DeviceAvgOrderByAggregateInput
     _max?: DeviceMaxOrderByAggregateInput
@@ -7157,13 +7251,13 @@ export namespace Prisma {
     AND?: DeviceScalarWhereWithAggregatesInput | DeviceScalarWhereWithAggregatesInput[]
     OR?: DeviceScalarWhereWithAggregatesInput[]
     NOT?: DeviceScalarWhereWithAggregatesInput | DeviceScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Device"> | number
-    deviceId?: StringWithAggregatesFilter<"Device"> | string
-    ip?: StringWithAggregatesFilter<"Device"> | string
-    title?: StringWithAggregatesFilter<"Device"> | string
-    lastActiveDate?: IntWithAggregatesFilter<"Device"> | number
-    expirationDate?: IntWithAggregatesFilter<"Device"> | number
+    id?: UuidWithAggregatesFilter<"Device"> | string
     userId?: IntWithAggregatesFilter<"Device"> | number
+    title?: StringWithAggregatesFilter<"Device"> | string
+    ip?: StringWithAggregatesFilter<"Device"> | string
+    lastActiveDate?: DateTimeWithAggregatesFilter<"Device"> | Date | string
+    expirationDate?: DateTimeWithAggregatesFilter<"Device"> | Date | string
+    deletionStatus?: EnumDeletionStatusWithAggregatesFilter<"Device"> | $Enums.DeletionStatus
   }
 
   export type UserCreateInput = {
@@ -7175,6 +7269,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userMetadata?: UserMetadataCreateNestedOneWithoutUserInput
     authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
+    devices?: DeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7187,6 +7282,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userMetadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
     authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -7198,6 +7294,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userMetadata?: UserMetadataUpdateOneWithoutUserNestedInput
     authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
+    devices?: DeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7210,6 +7307,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userMetadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
     authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7405,70 +7503,72 @@ export namespace Prisma {
   }
 
   export type DeviceCreateInput = {
-    deviceId: string
-    ip: string
+    id: string
     title: string
-    lastActiveDate: number
-    expirationDate: number
-    userId: number
+    ip: string
+    lastActiveDate: Date | string
+    expirationDate: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+    user: UserCreateNestedOneWithoutDevicesInput
   }
 
   export type DeviceUncheckedCreateInput = {
-    id?: number
-    deviceId: string
-    ip: string
-    title: string
-    lastActiveDate: number
-    expirationDate: number
+    id: string
     userId: number
+    title: string
+    ip: string
+    lastActiveDate: Date | string
+    expirationDate: Date | string
+    deletionStatus?: $Enums.DeletionStatus
   }
 
   export type DeviceUpdateInput = {
-    deviceId?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    lastActiveDate?: IntFieldUpdateOperationsInput | number
-    expirationDate?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    ip?: StringFieldUpdateOperationsInput | string
+    lastActiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expirationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+    user?: UserUpdateOneRequiredWithoutDevicesNestedInput
   }
 
   export type DeviceUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    deviceId?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    lastActiveDate?: IntFieldUpdateOperationsInput | number
-    expirationDate?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    lastActiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expirationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
   }
 
   export type DeviceCreateManyInput = {
-    id?: number
-    deviceId: string
-    ip: string
-    title: string
-    lastActiveDate: number
-    expirationDate: number
+    id: string
     userId: number
+    title: string
+    ip: string
+    lastActiveDate: Date | string
+    expirationDate: Date | string
+    deletionStatus?: $Enums.DeletionStatus
   }
 
   export type DeviceUpdateManyMutationInput = {
-    deviceId?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    lastActiveDate?: IntFieldUpdateOperationsInput | number
-    expirationDate?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    ip?: StringFieldUpdateOperationsInput | string
+    lastActiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expirationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
   }
 
   export type DeviceUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    deviceId?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    lastActiveDate?: IntFieldUpdateOperationsInput | number
-    expirationDate?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    lastActiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expirationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -7541,12 +7641,22 @@ export namespace Prisma {
     none?: AuthAccountWhereInput
   }
 
+  export type DeviceListRelationFilter = {
+    every?: DeviceWhereInput
+    some?: DeviceWhereInput
+    none?: DeviceWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type AuthAccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DeviceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7802,48 +7912,69 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type UuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidFilter<$PrismaModel> | string
+  }
+
   export type DeviceCountOrderByAggregateInput = {
     id?: SortOrder
-    deviceId?: SortOrder
-    ip?: SortOrder
+    userId?: SortOrder
     title?: SortOrder
+    ip?: SortOrder
     lastActiveDate?: SortOrder
     expirationDate?: SortOrder
-    userId?: SortOrder
+    deletionStatus?: SortOrder
   }
 
   export type DeviceAvgOrderByAggregateInput = {
-    id?: SortOrder
-    lastActiveDate?: SortOrder
-    expirationDate?: SortOrder
     userId?: SortOrder
   }
 
   export type DeviceMaxOrderByAggregateInput = {
     id?: SortOrder
-    deviceId?: SortOrder
-    ip?: SortOrder
+    userId?: SortOrder
     title?: SortOrder
+    ip?: SortOrder
     lastActiveDate?: SortOrder
     expirationDate?: SortOrder
-    userId?: SortOrder
+    deletionStatus?: SortOrder
   }
 
   export type DeviceMinOrderByAggregateInput = {
     id?: SortOrder
-    deviceId?: SortOrder
-    ip?: SortOrder
+    userId?: SortOrder
     title?: SortOrder
+    ip?: SortOrder
     lastActiveDate?: SortOrder
     expirationDate?: SortOrder
-    userId?: SortOrder
+    deletionStatus?: SortOrder
   }
 
   export type DeviceSumOrderByAggregateInput = {
-    id?: SortOrder
-    lastActiveDate?: SortOrder
-    expirationDate?: SortOrder
     userId?: SortOrder
+  }
+
+  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type UserMetadataCreateNestedOneWithoutUserInput = {
@@ -7859,6 +7990,13 @@ export namespace Prisma {
     connect?: AuthAccountWhereUniqueInput | AuthAccountWhereUniqueInput[]
   }
 
+  export type DeviceCreateNestedManyWithoutUserInput = {
+    create?: XOR<DeviceCreateWithoutUserInput, DeviceUncheckedCreateWithoutUserInput> | DeviceCreateWithoutUserInput[] | DeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutUserInput | DeviceCreateOrConnectWithoutUserInput[]
+    createMany?: DeviceCreateManyUserInputEnvelope
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+  }
+
   export type UserMetadataUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<UserMetadataCreateWithoutUserInput, UserMetadataUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserMetadataCreateOrConnectWithoutUserInput
@@ -7870,6 +8008,13 @@ export namespace Prisma {
     connectOrCreate?: AuthAccountCreateOrConnectWithoutUserInput | AuthAccountCreateOrConnectWithoutUserInput[]
     createMany?: AuthAccountCreateManyUserInputEnvelope
     connect?: AuthAccountWhereUniqueInput | AuthAccountWhereUniqueInput[]
+  }
+
+  export type DeviceUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DeviceCreateWithoutUserInput, DeviceUncheckedCreateWithoutUserInput> | DeviceCreateWithoutUserInput[] | DeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutUserInput | DeviceCreateOrConnectWithoutUserInput[]
+    createMany?: DeviceCreateManyUserInputEnvelope
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -7912,6 +8057,20 @@ export namespace Prisma {
     deleteMany?: AuthAccountScalarWhereInput | AuthAccountScalarWhereInput[]
   }
 
+  export type DeviceUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DeviceCreateWithoutUserInput, DeviceUncheckedCreateWithoutUserInput> | DeviceCreateWithoutUserInput[] | DeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutUserInput | DeviceCreateOrConnectWithoutUserInput[]
+    upsert?: DeviceUpsertWithWhereUniqueWithoutUserInput | DeviceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DeviceCreateManyUserInputEnvelope
+    set?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    disconnect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    delete?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    update?: DeviceUpdateWithWhereUniqueWithoutUserInput | DeviceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DeviceUpdateManyWithWhereWithoutUserInput | DeviceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -7942,6 +8101,20 @@ export namespace Prisma {
     update?: AuthAccountUpdateWithWhereUniqueWithoutUserInput | AuthAccountUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AuthAccountUpdateManyWithWhereWithoutUserInput | AuthAccountUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AuthAccountScalarWhereInput | AuthAccountScalarWhereInput[]
+  }
+
+  export type DeviceUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DeviceCreateWithoutUserInput, DeviceUncheckedCreateWithoutUserInput> | DeviceCreateWithoutUserInput[] | DeviceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeviceCreateOrConnectWithoutUserInput | DeviceCreateOrConnectWithoutUserInput[]
+    upsert?: DeviceUpsertWithWhereUniqueWithoutUserInput | DeviceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DeviceCreateManyUserInputEnvelope
+    set?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    disconnect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    delete?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    connect?: DeviceWhereUniqueInput | DeviceWhereUniqueInput[]
+    update?: DeviceUpdateWithWhereUniqueWithoutUserInput | DeviceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DeviceUpdateManyWithWhereWithoutUserInput | DeviceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutUserMetadataInput = {
@@ -7978,6 +8151,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAuthAccountsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuthAccountsInput, UserUpdateWithoutAuthAccountsInput>, UserUncheckedUpdateWithoutAuthAccountsInput>
+  }
+
+  export type UserCreateNestedOneWithoutDevicesInput = {
+    create?: XOR<UserCreateWithoutDevicesInput, UserUncheckedCreateWithoutDevicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDevicesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDevicesNestedInput = {
+    create?: XOR<UserCreateWithoutDevicesInput, UserUncheckedCreateWithoutDevicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDevicesInput
+    upsert?: UserUpsertWithoutDevicesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDevicesInput, UserUpdateWithoutDevicesInput>, UserUncheckedUpdateWithoutDevicesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -8171,6 +8358,31 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedUuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidFilter<$PrismaModel> | string
+  }
+
+  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
   export type UserMetadataCreateWithoutUserInput = {
     emailConfirmationCode?: string | null
     emailConfirmationExpiration?: Date | string | null
@@ -8212,6 +8424,34 @@ export namespace Prisma {
 
   export type AuthAccountCreateManyUserInputEnvelope = {
     data: AuthAccountCreateManyUserInput | AuthAccountCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DeviceCreateWithoutUserInput = {
+    id: string
+    title: string
+    ip: string
+    lastActiveDate: Date | string
+    expirationDate: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+  }
+
+  export type DeviceUncheckedCreateWithoutUserInput = {
+    id: string
+    title: string
+    ip: string
+    lastActiveDate: Date | string
+    expirationDate: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+  }
+
+  export type DeviceCreateOrConnectWithoutUserInput = {
+    where: DeviceWhereUniqueInput
+    create: XOR<DeviceCreateWithoutUserInput, DeviceUncheckedCreateWithoutUserInput>
+  }
+
+  export type DeviceCreateManyUserInputEnvelope = {
+    data: DeviceCreateManyUserInput | DeviceCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -8269,6 +8509,35 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AuthAccount"> | Date | string
   }
 
+  export type DeviceUpsertWithWhereUniqueWithoutUserInput = {
+    where: DeviceWhereUniqueInput
+    update: XOR<DeviceUpdateWithoutUserInput, DeviceUncheckedUpdateWithoutUserInput>
+    create: XOR<DeviceCreateWithoutUserInput, DeviceUncheckedCreateWithoutUserInput>
+  }
+
+  export type DeviceUpdateWithWhereUniqueWithoutUserInput = {
+    where: DeviceWhereUniqueInput
+    data: XOR<DeviceUpdateWithoutUserInput, DeviceUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DeviceUpdateManyWithWhereWithoutUserInput = {
+    where: DeviceScalarWhereInput
+    data: XOR<DeviceUpdateManyMutationInput, DeviceUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DeviceScalarWhereInput = {
+    AND?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
+    OR?: DeviceScalarWhereInput[]
+    NOT?: DeviceScalarWhereInput | DeviceScalarWhereInput[]
+    id?: UuidFilter<"Device"> | string
+    userId?: IntFilter<"Device"> | number
+    title?: StringFilter<"Device"> | string
+    ip?: StringFilter<"Device"> | string
+    lastActiveDate?: DateTimeFilter<"Device"> | Date | string
+    expirationDate?: DateTimeFilter<"Device"> | Date | string
+    deletionStatus?: EnumDeletionStatusFilter<"Device"> | $Enums.DeletionStatus
+  }
+
   export type UserCreateWithoutUserMetadataInput = {
     username: string
     email: string
@@ -8277,6 +8546,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
+    devices?: DeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserMetadataInput = {
@@ -8288,6 +8558,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserMetadataInput = {
@@ -8314,6 +8585,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
+    devices?: DeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserMetadataInput = {
@@ -8325,6 +8597,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAuthAccountsInput = {
@@ -8335,6 +8608,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userMetadata?: UserMetadataCreateNestedOneWithoutUserInput
+    devices?: DeviceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAuthAccountsInput = {
@@ -8346,6 +8620,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userMetadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAuthAccountsInput = {
@@ -8372,6 +8647,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userMetadata?: UserMetadataUpdateOneWithoutUserNestedInput
+    devices?: DeviceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuthAccountsInput = {
@@ -8383,6 +8659,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userMetadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutDevicesInput = {
+    username: string
+    email: string
+    passwordHash?: string | null
+    deletionStatus?: $Enums.DeletionStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userMetadata?: UserMetadataCreateNestedOneWithoutUserInput
+    authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDevicesInput = {
+    id?: number
+    username: string
+    email: string
+    passwordHash?: string | null
+    deletionStatus?: $Enums.DeletionStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userMetadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
+    authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDevicesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDevicesInput, UserUncheckedCreateWithoutDevicesInput>
+  }
+
+  export type UserUpsertWithoutDevicesInput = {
+    update: XOR<UserUpdateWithoutDevicesInput, UserUncheckedUpdateWithoutDevicesInput>
+    create: XOR<UserCreateWithoutDevicesInput, UserUncheckedCreateWithoutDevicesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDevicesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDevicesInput, UserUncheckedUpdateWithoutDevicesInput>
+  }
+
+  export type UserUpdateWithoutDevicesInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userMetadata?: UserMetadataUpdateOneWithoutUserNestedInput
+    authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDevicesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userMetadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
+    authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AuthAccountCreateManyUserInput = {
@@ -8390,6 +8729,15 @@ export namespace Prisma {
     provider: string
     providerId: string
     createdAt?: Date | string
+  }
+
+  export type DeviceCreateManyUserInput = {
+    id: string
+    title: string
+    ip: string
+    lastActiveDate: Date | string
+    expirationDate: Date | string
+    deletionStatus?: $Enums.DeletionStatus
   }
 
   export type AuthAccountUpdateWithoutUserInput = {
@@ -8410,6 +8758,33 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     providerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeviceUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    lastActiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expirationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+  }
+
+  export type DeviceUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    lastActiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expirationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+  }
+
+  export type DeviceUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    ip?: StringFieldUpdateOperationsInput | string
+    lastActiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    expirationDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
   }
 
 

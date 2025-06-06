@@ -46,8 +46,8 @@ export class AuthService {
     return {
       deviceId: decoded.deviceId,
       sub: decoded.sub,
-      issuedAt: decoded.iat,
-      expiresAt: decoded.exp,
+      issuedAt: new Date(decoded.iat * 1000),
+      expiresAt: new Date(decoded.exp * 1000),
     };
   }
 
@@ -75,13 +75,11 @@ export class AuthService {
       }
 
       user = await this.usersRepository.createUser(username, email);
-      await this.usersRepository.updateEmailConfirmationStatus(
-        user.id.toString(),
-      );
+      await this.usersRepository.updateEmailConfirmationStatus(user.id);
     }
 
     await this.usersRepository.createAuthAccountForUser(
-      user.id.toString(),
+      user.id,
       provider,
       providerId,
     );

@@ -15,7 +15,7 @@ export class CreateUserUseCase implements ICommandHandler<CreateUserCommand> {
     private cryptoService: CryptoService,
   ) {}
 
-  async execute({ dto }: CreateUserCommand): Promise<string> {
+  async execute({ dto }: CreateUserCommand): Promise<number> {
     const userWithTheSameUsername =
       await this.usersRepository.getUserByUsername(dto.username);
 
@@ -47,6 +47,6 @@ export class CreateUserUseCase implements ICommandHandler<CreateUserCommand> {
       passwordHash,
     );
 
-    return user.id.toString();
+    return user.id;
   }
 }

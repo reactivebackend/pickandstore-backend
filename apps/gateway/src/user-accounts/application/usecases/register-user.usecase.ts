@@ -24,12 +24,12 @@ export class RegisterUserUseCase
       new CreateUserCommand(dto),
     );
 
-    const confirmCode = randomUUID().toString();
+    const confirmCode = randomUUID();
 
     const user = await this.usersRepository.getUserByIdOrNotFoundFail(userId);
 
     await this.usersRepository.updateEmailConfirmationData(
-      user.id.toString(),
+      user.id,
       confirmCode,
     );
 

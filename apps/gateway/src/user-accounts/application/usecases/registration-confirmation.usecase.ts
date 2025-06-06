@@ -38,8 +38,6 @@ export class RegistrationConfirmationUseCase
       );
     }
 
-    await this.usersRepository.updateEmailConfirmationStatus(
-      user.id.toString(),
-    );
+    await this.usersRepository.updateEmailConfirmationStatus(user.id);
   }
 }

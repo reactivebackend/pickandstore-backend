@@ -135,7 +135,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(
-    @ExtractUserFromRequest() userId: string,
+    @ExtractUserFromRequest() userId: number,
     @Ip() ip: string,
     @Headers() headers: IncomingHttpHeaders,
     @Res() res: Response,
@@ -190,7 +190,7 @@ export class AuthController {
   @Post('refresh-token')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(
-    @ExtractUserFromRequest() userId: string,
+    @ExtractUserFromRequest() userId: number,
     @ExtractRefreshTokenFromCookie() refreshToken: string,
     @ExtractDeviceFromCookie() deviceId: string,
     @Ip() ip: string,
@@ -266,7 +266,7 @@ export class AuthController {
   @UseGuards(JwtBearerGuard)
   @Get('me')
   async getUserProfile(
-    @ExtractUserFromRequest() userId: string,
+    @ExtractUserFromRequest() userId: number,
   ): Promise<MeViewDto> {
     return this.usersQueryRepository.getUserProfile(userId);
   }
@@ -302,7 +302,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const userAgent = headers['user-agent'] || 'unknown';
-    const userId = (req.user as { id: number }).id.toString();
+    const userId = (req.user as { id: number }).id;
 
     const { accessToken, refreshToken } = await this.commandBus.execute(
       new LoginUserCommand(userId, userAgent, ip),
@@ -344,7 +344,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const userAgent = headers['user-agent'] || 'unknown';
-    const userId = (req.user as { id: number }).id.toString();
+    const userId = (req.user as { id: number }).id;
 
     const { accessToken, refreshToken } = await this.commandBus.execute(
       new LoginUserCommand(userId, userAgent, ip),

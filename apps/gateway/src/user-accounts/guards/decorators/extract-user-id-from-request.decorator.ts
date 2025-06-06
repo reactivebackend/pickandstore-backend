@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export const ExtractUserFromRequest = createParamDecorator(
-  (data: unknown, context: ExecutionContext): string => {
+  (data: unknown, context: ExecutionContext): number => {
     const request = context.switchToHttp().getRequest();
 
     const user = request.user;

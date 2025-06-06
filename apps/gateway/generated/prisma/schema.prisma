@@ -21,13 +21,14 @@ model User {
   deletionStatus DeletionStatus @default(NotDeleted)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  userMetadata   UserMetadata?  @relation("UserToMetadata")
-  authAccounts   AuthAccount[]  @relation("UserAccounts")
+  userMetadata   UserMetadata?  @relation("UserMetadata")
+  authAccounts   AuthAccount[]  @relation("AuthAccounts")
+  devices        Device[]       @relation("Devices")
 }
 
 model UserMetadata {
   userId                      Int       @id
-  user                        User      @relation("UserToMetadata", fields: [userId], references: [id])
+  user                        User      @relation("UserMetadata", fields: [userId], references: [id])
   emailConfirmationCode       String?   @db.VarChar(255)
   emailConfirmationExpiration DateTime?
   isEmailConfirmed            Boolean   @default(false)
@@ -40,7 +41,7 @@ model AuthAccount {
   provider   String
   providerId String
   userId     Int
-  user       User     @relation("UserAccounts", fields: [userId], references: [id])
+  user       User     @relation("AuthAccounts", fields: [userId], references: [id])
   createdAt  DateTime @default(now())
 
   @@unique([provider, providerId])
@@ -54,11 +55,12 @@ model Post {
 }
 
 model Device {
-  id             Int    @id @default(autoincrement())
-  deviceId       String @unique
-  ip             String
-  title          String
-  lastActiveDate Int
-  expirationDate Int
+  id             String         @id @db.Uuid
   userId         Int
+  title          String
+  ip             String
+  lastActiveDate DateTime
+  expirationDate DateTime
+  deletionStatus DeletionStatus @default(NotDeleted)
+  user           User           @relation("Devices", fields: [userId], references: [id])
 }
