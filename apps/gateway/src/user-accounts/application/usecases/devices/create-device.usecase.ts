@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { DevicesRepository } from '../../../infrastructure/device.repository';
+import { DevicesRepository } from '../../../infrastructure/devices.repository';
 import { CreateDeviceDto } from '../../../dto/create-device.dto';
 import { AuthService } from '../../auth.service';
 
@@ -29,7 +29,7 @@ export class CreateDeviceUseCase
       const tokenData = this.authService.getRefreshTokenData(refreshToken);
 
       const deviceData: CreateDeviceDto = {
-        deviceId: tokenData.deviceId,
+        id: tokenData.deviceId,
         ip: ip,
         title: userAgent,
         lastActiveDate: tokenData.issuedAt,

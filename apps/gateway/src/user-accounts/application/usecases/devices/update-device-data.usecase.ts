@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { DevicesRepository } from '../../../infrastructure/device.repository';
+import { DevicesRepository } from '../../../infrastructure/devices.repository';
 import { AuthService } from '../../auth.service';
 import { Device } from '../../../../../generated/prisma';
 
