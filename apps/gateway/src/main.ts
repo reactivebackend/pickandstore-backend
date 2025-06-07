@@ -9,7 +9,10 @@ async function bootstrap() {
   const appConfig = app.get<CoreConfig>(CoreConfig);
 
   app.use(cookieParser());
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:3000', 'https://pickandstore.com'],
+    credentials: true,
+  });
   app.getHttpAdapter().getInstance().set('trust proxy', 1);
   appSetup(app);
   await app.listen(appConfig.port);
