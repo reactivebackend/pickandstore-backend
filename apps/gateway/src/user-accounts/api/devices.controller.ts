@@ -9,22 +9,17 @@ import {
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { DeviceViewDto } from './view-dto/devices.view-dto';
-import {
-  ApiCookieAuth,
-  ApiForbiddenResponse,
-  ApiNoContentResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiParam,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { ExtractUserFromRequest } from '../guards/decorators/extract-user-id-from-request.decorator';
 import { DevicesQueryRepository } from '../infrastructure/query/devices.query-repository';
 import { ExtractDeviceFromCookie } from '../guards/decorators/extract-device-from-cookie.decorator';
 import { TerminateAllOtherDevicesCommand } from '../application/usecases/devices/terminate-all-other-devices.usecase';
 import { TerminateDeviceCommand } from '../application/usecases/devices/terminate-device.usecase';
+import {
+  GetAllDevicesDocs,
+  TerminateAllOtherDevicesDocs,
+  TerminateDeviceByIdDocs,
+} from '../docs/devices.docs';
 
 @Controller('security/devices')
 export class DevicesController {
@@ -33,17 +28,7 @@ export class DevicesController {
     private commandBus: CommandBus,
   ) {}
 
-  @ApiOperation({
-    summary: 'Returns all devices with active sessions for current user.',
-  })
-  @ApiOkResponse({
-    description: 'Success..',
-    type: DeviceViewDto,
-  })
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized.',
-  })
-  @ApiCookieAuth('refreshToken')
+  @GetAllDevicesDocs()
   @UseGuards(JwtRefreshGuard)
   @Get()
   async getAllDevices(
@@ -52,16 +37,7 @@ export class DevicesController {
     return this.devicesQueryRepository.getAllDevices(userId);
   }
 
-  @ApiOperation({
-    summary: `Terminate all other (exclude current) device's sessions.`,
-  })
-  @ApiNoContentResponse({
-    description: 'No Content.',
-  })
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized.',
-  })
-  @ApiCookieAuth('refreshToken')
+  @TerminateAllOtherDevicesDocs()
   @UseGuards(JwtRefreshGuard)
   @Delete()
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -74,26 +50,7 @@ export class DevicesController {
     );
   }
 
-  @ApiOperation({
-    summary: 'Terminate specified device session',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'Id of session that will be terminated.',
-  })
-  @ApiNoContentResponse({
-    description: 'No Content.',
-  })
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized.',
-  })
-  @ApiForbiddenResponse({
-    description: 'If try to delete the deviceId of other user.',
-  })
-  @ApiNotFoundResponse({
-    description: 'Not Found.',
-  })
-  @ApiCookieAuth('refreshToken')
+  @TerminateDeviceByIdDocs()
   @UseGuards(JwtRefreshGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
