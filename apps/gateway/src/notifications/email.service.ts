@@ -11,7 +11,7 @@ export class EmailService {
       subject: 'Confirm your registration',
       html: ` <h1>Welcome to PickAndStore!</h1>
                 <p>To finish registration please follow the link below:<br>
-                   <a href='http://localhost:3000/emailConfirmation?code=${code}'>complete registration</a>
+                   <a href='https://pickandstore.com/email-confirmation?code=${code}'>complete registration</a>
                </p>`,
     });
   }
