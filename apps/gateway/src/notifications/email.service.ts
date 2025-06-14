@@ -11,7 +11,7 @@ export class EmailService {
       subject: 'Confirm your registration',
       html: ` <h1>Welcome to PickAndStore!</h1>
                 <p>To finish registration please follow the link below:<br>
-                   <a href='https://pickandstore.com/email-confirmation?code=${code}'>complete registration</a>
+                   <a href='https://pickandstore.com/auth/email-confirmation?code=${code}'>Complete registration</a>
                </p>`,
     });
   }
@@ -22,7 +22,7 @@ export class EmailService {
       subject: 'Password recovery',
       html: ` <h1>Password recovery</h1>
                <p>To finish password recovery please follow the link below:
-                  <a href='http://localhost:3000/emailConfirmation?code=${code}'>recovery password</a>
+                  <a href='https://pickandstore.com/auth/create-new-password?code=${code}'>Recovery password</a>
               </p>`,
     });
   }
