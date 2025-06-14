@@ -19,7 +19,14 @@ export class RecaptchaGuard implements CanActivate {
     }
 
     const result = await this.recaptchaService.verify(body.recaptchaToken);
-    if (!result) return false;
-    return result.data.score >= 0.9;
+
+    if (!result || !result.data.success) {
+      throw BadRequestDomainException.create(
+        'recaptcha verification failed',
+        'recaptchaToken',
+      );
+    }
+
+    return true;
   }
 }
