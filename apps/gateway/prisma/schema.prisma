@@ -24,6 +24,7 @@ model User {
   userMetadata   UserMetadata?  @relation("UserMetadata")
   authAccounts   AuthAccount[]  @relation("AuthAccounts")
   devices        Device[]       @relation("Devices")
+  posts          Post[]
 }
 
 model UserMetadata {
@@ -37,30 +38,33 @@ model UserMetadata {
 }
 
 model AuthAccount {
-  id           Int      @id @default(autoincrement())
-  provider     String
-  providerId   String
-  userId       Int
-  user         User     @relation("AuthAccounts", fields: [userId], references: [id])
-  createdAt    DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  provider   String
+  providerId String
+  userId     Int
+  user       User     @relation("AuthAccounts", fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
 
   @@unique([provider, providerId])
 }
 
 model Post {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   title     String
   content   String
   createdAt DateTime @default(now())
+  imageUrl  String[] @default([])
+  User      User     @relation(fields: [userId], references: [id])
+  userId    Int
 }
 
 model Device {
-  id             String    @id @db.Uuid
+  id             String         @id @db.Uuid
   userId         Int
   title          String
   ip             String
   lastActiveDate DateTime
   expirationDate DateTime
   deletionStatus DeletionStatus @default(NotDeleted)
-  user           User   @relation("Devices", fields: [userId], references: [id])
+  user           User           @relation("Devices", fields: [userId], references: [id])
 }

@@ -103,6 +103,7 @@ export class AuthController {
       .cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
+        sameSite: 'none',
       })
       .json({ accessToken: accessToken });
   }
@@ -136,6 +137,7 @@ export class AuthController {
       .cookie('refreshToken', newRefreshToken, {
         httpOnly: true,
         secure: true,
+        sameSite: 'none',
       })
       .json({ accessToken: newAccessToken });
   }
@@ -192,6 +194,7 @@ export class AuthController {
       .cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
+        sameSite: 'none',
       })
       .json({ accessToken: accessToken });
   }
@@ -220,6 +223,7 @@ export class AuthController {
       .cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
+        sameSite: 'none',
       })
       .json({ accessToken: accessToken });
   }

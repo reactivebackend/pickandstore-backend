@@ -10,7 +10,11 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://pickandstore.com'],
+    origin: [
+      'http://localhost:3000',
+      'https://pickandstore.com',
+      'https://dev.pickandstore.com',
+    ],
     credentials: true,
   });
   app.getHttpAdapter().getInstance().set('trust proxy', 1);

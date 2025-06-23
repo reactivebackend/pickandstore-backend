@@ -59,6 +59,12 @@ export class EmailInputDto {
   @IsEmail()
   email: string;
 
+  @ApiProperty({
+    example: '03AGdBq25L4X...',
+    description:
+      'token received from Google reCAPTCHA v3 to verify the user is not a bot',
+  })
+  @Trim()
   @IsNotEmpty()
   recaptchaToken: string;
 }
