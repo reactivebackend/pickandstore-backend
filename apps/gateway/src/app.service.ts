@@ -22,4 +22,17 @@ export class AppService {
       console.log(error);
     }
   }
+  async sendPhoto(files: Array<Express.Multer.File>) {
+    const data = files.map((f) => {
+      return {
+        filename: `avatars/${Date.now()}_${f.originalname}`,
+        fileData: f.buffer.toString('base64'),
+      };
+    });
+    try {
+      return await this.client.send('send_avatars', data).toPromise();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

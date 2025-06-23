@@ -10,6 +10,8 @@ import { CoreModule } from '../../../libs/config/core.module';
 import { EmailModule } from './notifications/email.module';
 import { UserModule } from './user-accounts/user-accounts.module';
 import { AllExceptionsFilter } from '../../../libs/exceptions/filters/all-exceptions-filter';
+import { YandexS3Service } from '../../files/src/yandexS3.service';
+import { PostModule } from './bloggers-platform/posts/posts.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { AllExceptionsFilter } from '../../../libs/exceptions/filters/all-except
     CoreModule,
     EmailModule,
     UserModule,
+    PostModule,
     ClientsModule.registerAsync([
       {
         name: 'FILE_SERVICE',
@@ -33,7 +36,13 @@ import { AllExceptionsFilter } from '../../../libs/exceptions/filters/all-except
     ]),
   ],
   controllers: [AppController, FilesController],
-  providers: [AppService, CoreConfig, FilesService, AllExceptionsFilter],
+  providers: [
+    AppService,
+    CoreConfig,
+    FilesService,
+    AllExceptionsFilter,
+    YandexS3Service,
+  ],
   exports: [CoreConfig],
 })
 export class AppModule {}

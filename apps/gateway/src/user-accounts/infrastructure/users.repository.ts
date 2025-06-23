@@ -7,7 +7,7 @@ import {
   UserMetadata,
 } from '../../../generated/prisma';
 import { add } from 'date-fns';
-import { RecoveryDataDto } from '../dto/udate-recovery.dto';
+import { RecoveryDataDto } from '../dto/update-recovery.dto';
 
 export type UserWithMetadata = Prisma.UserGetPayload<{
   include: { userMetadata: true };

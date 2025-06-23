@@ -1,10 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { EventPattern } from '@nestjs/microservices';
+import { YandexS3Service } from './yandexS3.service';
 
 @Controller()
 export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
+  constructor(
+    private readonly filesService: FilesService,
+    private readonly yandexS3Service: YandexS3Service,
+  ) {}
 
   @Get()
   getHello(): string {
@@ -14,5 +18,19 @@ export class FilesController {
   handleMessage(data: any) {
     console.log('Получено сообщение:', data);
     return { reply: 'Ответ от files-service' };
+  }
+  @EventPattern('send_avatars')
+  async saveAvatar(
+    data: Array<{
+      fileData: string;
+      filename: string;
+    }>,
+  ): Promise<Array<string>> {
+    return Promise.all(
+      data.map(async (f) => {
+        const file = Buffer.from(f.fileData, 'base64');
+        return await this.yandexS3Service.uploadImage(file, f.filename);
+      }),
+    );
   }
 }
