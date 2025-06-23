@@ -4,7 +4,7 @@ import { FilesService } from './files.service';
 import { CoreConfig } from '../../../libs/config/core.config';
 import { configModule } from '../../../libs/config/config.module';
 import { YandexS3Service } from './yandexS3.service';
-import { PostConfig } from '../../gateway/src/user-accounts/config/post.config';
+import { PostConfig } from '../../gateway/src/bloggers-platform/posts/config/post.config';
 
 @Module({
   imports: [configModule],

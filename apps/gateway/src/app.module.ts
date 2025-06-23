@@ -11,7 +11,7 @@ import { EmailModule } from './notifications/email.module';
 import { UserModule } from './user-accounts/user-accounts.module';
 import { AllExceptionsFilter } from '../../../libs/exceptions/filters/all-exceptions-filter';
 import { YandexS3Service } from '../../files/src/yandexS3.service';
-import { PostConfig } from './user-accounts/config/post.config';
+import { PostModule } from './bloggers-platform/posts/posts.module';
 
 @Module({
   imports: [
@@ -19,6 +19,7 @@ import { PostConfig } from './user-accounts/config/post.config';
     CoreModule,
     EmailModule,
     UserModule,
+    PostModule,
     ClientsModule.registerAsync([
       {
         name: 'FILE_SERVICE',
@@ -41,7 +42,6 @@ import { PostConfig } from './user-accounts/config/post.config';
     FilesService,
     AllExceptionsFilter,
     YandexS3Service,
-    PostConfig,
   ],
   exports: [CoreConfig],
 })

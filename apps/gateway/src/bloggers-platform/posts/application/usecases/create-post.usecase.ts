@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreatePostDto } from '../../../dto/create-post.dto';
-import { PostsRepository } from '../../../infrastructure/posts.repository';
+import { CreatePostDto } from '../../dto/create-post.dto';
+import { PostsRepository } from '../../infrastructure/posts.repository';
 
 export class CreatePostCommand {
   constructor(public dto: CreatePostDto) {}

@@ -37,15 +37,6 @@ import { TerminateDeviceUseCase } from './application/usecases/devices/terminate
 import { RecaptchaService } from './application/recaptcha.service';
 import { HttpModule } from '@nestjs/axios';
 import { RecaptchaConfig } from './config/recaptcha.config';
-import { PostController } from './api/posts.controller';
-import { CreatePostUseCase } from './application/usecases/posts/create-post.usecase';
-import { PostsRepository } from './infrastructure/posts.repository';
-import { MulterModule } from '@nestjs/platform-express';
-import { AppService } from '../app.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { configModule } from '../../../../libs/config/config.module';
-import { CoreConfig } from '../../../../libs/config/core.config';
-import { PostConfig } from './config/post.config';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -57,7 +48,6 @@ const userUseCases = [
   LoginUserUseCase,
   PasswordRecoveryUseCase,
   PasswordUpdateUseCase,
-  CreatePostUseCase,
 ];
 
 const deviceUseCases = [
@@ -85,30 +75,10 @@ const strategies = [
     PassportModule,
     JwtModule,
     HttpModule.register({}),
-    MulterModule.register({
-      limits: {
-        fileSize: 20 * 1024 * 1024,
-      },
-    }),
-    ClientsModule.registerAsync([
-      {
-        name: 'FILE_SERVICE',
-        imports: [configModule],
-        inject: [CoreConfig],
-        useFactory: (coreConfig: CoreConfig) => ({
-          transport: Transport.TCP,
-          options: {
-            host: coreConfig.filesHost,
-            port: coreConfig.filesPort,
-          },
-        }),
-      },
-    ]),
   ],
-  controllers: [AuthController, DevicesController, PostController],
+  controllers: [AuthController, DevicesController],
   providers: [
     AuthConfig,
-    PostConfig,
     JwtConfig,
     OAuthConfig,
     RecaptchaConfig,
@@ -116,11 +86,9 @@ const strategies = [
     UsersQueryRepository,
     DevicesRepository,
     DevicesQueryRepository,
-    PostsRepository,
     CryptoService,
     RecaptchaService,
     AuthService,
-    AppService,
     ...userUseCases,
     ...deviceUseCases,
     ...strategies,

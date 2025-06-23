@@ -8,11 +8,11 @@ import {
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CreatePostDto } from './input-dto/create-post.input-dto';
-import { CreatePostCommand } from '../application/usecases/posts/create-post.usecase';
-import { JwtBearerGuard } from '../guards/jwt-bearer.guard';
-import { ExtractUserFromRequest } from '../guards/decorators/extract-user-id-from-request.decorator';
-import { AppService } from '../../app.service';
+import { CreatePostInputDto } from './input-dto/create-post.input-dto';
+import { CreatePostCommand } from '../application/usecases/create-post.usecase';
+import { JwtBearerGuard } from '../../../user-accounts/guards/jwt-bearer.guard';
+import { ExtractUserFromRequest } from '../../../user-accounts/guards/decorators/extract-user-id-from-request.decorator';
+import { AppService } from '../../../app.service';
 
 @Controller('posts')
 export class PostController {
@@ -26,7 +26,7 @@ export class PostController {
   async createPost(
     @ExtractUserFromRequest() userId: number,
     @UploadedFiles() files: Express.Multer.File[],
-    @Body() createPostDto: CreatePostDto,
+    @Body() createPostDto: CreatePostInputDto,
   ): Promise<number> {
     let imageUrl: Array<string> = [];
     if (files) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { PostConfig } from '../../gateway/src/user-accounts/config/post.config';
+import { PostConfig } from '../../gateway/src/bloggers-platform/posts/config/post.config';
 
 @Injectable()
 export class YandexS3Service {
