@@ -8,6 +8,9 @@ import { appSetup } from '../../../../libs/setup/app.setup';
 import { AuthConfig } from '../../src/user-accounts/config/auth.config';
 import { UsersRepository } from '../../src/user-accounts/infrastructure/users.repository';
 import { DevicesTestManager } from './devices-test-manager';
+import { PostsTestManager } from './posts-test-manager';
+import { AppService } from '../../src/app.service';
+import { FilesMicroserviceMock } from '../mock/files-microservice.mock';
 
 export const initSettings = async (
   addSettingsToModuleBuilder?: (moduleBuilder: TestingModuleBuilder) => void,
@@ -16,7 +19,9 @@ export const initSettings = async (
     imports: [AppModule],
   })
     .overrideProvider(EmailService)
-    .useClass(EmailServiceMock);
+    .useClass(EmailServiceMock)
+    .overrideProvider(AppService)
+    .useClass(FilesMicroserviceMock);
 
   if (addSettingsToModuleBuilder) {
     addSettingsToModuleBuilder(testingModuleBuilder);
@@ -42,11 +47,13 @@ export const initSettings = async (
     usersRepository,
   );
   const devicesTestManager = new DevicesTestManager(app, usersTestManager);
+  const postsTestManager = new PostsTestManager(app);
 
   return {
     app,
     httpServer,
     usersTestManager,
     devicesTestManager,
+    postsTestManager,
   };
 };
