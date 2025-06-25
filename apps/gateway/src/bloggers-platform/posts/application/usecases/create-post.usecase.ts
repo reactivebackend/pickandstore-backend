@@ -42,7 +42,7 @@ export class CreatePostUseCase implements ICommandHandler<CreatePostCommand> {
       }
     }
 
-    const imageUrl = await this.appService.sendPhoto(files);
+    const imageUrl = await this.appService.sendImages(files);
 
     const postData: CreatePostDto = {
       userId: userId,
