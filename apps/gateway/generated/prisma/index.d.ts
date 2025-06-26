@@ -288,8 +288,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.8.2
-   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+   * Prisma Client JS version: 6.10.1
+   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
    */
   export type PrismaVersion = {
     client: string
@@ -4882,7 +4882,7 @@ export namespace Prisma {
   export type PostGroupByOutputType = {
     id: number
     userId: number
-    description: string
+    description: string | null
     imageUrl: string[]
     createdAt: Date
     deletionStatus: $Enums.DeletionStatus
@@ -4965,7 +4965,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       userId: number
-      description: string
+      description: string | null
       imageUrl: string[]
       createdAt: Date
       deletionStatus: $Enums.DeletionStatus
@@ -7317,7 +7317,7 @@ export namespace Prisma {
     NOT?: PostWhereInput | PostWhereInput[]
     id?: IntFilter<"Post"> | number
     userId?: IntFilter<"Post"> | number
-    description?: StringFilter<"Post"> | string
+    description?: StringNullableFilter<"Post"> | string | null
     imageUrl?: StringNullableListFilter<"Post">
     createdAt?: DateTimeFilter<"Post"> | Date | string
     deletionStatus?: EnumDeletionStatusFilter<"Post"> | $Enums.DeletionStatus
@@ -7327,7 +7327,7 @@ export namespace Prisma {
   export type PostOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     imageUrl?: SortOrder
     createdAt?: SortOrder
     deletionStatus?: SortOrder
@@ -7340,7 +7340,7 @@ export namespace Prisma {
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
     userId?: IntFilter<"Post"> | number
-    description?: StringFilter<"Post"> | string
+    description?: StringNullableFilter<"Post"> | string | null
     imageUrl?: StringNullableListFilter<"Post">
     createdAt?: DateTimeFilter<"Post"> | Date | string
     deletionStatus?: EnumDeletionStatusFilter<"Post"> | $Enums.DeletionStatus
@@ -7350,7 +7350,7 @@ export namespace Prisma {
   export type PostOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     imageUrl?: SortOrder
     createdAt?: SortOrder
     deletionStatus?: SortOrder
@@ -7367,7 +7367,7 @@ export namespace Prisma {
     NOT?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Post"> | number
     userId?: IntWithAggregatesFilter<"Post"> | number
-    description?: StringWithAggregatesFilter<"Post"> | string
+    description?: StringNullableWithAggregatesFilter<"Post"> | string | null
     imageUrl?: StringNullableListFilter<"Post">
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
     deletionStatus?: EnumDeletionStatusWithAggregatesFilter<"Post"> | $Enums.DeletionStatus
@@ -7638,7 +7638,7 @@ export namespace Prisma {
   }
 
   export type PostCreateInput = {
-    description: string
+    description?: string | null
     imageUrl?: PostCreateimageUrlInput | string[]
     createdAt?: Date | string
     deletionStatus?: $Enums.DeletionStatus
@@ -7648,14 +7648,14 @@ export namespace Prisma {
   export type PostUncheckedCreateInput = {
     id?: number
     userId: number
-    description: string
+    description?: string | null
     imageUrl?: PostCreateimageUrlInput | string[]
     createdAt?: Date | string
     deletionStatus?: $Enums.DeletionStatus
   }
 
   export type PostUpdateInput = {
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
@@ -7665,7 +7665,7 @@ export namespace Prisma {
   export type PostUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
@@ -7674,14 +7674,14 @@ export namespace Prisma {
   export type PostCreateManyInput = {
     id?: number
     userId: number
-    description: string
+    description?: string | null
     imageUrl?: PostCreateimageUrlInput | string[]
     createdAt?: Date | string
     deletionStatus?: $Enums.DeletionStatus
   }
 
   export type PostUpdateManyMutationInput = {
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
@@ -7690,7 +7690,7 @@ export namespace Prisma {
   export type PostUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
@@ -8747,7 +8747,7 @@ export namespace Prisma {
   }
 
   export type PostCreateWithoutUserInput = {
-    description: string
+    description?: string | null
     imageUrl?: PostCreateimageUrlInput | string[]
     createdAt?: Date | string
     deletionStatus?: $Enums.DeletionStatus
@@ -8755,7 +8755,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateWithoutUserInput = {
     id?: number
-    description: string
+    description?: string | null
     imageUrl?: PostCreateimageUrlInput | string[]
     createdAt?: Date | string
     deletionStatus?: $Enums.DeletionStatus
@@ -8876,7 +8876,7 @@ export namespace Prisma {
     NOT?: PostScalarWhereInput | PostScalarWhereInput[]
     id?: IntFilter<"Post"> | number
     userId?: IntFilter<"Post"> | number
-    description?: StringFilter<"Post"> | string
+    description?: StringNullableFilter<"Post"> | string | null
     imageUrl?: StringNullableListFilter<"Post">
     createdAt?: DateTimeFilter<"Post"> | Date | string
     deletionStatus?: EnumDeletionStatusFilter<"Post"> | $Enums.DeletionStatus
@@ -9164,7 +9164,7 @@ export namespace Prisma {
 
   export type PostCreateManyUserInput = {
     id?: number
-    description: string
+    description?: string | null
     imageUrl?: PostCreateimageUrlInput | string[]
     createdAt?: Date | string
     deletionStatus?: $Enums.DeletionStatus
@@ -9218,7 +9218,7 @@ export namespace Prisma {
   }
 
   export type PostUpdateWithoutUserInput = {
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
@@ -9226,7 +9226,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
@@ -9234,7 +9234,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus

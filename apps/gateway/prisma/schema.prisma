@@ -51,7 +51,7 @@ model AuthAccount {
 model Post {
   id             Int            @id @default(autoincrement())
   userId         Int
-  description    String
+  description    String?
   imageUrl       String[]       @default([])
   createdAt      DateTime       @default(now())
   deletionStatus DeletionStatus @default(NotDeleted)
