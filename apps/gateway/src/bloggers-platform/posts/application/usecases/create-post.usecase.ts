@@ -46,7 +46,7 @@ export class CreatePostUseCase implements ICommandHandler<CreatePostCommand> {
 
     const postData: CreatePostDto = {
       userId: userId,
-      description: description || '',
+      description: description,
       imageUrl: imageUrl,
     };
 

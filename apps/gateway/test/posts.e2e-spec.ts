@@ -45,7 +45,7 @@ describe('posts', () => {
     const post = await postsTestManager.createPost(tokens[0].accessToken);
 
     expect(post).toHaveProperty('id');
-    expect(post.description).toBe('');
+    expect(post.description).toBe(null);
     expect(post.imageUrl.length).toBe(1);
   });
 

@@ -14,8 +14,10 @@ export class PostViewDto {
   @ApiProperty({
     example: 'Post description text',
     description: 'Description of the post',
+    type: String,
+    nullable: true,
   })
-  description: string;
+  description: string | null;
 
   @ApiProperty({
     example: [
