@@ -144,7 +144,10 @@ describe('posts', () => {
     const post = await postsTestManager.createPost(tokens[0].accessToken, {
       description: 'Another one',
     });
-    const found = await postsTestManager.getPostById(post.id);
+    const found = await postsTestManager.getPostById(
+      post.id,
+      tokens[0].accessToken,
+    );
 
     expect(found.id).toBe(post.id);
     expect(found.description).toBe('Another one');
@@ -154,19 +157,23 @@ describe('posts', () => {
     const tokens = await usersTestManager.registerAndLoginSeveralUsers(1);
     const user = await usersTestManager.me(tokens[0].accessToken);
 
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= 4; i++) {
       await postsTestManager.createPost(tokens[0].accessToken, {
         description: `Post ${i}`,
       });
     }
 
-    const result = await postsTestManager.getUserPosts(+user.userId, {
-      pageNumber: 1,
-      pageSize: 4,
-    });
+    const result = await postsTestManager.getUserPosts(
+      +user.userId,
+      {
+        pageNumber: 1,
+        pageSize: 3,
+      },
+      tokens[0].accessToken,
+    );
 
-    expect(result.items.length).toBe(4);
-    expect(result.totalCount).toBe(6);
+    expect(result.items.length).toBe(3);
+    expect(result.totalCount).toBe(4);
 
     for (let i = 1; i < result.items.length; i++) {
       const prevDate = new Date(result.items[i - 1].createdAt);
@@ -186,7 +193,10 @@ describe('posts', () => {
       description: 'Updated',
     });
 
-    const updated = await postsTestManager.getPostById(post.id);
+    const updated = await postsTestManager.getPostById(
+      post.id,
+      tokens[0].accessToken,
+    );
 
     expect(updated.id).toBe(post.id);
     expect(updated.description).toBe('Updated');
