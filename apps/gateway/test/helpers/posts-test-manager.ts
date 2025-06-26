@@ -37,9 +37,14 @@ export class PostsTestManager {
     return response.body;
   }
 
-  async getPostById(postId: number, statusCode: number = HttpStatus.OK) {
+  async getPostById(
+    postId: number,
+    accessToken: string,
+    statusCode: number = HttpStatus.OK,
+  ) {
     const response = await request(this.app.getHttpServer())
       .get(`/${GLOBAL_PREFIX}/posts/${postId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .expect(statusCode);
     return response.body;
   }
@@ -47,10 +52,12 @@ export class PostsTestManager {
   async getUserPosts(
     userId: number,
     query: Partial<GetPostsQueryParams> = {},
+    accessToken: string,
     statusCode: number = HttpStatus.OK,
   ) {
     const response = await request(this.app.getHttpServer())
       .get(`/${GLOBAL_PREFIX}/posts/user/${userId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .query(query)
       .expect(statusCode);
     return response.body;

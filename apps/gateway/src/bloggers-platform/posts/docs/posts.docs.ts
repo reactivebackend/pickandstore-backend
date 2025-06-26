@@ -59,6 +59,7 @@ export function GetPostByIdDocs() {
     ApiNotFoundResponse({
       description: 'Not Found.',
     }),
+    ApiBearerAuth('bearer'),
   );
 }
 
@@ -69,6 +70,7 @@ export function GetAllUserPostsDocs() {
       description: 'Paginated list of posts',
       type: PaginatedPostsViewDto,
     }),
+    ApiBearerAuth('bearer'),
   );
 }
 

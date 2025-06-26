@@ -64,12 +64,14 @@ export class PostController {
   }
 
   @GetPostByIdDocs()
+  @UseGuards(JwtBearerGuard)
   @Get(':id')
   async getPostById(@Param('id') id: number): Promise<PostViewDto> {
     return this.postsQueryRepository.getPostByIdOrNotFoundFail(id);
   }
 
   @GetAllUserPostsDocs()
+  @UseGuards(JwtBearerGuard)
   @Get('user/:userId')
   async getAllUserPost(
     @Param('userId') userId: number,
