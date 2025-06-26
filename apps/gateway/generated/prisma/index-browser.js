@@ -149,11 +149,11 @@ exports.Prisma.AuthAccountScalarFieldEnum = {
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  content: 'content',
-  createdAt: 'createdAt',
+  userId: 'userId',
+  description: 'description',
   imageUrl: 'imageUrl',
-  userId: 'userId'
+  createdAt: 'createdAt',
+  deletionStatus: 'deletionStatus'
 };
 
 exports.Prisma.DeviceScalarFieldEnum = {

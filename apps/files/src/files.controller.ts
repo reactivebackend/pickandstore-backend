@@ -14,13 +14,15 @@ export class FilesController {
   getHello(): string {
     return this.filesService.getHello();
   }
+
   @EventPattern('test_message')
   handleMessage(data: any) {
     console.log('Получено сообщение:', data);
     return { reply: 'Ответ от files-service' };
   }
-  @EventPattern('send_avatars')
-  async saveAvatar(
+
+  @EventPattern('send_images')
+  async saveImages(
     data: Array<{
       fileData: string;
       filename: string;
