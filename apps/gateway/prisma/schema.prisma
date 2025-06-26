@@ -49,13 +49,13 @@ model AuthAccount {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  imageUrl  String[] @default([])
-  User      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  description    String?
+  imageUrl       String[]       @default([])
+  createdAt      DateTime       @default(now())
+  deletionStatus DeletionStatus @default(NotDeleted)
+  user           User           @relation(fields: [userId], references: [id])
 }
 
 model Device {

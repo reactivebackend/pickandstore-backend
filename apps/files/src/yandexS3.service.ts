@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { PostConfig } from '../../gateway/src/bloggers-platform/posts/config/post.config';
+import * as path from 'node:path';
 
 @Injectable()
 export class YandexS3Service {
@@ -24,10 +25,17 @@ export class YandexS3Service {
       Bucket: this.bucketName,
       Key: filename,
       Body: fileBuffer,
-      //ContentType: mimeType,
+      ContentDisposition: 'inline',
+      ContentType: this.getMimeType(filename),
     });
     await this.s3Client.send(command);
 
     return `https://storage.yandexcloud.net/${this.bucketName}/${filename}`;
+  }
+
+  private getMimeType(filename: string): string {
+    const ext = path.extname(filename).toLowerCase();
+    if (ext === '.png') return 'image/png';
+    return 'image/jpeg';
   }
 }

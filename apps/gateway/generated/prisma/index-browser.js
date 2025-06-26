@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.10.1
+ * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.10.1",
+  engine: "9b628578b3b7cae625e8c927178f15a170e74a9c"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -149,11 +149,11 @@ exports.Prisma.AuthAccountScalarFieldEnum = {
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  content: 'content',
-  createdAt: 'createdAt',
+  userId: 'userId',
+  description: 'description',
   imageUrl: 'imageUrl',
-  userId: 'userId'
+  createdAt: 'createdAt',
+  deletionStatus: 'deletionStatus'
 };
 
 exports.Prisma.DeviceScalarFieldEnum = {

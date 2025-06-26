@@ -1,6 +1,5 @@
 export class CreatePostDto {
-  title: string;
-  content: string;
-  imageUrl: Array<string>;
   userId: number;
+  description?: string;
+  imageUrl: Array<string>;
 }

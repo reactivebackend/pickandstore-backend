@@ -9,8 +9,11 @@ import { PostConfig } from './config/post.config';
 import { PostsRepository } from './infrastructure/posts.repository';
 import { AppService } from '../../app.service';
 import { CqrsModule } from '@nestjs/cqrs';
+import { PostsQueryRepository } from './infrastructure/query/posts.query-repository';
+import { UpdatePostUseCase } from './application/usecases/update-post.usecase';
+import { DeletePostUseCase } from './application/usecases/delete-post.usecase';
 
-const postUseCases = [CreatePostUseCase];
+const postUseCases = [CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase];
 
 @Module({
   imports: [
@@ -36,7 +39,13 @@ const postUseCases = [CreatePostUseCase];
     ]),
   ],
   controllers: [PostController],
-  providers: [PostConfig, PostsRepository, AppService, ...postUseCases],
+  providers: [
+    PostConfig,
+    PostsRepository,
+    PostsQueryRepository,
+    AppService,
+    ...postUseCases,
+  ],
   exports: [PostConfig],
 })
 export class PostModule {}

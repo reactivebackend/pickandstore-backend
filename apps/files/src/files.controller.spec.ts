@@ -1,14 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FilesController } from './files.controller';
-import { FilesService } from './files.service';
+import { FilesModule } from './files.module';
 
 describe('FilesController', () => {
   let filesController: FilesController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [FilesController],
-      providers: [FilesService],
+      imports: [FilesModule],
     }).compile();
 
     filesController = app.get<FilesController>(FilesController);
