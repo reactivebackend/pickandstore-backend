@@ -12,6 +12,7 @@ import { UserModule } from './user-accounts/user-accounts.module';
 import { AllExceptionsFilter } from '../../../libs/exceptions/filters/all-exceptions-filter';
 import { YandexS3Service } from '../../files/src/yandexS3.service';
 import { PostModule } from './bloggers-platform/posts/posts.module';
+import { ProfileModule } from './bloggers-platform/profiles/profiles.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PostModule } from './bloggers-platform/posts/posts.module';
     EmailModule,
     UserModule,
     PostModule,
+    ProfileModule,
     ClientsModule.registerAsync([
       {
         name: 'FILE_SERVICE',

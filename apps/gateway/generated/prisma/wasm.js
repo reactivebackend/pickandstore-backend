@@ -124,6 +124,12 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   email: 'email',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  dateOfBirth: 'dateOfBirth',
+  country: 'country',
+  city: 'city',
+  aboutMe: 'aboutMe',
   passwordHash: 'passwordHash',
   deletionStatus: 'deletionStatus',
   createdAt: 'createdAt',
@@ -137,6 +143,14 @@ exports.Prisma.UserMetadataScalarFieldEnum = {
   isEmailConfirmed: 'isEmailConfirmed',
   passwordRecoveryCode: 'passwordRecoveryCode',
   passwordRecoveryExpiration: 'passwordRecoveryExpiration'
+};
+
+exports.Prisma.UserAvatarScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  avatarUrl: 'avatarUrl',
+  createdAt: 'createdAt',
+  deletionStatus: 'deletionStatus'
 };
 
 exports.Prisma.AuthAccountScalarFieldEnum = {
@@ -188,6 +202,7 @@ exports.DeletionStatus = exports.$Enums.DeletionStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   UserMetadata: 'UserMetadata',
+  UserAvatar: 'UserAvatar',
   AuthAccount: 'AuthAccount',
   Post: 'Post',
   Device: 'Device'

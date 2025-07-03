@@ -35,4 +35,13 @@ export class FilesController {
       }),
     );
   }
+
+  @EventPattern('send_avatar')
+  async saveAvatar(data: {
+    fileData: string;
+    filename: string;
+  }): Promise<string> {
+    const file = Buffer.from(data.fileData, 'base64');
+    return await this.yandexS3Service.uploadImage(file, data.filename);
+  }
 }
