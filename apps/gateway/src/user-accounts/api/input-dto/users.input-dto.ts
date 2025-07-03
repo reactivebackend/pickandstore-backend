@@ -12,8 +12,8 @@ export class CreateUserInputDto {
   @ApiProperty({
     example: 'user123',
     description: 'must be unique',
-    minLength: 3,
-    maxLength: 10,
+    minLength: 6,
+    maxLength: 30,
     pattern: '^[a-zA-Z0-9_-]*$',
   })
   @Trim()
