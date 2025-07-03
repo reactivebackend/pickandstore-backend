@@ -11,6 +11,7 @@ import { DevicesTestManager } from './devices-test-manager';
 import { PostsTestManager } from './posts-test-manager';
 import { AppService } from '../../src/app.service';
 import { FilesMicroserviceMock } from '../mock/files-microservice.mock';
+import { ProfilesTestManager } from './profiles-test-manager';
 
 export const initSettings = async (
   addSettingsToModuleBuilder?: (moduleBuilder: TestingModuleBuilder) => void,
@@ -48,6 +49,7 @@ export const initSettings = async (
   );
   const devicesTestManager = new DevicesTestManager(app, usersTestManager);
   const postsTestManager = new PostsTestManager(app);
+  const profilesTestManager = new ProfilesTestManager(app);
 
   return {
     app,
@@ -55,5 +57,6 @@ export const initSettings = async (
     usersTestManager,
     devicesTestManager,
     postsTestManager,
+    profilesTestManager,
   };
 };

@@ -35,4 +35,17 @@ export class AppService {
       console.log(error);
     }
   }
+
+  async sendAvatar(avatar: Express.Multer.File) {
+    const data = {
+      filename: `avatars/${Date.now()}_${avatar.originalname}`,
+      fileData: avatar.buffer.toString('base64'),
+    };
+
+    try {
+      return await this.client.send('send_avatar', data).toPromise();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
