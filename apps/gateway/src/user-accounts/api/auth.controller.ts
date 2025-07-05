@@ -105,6 +105,12 @@ export class AuthController {
         secure: true,
         sameSite: 'none',
       })
+      .cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
+      })
       .json({ accessToken: accessToken });
   }
 
@@ -138,6 +144,12 @@ export class AuthController {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
+      })
+      .cookie('accessToken', newAccessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
       })
       .json({ accessToken: newAccessToken });
   }
@@ -196,6 +208,12 @@ export class AuthController {
         secure: true,
         sameSite: 'none',
       })
+      .cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
+      })
       .json({ accessToken: accessToken });
   }
 
@@ -224,6 +242,12 @@ export class AuthController {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
+      })
+      .cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
       })
       .json({ accessToken: accessToken });
   }
