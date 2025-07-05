@@ -17,6 +17,12 @@ model User {
   id             Int            @id @default(autoincrement())
   username       String         @unique
   email          String         @unique
+  firstName      String?
+  lastName       String?
+  dateOfBirth    DateTime?
+  country        String?
+  city           String?
+  aboutMe        String?
   passwordHash   String?
   deletionStatus DeletionStatus @default(NotDeleted)
   createdAt      DateTime       @default(now())
@@ -25,6 +31,7 @@ model User {
   authAccounts   AuthAccount[]  @relation("AuthAccounts")
   devices        Device[]       @relation("Devices")
   posts          Post[]
+  userAvatars    UserAvatar[]   @relation("UserAvatars")
 }
 
 model UserMetadata {
@@ -35,6 +42,15 @@ model UserMetadata {
   isEmailConfirmed            Boolean   @default(false)
   passwordRecoveryCode        String?   @db.VarChar(255)
   passwordRecoveryExpiration  DateTime?
+}
+
+model UserAvatar {
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  avatarUrl      String
+  createdAt      DateTime       @default(now())
+  deletionStatus DeletionStatus @default(NotDeleted)
+  user           User           @relation("UserAvatars", fields: [userId], references: [id])
 }
 
 model AuthAccount {

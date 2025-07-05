@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type UserMetadata = $Result.DefaultSelection<Prisma.$UserMetadataPayload>
 /**
+ * Model UserAvatar
+ * 
+ */
+export type UserAvatar = $Result.DefaultSelection<Prisma.$UserAvatarPayload>
+/**
  * Model AuthAccount
  * 
  */
@@ -200,6 +205,16 @@ export class PrismaClient<
     * ```
     */
   get userMetadata(): Prisma.UserMetadataDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userAvatar`: Exposes CRUD operations for the **UserAvatar** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserAvatars
+    * const userAvatars = await prisma.userAvatar.findMany()
+    * ```
+    */
+  get userAvatar(): Prisma.UserAvatarDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.authAccount`: Exposes CRUD operations for the **AuthAccount** model.
@@ -672,6 +687,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     UserMetadata: 'UserMetadata',
+    UserAvatar: 'UserAvatar',
     AuthAccount: 'AuthAccount',
     Post: 'Post',
     Device: 'Device'
@@ -693,7 +709,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userMetadata" | "authAccount" | "post" | "device"
+      modelProps: "user" | "userMetadata" | "userAvatar" | "authAccount" | "post" | "device"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -842,6 +858,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserMetadataCountArgs<ExtArgs>
             result: $Utils.Optional<UserMetadataCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserAvatar: {
+        payload: Prisma.$UserAvatarPayload<ExtArgs>
+        fields: Prisma.UserAvatarFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserAvatarFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserAvatarFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>
+          }
+          findFirst: {
+            args: Prisma.UserAvatarFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserAvatarFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>
+          }
+          findMany: {
+            args: Prisma.UserAvatarFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>[]
+          }
+          create: {
+            args: Prisma.UserAvatarCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>
+          }
+          createMany: {
+            args: Prisma.UserAvatarCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserAvatarCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>[]
+          }
+          delete: {
+            args: Prisma.UserAvatarDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>
+          }
+          update: {
+            args: Prisma.UserAvatarUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserAvatarDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserAvatarUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserAvatarUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserAvatarUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAvatarPayload>
+          }
+          aggregate: {
+            args: Prisma.UserAvatarAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserAvatar>
+          }
+          groupBy: {
+            args: Prisma.UserAvatarGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserAvatarGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserAvatarCountArgs<ExtArgs>
+            result: $Utils.Optional<UserAvatarCountAggregateOutputType> | number
           }
         }
       }
@@ -1153,6 +1243,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     userMetadata?: UserMetadataOmit
+    userAvatar?: UserAvatarOmit
     authAccount?: AuthAccountOmit
     post?: PostOmit
     device?: DeviceOmit
@@ -1253,12 +1344,14 @@ export namespace Prisma {
     authAccounts: number
     devices: number
     posts: number
+    userAvatars: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     authAccounts?: boolean | UserCountOutputTypeCountAuthAccountsArgs
     devices?: boolean | UserCountOutputTypeCountDevicesArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
+    userAvatars?: boolean | UserCountOutputTypeCountUserAvatarsArgs
   }
 
   // Custom InputTypes
@@ -1293,6 +1386,13 @@ export namespace Prisma {
     where?: PostWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserAvatarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserAvatarWhereInput
+  }
+
 
   /**
    * Models
@@ -1322,6 +1422,12 @@ export namespace Prisma {
     id: number | null
     username: string | null
     email: string | null
+    firstName: string | null
+    lastName: string | null
+    dateOfBirth: Date | null
+    country: string | null
+    city: string | null
+    aboutMe: string | null
     passwordHash: string | null
     deletionStatus: $Enums.DeletionStatus | null
     createdAt: Date | null
@@ -1332,6 +1438,12 @@ export namespace Prisma {
     id: number | null
     username: string | null
     email: string | null
+    firstName: string | null
+    lastName: string | null
+    dateOfBirth: Date | null
+    country: string | null
+    city: string | null
+    aboutMe: string | null
     passwordHash: string | null
     deletionStatus: $Enums.DeletionStatus | null
     createdAt: Date | null
@@ -1342,6 +1454,12 @@ export namespace Prisma {
     id: number
     username: number
     email: number
+    firstName: number
+    lastName: number
+    dateOfBirth: number
+    country: number
+    city: number
+    aboutMe: number
     passwordHash: number
     deletionStatus: number
     createdAt: number
@@ -1362,6 +1480,12 @@ export namespace Prisma {
     id?: true
     username?: true
     email?: true
+    firstName?: true
+    lastName?: true
+    dateOfBirth?: true
+    country?: true
+    city?: true
+    aboutMe?: true
     passwordHash?: true
     deletionStatus?: true
     createdAt?: true
@@ -1372,6 +1496,12 @@ export namespace Prisma {
     id?: true
     username?: true
     email?: true
+    firstName?: true
+    lastName?: true
+    dateOfBirth?: true
+    country?: true
+    city?: true
+    aboutMe?: true
     passwordHash?: true
     deletionStatus?: true
     createdAt?: true
@@ -1382,6 +1512,12 @@ export namespace Prisma {
     id?: true
     username?: true
     email?: true
+    firstName?: true
+    lastName?: true
+    dateOfBirth?: true
+    country?: true
+    city?: true
+    aboutMe?: true
     passwordHash?: true
     deletionStatus?: true
     createdAt?: true
@@ -1479,6 +1615,12 @@ export namespace Prisma {
     id: number
     username: string
     email: string
+    firstName: string | null
+    lastName: string | null
+    dateOfBirth: Date | null
+    country: string | null
+    city: string | null
+    aboutMe: string | null
     passwordHash: string | null
     deletionStatus: $Enums.DeletionStatus
     createdAt: Date
@@ -1508,6 +1650,12 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     email?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    dateOfBirth?: boolean
+    country?: boolean
+    city?: boolean
+    aboutMe?: boolean
     passwordHash?: boolean
     deletionStatus?: boolean
     createdAt?: boolean
@@ -1516,6 +1664,7 @@ export namespace Prisma {
     authAccounts?: boolean | User$authAccountsArgs<ExtArgs>
     devices?: boolean | User$devicesArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
+    userAvatars?: boolean | User$userAvatarsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1523,6 +1672,12 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     email?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    dateOfBirth?: boolean
+    country?: boolean
+    city?: boolean
+    aboutMe?: boolean
     passwordHash?: boolean
     deletionStatus?: boolean
     createdAt?: boolean
@@ -1533,6 +1688,12 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     email?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    dateOfBirth?: boolean
+    country?: boolean
+    city?: boolean
+    aboutMe?: boolean
     passwordHash?: boolean
     deletionStatus?: boolean
     createdAt?: boolean
@@ -1543,18 +1704,25 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     email?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    dateOfBirth?: boolean
+    country?: boolean
+    city?: boolean
+    aboutMe?: boolean
     passwordHash?: boolean
     deletionStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "deletionStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "firstName" | "lastName" | "dateOfBirth" | "country" | "city" | "aboutMe" | "passwordHash" | "deletionStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userMetadata?: boolean | User$userMetadataArgs<ExtArgs>
     authAccounts?: boolean | User$authAccountsArgs<ExtArgs>
     devices?: boolean | User$devicesArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
+    userAvatars?: boolean | User$userAvatarsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1567,11 +1735,18 @@ export namespace Prisma {
       authAccounts: Prisma.$AuthAccountPayload<ExtArgs>[]
       devices: Prisma.$DevicePayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
+      userAvatars: Prisma.$UserAvatarPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       username: string
       email: string
+      firstName: string | null
+      lastName: string | null
+      dateOfBirth: Date | null
+      country: string | null
+      city: string | null
+      aboutMe: string | null
       passwordHash: string | null
       deletionStatus: $Enums.DeletionStatus
       createdAt: Date
@@ -1974,6 +2149,7 @@ export namespace Prisma {
     authAccounts<T extends User$authAccountsArgs<ExtArgs> = {}>(args?: Subset<T, User$authAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     devices<T extends User$devicesArgs<ExtArgs> = {}>(args?: Subset<T, User$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userAvatars<T extends User$userAvatarsArgs<ExtArgs> = {}>(args?: Subset<T, User$userAvatarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2006,6 +2182,12 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'Int'>
     readonly username: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly firstName: FieldRef<"User", 'String'>
+    readonly lastName: FieldRef<"User", 'String'>
+    readonly dateOfBirth: FieldRef<"User", 'DateTime'>
+    readonly country: FieldRef<"User", 'String'>
+    readonly city: FieldRef<"User", 'String'>
+    readonly aboutMe: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly deletionStatus: FieldRef<"User", 'DeletionStatus'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -2486,6 +2668,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+  /**
+   * User.userAvatars
+   */
+  export type User$userAvatarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    where?: UserAvatarWhereInput
+    orderBy?: UserAvatarOrderByWithRelationInput | UserAvatarOrderByWithRelationInput[]
+    cursor?: UserAvatarWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserAvatarScalarFieldEnum | UserAvatarScalarFieldEnum[]
   }
 
   /**
@@ -3609,6 +3815,1102 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserMetadataInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserAvatar
+   */
+
+  export type AggregateUserAvatar = {
+    _count: UserAvatarCountAggregateOutputType | null
+    _avg: UserAvatarAvgAggregateOutputType | null
+    _sum: UserAvatarSumAggregateOutputType | null
+    _min: UserAvatarMinAggregateOutputType | null
+    _max: UserAvatarMaxAggregateOutputType | null
+  }
+
+  export type UserAvatarAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
+  export type UserAvatarSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
+  export type UserAvatarMinAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    avatarUrl: string | null
+    createdAt: Date | null
+    deletionStatus: $Enums.DeletionStatus | null
+  }
+
+  export type UserAvatarMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    avatarUrl: string | null
+    createdAt: Date | null
+    deletionStatus: $Enums.DeletionStatus | null
+  }
+
+  export type UserAvatarCountAggregateOutputType = {
+    id: number
+    userId: number
+    avatarUrl: number
+    createdAt: number
+    deletionStatus: number
+    _all: number
+  }
+
+
+  export type UserAvatarAvgAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type UserAvatarSumAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type UserAvatarMinAggregateInputType = {
+    id?: true
+    userId?: true
+    avatarUrl?: true
+    createdAt?: true
+    deletionStatus?: true
+  }
+
+  export type UserAvatarMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    avatarUrl?: true
+    createdAt?: true
+    deletionStatus?: true
+  }
+
+  export type UserAvatarCountAggregateInputType = {
+    id?: true
+    userId?: true
+    avatarUrl?: true
+    createdAt?: true
+    deletionStatus?: true
+    _all?: true
+  }
+
+  export type UserAvatarAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserAvatar to aggregate.
+     */
+    where?: UserAvatarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAvatars to fetch.
+     */
+    orderBy?: UserAvatarOrderByWithRelationInput | UserAvatarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserAvatarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAvatars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAvatars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserAvatars
+    **/
+    _count?: true | UserAvatarCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvatarAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserAvatarSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserAvatarMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserAvatarMaxAggregateInputType
+  }
+
+  export type GetUserAvatarAggregateType<T extends UserAvatarAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserAvatar]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserAvatar[P]>
+      : GetScalarType<T[P], AggregateUserAvatar[P]>
+  }
+
+
+
+
+  export type UserAvatarGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserAvatarWhereInput
+    orderBy?: UserAvatarOrderByWithAggregationInput | UserAvatarOrderByWithAggregationInput[]
+    by: UserAvatarScalarFieldEnum[] | UserAvatarScalarFieldEnum
+    having?: UserAvatarScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserAvatarCountAggregateInputType | true
+    _avg?: UserAvatarAvgAggregateInputType
+    _sum?: UserAvatarSumAggregateInputType
+    _min?: UserAvatarMinAggregateInputType
+    _max?: UserAvatarMaxAggregateInputType
+  }
+
+  export type UserAvatarGroupByOutputType = {
+    id: number
+    userId: number
+    avatarUrl: string
+    createdAt: Date
+    deletionStatus: $Enums.DeletionStatus
+    _count: UserAvatarCountAggregateOutputType | null
+    _avg: UserAvatarAvgAggregateOutputType | null
+    _sum: UserAvatarSumAggregateOutputType | null
+    _min: UserAvatarMinAggregateOutputType | null
+    _max: UserAvatarMaxAggregateOutputType | null
+  }
+
+  type GetUserAvatarGroupByPayload<T extends UserAvatarGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserAvatarGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserAvatarGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserAvatarGroupByOutputType[P]>
+            : GetScalarType<T[P], UserAvatarGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserAvatarSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    deletionStatus?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userAvatar"]>
+
+  export type UserAvatarSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    deletionStatus?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userAvatar"]>
+
+  export type UserAvatarSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    deletionStatus?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userAvatar"]>
+
+  export type UserAvatarSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    deletionStatus?: boolean
+  }
+
+  export type UserAvatarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "avatarUrl" | "createdAt" | "deletionStatus", ExtArgs["result"]["userAvatar"]>
+  export type UserAvatarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserAvatarIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserAvatarIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserAvatarPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserAvatar"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: number
+      avatarUrl: string
+      createdAt: Date
+      deletionStatus: $Enums.DeletionStatus
+    }, ExtArgs["result"]["userAvatar"]>
+    composites: {}
+  }
+
+  type UserAvatarGetPayload<S extends boolean | null | undefined | UserAvatarDefaultArgs> = $Result.GetResult<Prisma.$UserAvatarPayload, S>
+
+  type UserAvatarCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserAvatarFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserAvatarCountAggregateInputType | true
+    }
+
+  export interface UserAvatarDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserAvatar'], meta: { name: 'UserAvatar' } }
+    /**
+     * Find zero or one UserAvatar that matches the filter.
+     * @param {UserAvatarFindUniqueArgs} args - Arguments to find a UserAvatar
+     * @example
+     * // Get one UserAvatar
+     * const userAvatar = await prisma.userAvatar.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserAvatarFindUniqueArgs>(args: SelectSubset<T, UserAvatarFindUniqueArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserAvatar that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserAvatarFindUniqueOrThrowArgs} args - Arguments to find a UserAvatar
+     * @example
+     * // Get one UserAvatar
+     * const userAvatar = await prisma.userAvatar.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserAvatarFindUniqueOrThrowArgs>(args: SelectSubset<T, UserAvatarFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserAvatar that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAvatarFindFirstArgs} args - Arguments to find a UserAvatar
+     * @example
+     * // Get one UserAvatar
+     * const userAvatar = await prisma.userAvatar.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserAvatarFindFirstArgs>(args?: SelectSubset<T, UserAvatarFindFirstArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserAvatar that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAvatarFindFirstOrThrowArgs} args - Arguments to find a UserAvatar
+     * @example
+     * // Get one UserAvatar
+     * const userAvatar = await prisma.userAvatar.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserAvatarFindFirstOrThrowArgs>(args?: SelectSubset<T, UserAvatarFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserAvatars that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAvatarFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserAvatars
+     * const userAvatars = await prisma.userAvatar.findMany()
+     * 
+     * // Get first 10 UserAvatars
+     * const userAvatars = await prisma.userAvatar.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userAvatarWithIdOnly = await prisma.userAvatar.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserAvatarFindManyArgs>(args?: SelectSubset<T, UserAvatarFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserAvatar.
+     * @param {UserAvatarCreateArgs} args - Arguments to create a UserAvatar.
+     * @example
+     * // Create one UserAvatar
+     * const UserAvatar = await prisma.userAvatar.create({
+     *   data: {
+     *     // ... data to create a UserAvatar
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserAvatarCreateArgs>(args: SelectSubset<T, UserAvatarCreateArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserAvatars.
+     * @param {UserAvatarCreateManyArgs} args - Arguments to create many UserAvatars.
+     * @example
+     * // Create many UserAvatars
+     * const userAvatar = await prisma.userAvatar.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserAvatarCreateManyArgs>(args?: SelectSubset<T, UserAvatarCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserAvatars and returns the data saved in the database.
+     * @param {UserAvatarCreateManyAndReturnArgs} args - Arguments to create many UserAvatars.
+     * @example
+     * // Create many UserAvatars
+     * const userAvatar = await prisma.userAvatar.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserAvatars and only return the `id`
+     * const userAvatarWithIdOnly = await prisma.userAvatar.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserAvatarCreateManyAndReturnArgs>(args?: SelectSubset<T, UserAvatarCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserAvatar.
+     * @param {UserAvatarDeleteArgs} args - Arguments to delete one UserAvatar.
+     * @example
+     * // Delete one UserAvatar
+     * const UserAvatar = await prisma.userAvatar.delete({
+     *   where: {
+     *     // ... filter to delete one UserAvatar
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserAvatarDeleteArgs>(args: SelectSubset<T, UserAvatarDeleteArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserAvatar.
+     * @param {UserAvatarUpdateArgs} args - Arguments to update one UserAvatar.
+     * @example
+     * // Update one UserAvatar
+     * const userAvatar = await prisma.userAvatar.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserAvatarUpdateArgs>(args: SelectSubset<T, UserAvatarUpdateArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserAvatars.
+     * @param {UserAvatarDeleteManyArgs} args - Arguments to filter UserAvatars to delete.
+     * @example
+     * // Delete a few UserAvatars
+     * const { count } = await prisma.userAvatar.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserAvatarDeleteManyArgs>(args?: SelectSubset<T, UserAvatarDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserAvatars.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAvatarUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserAvatars
+     * const userAvatar = await prisma.userAvatar.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserAvatarUpdateManyArgs>(args: SelectSubset<T, UserAvatarUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserAvatars and returns the data updated in the database.
+     * @param {UserAvatarUpdateManyAndReturnArgs} args - Arguments to update many UserAvatars.
+     * @example
+     * // Update many UserAvatars
+     * const userAvatar = await prisma.userAvatar.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserAvatars and only return the `id`
+     * const userAvatarWithIdOnly = await prisma.userAvatar.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserAvatarUpdateManyAndReturnArgs>(args: SelectSubset<T, UserAvatarUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserAvatar.
+     * @param {UserAvatarUpsertArgs} args - Arguments to update or create a UserAvatar.
+     * @example
+     * // Update or create a UserAvatar
+     * const userAvatar = await prisma.userAvatar.upsert({
+     *   create: {
+     *     // ... data to create a UserAvatar
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserAvatar we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserAvatarUpsertArgs>(args: SelectSubset<T, UserAvatarUpsertArgs<ExtArgs>>): Prisma__UserAvatarClient<$Result.GetResult<Prisma.$UserAvatarPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserAvatars.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAvatarCountArgs} args - Arguments to filter UserAvatars to count.
+     * @example
+     * // Count the number of UserAvatars
+     * const count = await prisma.userAvatar.count({
+     *   where: {
+     *     // ... the filter for the UserAvatars we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserAvatarCountArgs>(
+      args?: Subset<T, UserAvatarCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserAvatarCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserAvatar.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAvatarAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserAvatarAggregateArgs>(args: Subset<T, UserAvatarAggregateArgs>): Prisma.PrismaPromise<GetUserAvatarAggregateType<T>>
+
+    /**
+     * Group by UserAvatar.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAvatarGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserAvatarGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserAvatarGroupByArgs['orderBy'] }
+        : { orderBy?: UserAvatarGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserAvatarGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserAvatarGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserAvatar model
+   */
+  readonly fields: UserAvatarFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserAvatar.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserAvatarClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserAvatar model
+   */
+  interface UserAvatarFieldRefs {
+    readonly id: FieldRef<"UserAvatar", 'Int'>
+    readonly userId: FieldRef<"UserAvatar", 'Int'>
+    readonly avatarUrl: FieldRef<"UserAvatar", 'String'>
+    readonly createdAt: FieldRef<"UserAvatar", 'DateTime'>
+    readonly deletionStatus: FieldRef<"UserAvatar", 'DeletionStatus'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserAvatar findUnique
+   */
+  export type UserAvatarFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAvatar to fetch.
+     */
+    where: UserAvatarWhereUniqueInput
+  }
+
+  /**
+   * UserAvatar findUniqueOrThrow
+   */
+  export type UserAvatarFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAvatar to fetch.
+     */
+    where: UserAvatarWhereUniqueInput
+  }
+
+  /**
+   * UserAvatar findFirst
+   */
+  export type UserAvatarFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAvatar to fetch.
+     */
+    where?: UserAvatarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAvatars to fetch.
+     */
+    orderBy?: UserAvatarOrderByWithRelationInput | UserAvatarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserAvatars.
+     */
+    cursor?: UserAvatarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAvatars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAvatars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserAvatars.
+     */
+    distinct?: UserAvatarScalarFieldEnum | UserAvatarScalarFieldEnum[]
+  }
+
+  /**
+   * UserAvatar findFirstOrThrow
+   */
+  export type UserAvatarFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAvatar to fetch.
+     */
+    where?: UserAvatarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAvatars to fetch.
+     */
+    orderBy?: UserAvatarOrderByWithRelationInput | UserAvatarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserAvatars.
+     */
+    cursor?: UserAvatarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAvatars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAvatars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserAvatars.
+     */
+    distinct?: UserAvatarScalarFieldEnum | UserAvatarScalarFieldEnum[]
+  }
+
+  /**
+   * UserAvatar findMany
+   */
+  export type UserAvatarFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAvatars to fetch.
+     */
+    where?: UserAvatarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAvatars to fetch.
+     */
+    orderBy?: UserAvatarOrderByWithRelationInput | UserAvatarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserAvatars.
+     */
+    cursor?: UserAvatarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAvatars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAvatars.
+     */
+    skip?: number
+    distinct?: UserAvatarScalarFieldEnum | UserAvatarScalarFieldEnum[]
+  }
+
+  /**
+   * UserAvatar create
+   */
+  export type UserAvatarCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserAvatar.
+     */
+    data: XOR<UserAvatarCreateInput, UserAvatarUncheckedCreateInput>
+  }
+
+  /**
+   * UserAvatar createMany
+   */
+  export type UserAvatarCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserAvatars.
+     */
+    data: UserAvatarCreateManyInput | UserAvatarCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserAvatar createManyAndReturn
+   */
+  export type UserAvatarCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserAvatars.
+     */
+    data: UserAvatarCreateManyInput | UserAvatarCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserAvatar update
+   */
+  export type UserAvatarUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserAvatar.
+     */
+    data: XOR<UserAvatarUpdateInput, UserAvatarUncheckedUpdateInput>
+    /**
+     * Choose, which UserAvatar to update.
+     */
+    where: UserAvatarWhereUniqueInput
+  }
+
+  /**
+   * UserAvatar updateMany
+   */
+  export type UserAvatarUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserAvatars.
+     */
+    data: XOR<UserAvatarUpdateManyMutationInput, UserAvatarUncheckedUpdateManyInput>
+    /**
+     * Filter which UserAvatars to update
+     */
+    where?: UserAvatarWhereInput
+    /**
+     * Limit how many UserAvatars to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserAvatar updateManyAndReturn
+   */
+  export type UserAvatarUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * The data used to update UserAvatars.
+     */
+    data: XOR<UserAvatarUpdateManyMutationInput, UserAvatarUncheckedUpdateManyInput>
+    /**
+     * Filter which UserAvatars to update
+     */
+    where?: UserAvatarWhereInput
+    /**
+     * Limit how many UserAvatars to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserAvatar upsert
+   */
+  export type UserAvatarUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserAvatar to update in case it exists.
+     */
+    where: UserAvatarWhereUniqueInput
+    /**
+     * In case the UserAvatar found by the `where` argument doesn't exist, create a new UserAvatar with this data.
+     */
+    create: XOR<UserAvatarCreateInput, UserAvatarUncheckedCreateInput>
+    /**
+     * In case the UserAvatar was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserAvatarUpdateInput, UserAvatarUncheckedUpdateInput>
+  }
+
+  /**
+   * UserAvatar delete
+   */
+  export type UserAvatarDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
+    /**
+     * Filter which UserAvatar to delete.
+     */
+    where: UserAvatarWhereUniqueInput
+  }
+
+  /**
+   * UserAvatar deleteMany
+   */
+  export type UserAvatarDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserAvatars to delete
+     */
+    where?: UserAvatarWhereInput
+    /**
+     * Limit how many UserAvatars to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserAvatar without action
+   */
+  export type UserAvatarDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAvatar
+     */
+    select?: UserAvatarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAvatar
+     */
+    omit?: UserAvatarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAvatarInclude<ExtArgs> | null
   }
 
 
@@ -6949,6 +8251,12 @@ export namespace Prisma {
     id: 'id',
     username: 'username',
     email: 'email',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    dateOfBirth: 'dateOfBirth',
+    country: 'country',
+    city: 'city',
+    aboutMe: 'aboutMe',
     passwordHash: 'passwordHash',
     deletionStatus: 'deletionStatus',
     createdAt: 'createdAt',
@@ -6968,6 +8276,17 @@ export namespace Prisma {
   };
 
   export type UserMetadataScalarFieldEnum = (typeof UserMetadataScalarFieldEnum)[keyof typeof UserMetadataScalarFieldEnum]
+
+
+  export const UserAvatarScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    avatarUrl: 'avatarUrl',
+    createdAt: 'createdAt',
+    deletionStatus: 'deletionStatus'
+  };
+
+  export type UserAvatarScalarFieldEnum = (typeof UserAvatarScalarFieldEnum)[keyof typeof UserAvatarScalarFieldEnum]
 
 
   export const AuthAccountScalarFieldEnum: {
@@ -7064,20 +8383,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DeletionStatus'
-   */
-  export type EnumDeletionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeletionStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'DeletionStatus[]'
-   */
-  export type ListEnumDeletionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeletionStatus[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -7088,6 +8393,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DeletionStatus'
+   */
+  export type EnumDeletionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeletionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DeletionStatus[]'
+   */
+  export type ListEnumDeletionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeletionStatus[]'>
     
 
 
@@ -7122,6 +8441,12 @@ export namespace Prisma {
     id?: IntFilter<"User"> | number
     username?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    firstName?: StringNullableFilter<"User"> | string | null
+    lastName?: StringNullableFilter<"User"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    country?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    aboutMe?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringNullableFilter<"User"> | string | null
     deletionStatus?: EnumDeletionStatusFilter<"User"> | $Enums.DeletionStatus
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -7130,12 +8455,19 @@ export namespace Prisma {
     authAccounts?: AuthAccountListRelationFilter
     devices?: DeviceListRelationFilter
     posts?: PostListRelationFilter
+    userAvatars?: UserAvatarListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    aboutMe?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
     deletionStatus?: SortOrder
     createdAt?: SortOrder
@@ -7144,6 +8476,7 @@ export namespace Prisma {
     authAccounts?: AuthAccountOrderByRelationAggregateInput
     devices?: DeviceOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
+    userAvatars?: UserAvatarOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7153,6 +8486,12 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
+    firstName?: StringNullableFilter<"User"> | string | null
+    lastName?: StringNullableFilter<"User"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    country?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    aboutMe?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringNullableFilter<"User"> | string | null
     deletionStatus?: EnumDeletionStatusFilter<"User"> | $Enums.DeletionStatus
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -7161,12 +8500,19 @@ export namespace Prisma {
     authAccounts?: AuthAccountListRelationFilter
     devices?: DeviceListRelationFilter
     posts?: PostListRelationFilter
+    userAvatars?: UserAvatarListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    aboutMe?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
     deletionStatus?: SortOrder
     createdAt?: SortOrder
@@ -7185,6 +8531,12 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"User"> | number
     username?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    firstName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    dateOfBirth?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    country?: StringNullableWithAggregatesFilter<"User"> | string | null
+    city?: StringNullableWithAggregatesFilter<"User"> | string | null
+    aboutMe?: StringNullableWithAggregatesFilter<"User"> | string | null
     passwordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     deletionStatus?: EnumDeletionStatusWithAggregatesFilter<"User"> | $Enums.DeletionStatus
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -7251,6 +8603,63 @@ export namespace Prisma {
     isEmailConfirmed?: BoolWithAggregatesFilter<"UserMetadata"> | boolean
     passwordRecoveryCode?: StringNullableWithAggregatesFilter<"UserMetadata"> | string | null
     passwordRecoveryExpiration?: DateTimeNullableWithAggregatesFilter<"UserMetadata"> | Date | string | null
+  }
+
+  export type UserAvatarWhereInput = {
+    AND?: UserAvatarWhereInput | UserAvatarWhereInput[]
+    OR?: UserAvatarWhereInput[]
+    NOT?: UserAvatarWhereInput | UserAvatarWhereInput[]
+    id?: IntFilter<"UserAvatar"> | number
+    userId?: IntFilter<"UserAvatar"> | number
+    avatarUrl?: StringFilter<"UserAvatar"> | string
+    createdAt?: DateTimeFilter<"UserAvatar"> | Date | string
+    deletionStatus?: EnumDeletionStatusFilter<"UserAvatar"> | $Enums.DeletionStatus
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserAvatarOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    deletionStatus?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserAvatarWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: UserAvatarWhereInput | UserAvatarWhereInput[]
+    OR?: UserAvatarWhereInput[]
+    NOT?: UserAvatarWhereInput | UserAvatarWhereInput[]
+    userId?: IntFilter<"UserAvatar"> | number
+    avatarUrl?: StringFilter<"UserAvatar"> | string
+    createdAt?: DateTimeFilter<"UserAvatar"> | Date | string
+    deletionStatus?: EnumDeletionStatusFilter<"UserAvatar"> | $Enums.DeletionStatus
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserAvatarOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    deletionStatus?: SortOrder
+    _count?: UserAvatarCountOrderByAggregateInput
+    _avg?: UserAvatarAvgOrderByAggregateInput
+    _max?: UserAvatarMaxOrderByAggregateInput
+    _min?: UserAvatarMinOrderByAggregateInput
+    _sum?: UserAvatarSumOrderByAggregateInput
+  }
+
+  export type UserAvatarScalarWhereWithAggregatesInput = {
+    AND?: UserAvatarScalarWhereWithAggregatesInput | UserAvatarScalarWhereWithAggregatesInput[]
+    OR?: UserAvatarScalarWhereWithAggregatesInput[]
+    NOT?: UserAvatarScalarWhereWithAggregatesInput | UserAvatarScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"UserAvatar"> | number
+    userId?: IntWithAggregatesFilter<"UserAvatar"> | number
+    avatarUrl?: StringWithAggregatesFilter<"UserAvatar"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UserAvatar"> | Date | string
+    deletionStatus?: EnumDeletionStatusWithAggregatesFilter<"UserAvatar"> | $Enums.DeletionStatus
   }
 
   export type AuthAccountWhereInput = {
@@ -7443,6 +8852,12 @@ export namespace Prisma {
   export type UserCreateInput = {
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -7451,12 +8866,19 @@ export namespace Prisma {
     authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
     devices?: DeviceCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: number
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -7465,11 +8887,18 @@ export namespace Prisma {
     authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
     devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7478,12 +8907,19 @@ export namespace Prisma {
     authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
     devices?: DeviceUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7492,12 +8928,19 @@ export namespace Prisma {
     authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
     devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: number
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -7507,6 +8950,12 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7517,6 +8966,12 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7583,6 +9038,58 @@ export namespace Prisma {
     isEmailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     passwordRecoveryCode?: NullableStringFieldUpdateOperationsInput | string | null
     passwordRecoveryExpiration?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserAvatarCreateInput = {
+    avatarUrl: string
+    createdAt?: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+    user: UserCreateNestedOneWithoutUserAvatarsInput
+  }
+
+  export type UserAvatarUncheckedCreateInput = {
+    id?: number
+    userId: number
+    avatarUrl: string
+    createdAt?: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+  }
+
+  export type UserAvatarUpdateInput = {
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+    user?: UserUpdateOneRequiredWithoutUserAvatarsNestedInput
+  }
+
+  export type UserAvatarUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+  }
+
+  export type UserAvatarCreateManyInput = {
+    id?: number
+    userId: number
+    avatarUrl: string
+    createdAt?: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+  }
+
+  export type UserAvatarUpdateManyMutationInput = {
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+  }
+
+  export type UserAvatarUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
   }
 
   export type AuthAccountCreateInput = {
@@ -7806,6 +9313,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type EnumDeletionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.DeletionStatus | EnumDeletionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DeletionStatus[] | ListEnumDeletionStatusFieldRefInput<$PrismaModel>
@@ -7847,6 +9365,12 @@ export namespace Prisma {
     none?: PostWhereInput
   }
 
+  export type UserAvatarListRelationFilter = {
+    every?: UserAvatarWhereInput
+    some?: UserAvatarWhereInput
+    none?: UserAvatarWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -7864,10 +9388,20 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UserAvatarOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    dateOfBirth?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    aboutMe?: SortOrder
     passwordHash?: SortOrder
     deletionStatus?: SortOrder
     createdAt?: SortOrder
@@ -7882,6 +9416,12 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    dateOfBirth?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    aboutMe?: SortOrder
     passwordHash?: SortOrder
     deletionStatus?: SortOrder
     createdAt?: SortOrder
@@ -7892,6 +9432,12 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     email?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    dateOfBirth?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    aboutMe?: SortOrder
     passwordHash?: SortOrder
     deletionStatus?: SortOrder
     createdAt?: SortOrder
@@ -7954,6 +9500,20 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type EnumDeletionStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.DeletionStatus | EnumDeletionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DeletionStatus[] | ListEnumDeletionStatusFieldRefInput<$PrismaModel>
@@ -7976,17 +9536,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -8034,26 +9583,46 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type UserAvatarCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    deletionStatus?: SortOrder
+  }
+
+  export type UserAvatarAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserAvatarMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    deletionStatus?: SortOrder
+  }
+
+  export type UserAvatarMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    deletionStatus?: SortOrder
+  }
+
+  export type UserAvatarSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
   }
 
   export type AuthAccountProviderProviderIdCompoundUniqueInput = {
@@ -8230,6 +9799,13 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
+  export type UserAvatarCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserAvatarCreateWithoutUserInput, UserAvatarUncheckedCreateWithoutUserInput> | UserAvatarCreateWithoutUserInput[] | UserAvatarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAvatarCreateOrConnectWithoutUserInput | UserAvatarCreateOrConnectWithoutUserInput[]
+    createMany?: UserAvatarCreateManyUserInputEnvelope
+    connect?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+  }
+
   export type UserMetadataUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<UserMetadataCreateWithoutUserInput, UserMetadataUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserMetadataCreateOrConnectWithoutUserInput
@@ -8257,12 +9833,23 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
+  export type UserAvatarUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserAvatarCreateWithoutUserInput, UserAvatarUncheckedCreateWithoutUserInput> | UserAvatarCreateWithoutUserInput[] | UserAvatarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAvatarCreateOrConnectWithoutUserInput | UserAvatarCreateOrConnectWithoutUserInput[]
+    createMany?: UserAvatarCreateManyUserInputEnvelope
+    connect?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type EnumDeletionStatusFieldUpdateOperationsInput = {
@@ -8325,6 +9912,20 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
+  export type UserAvatarUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserAvatarCreateWithoutUserInput, UserAvatarUncheckedCreateWithoutUserInput> | UserAvatarCreateWithoutUserInput[] | UserAvatarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAvatarCreateOrConnectWithoutUserInput | UserAvatarCreateOrConnectWithoutUserInput[]
+    upsert?: UserAvatarUpsertWithWhereUniqueWithoutUserInput | UserAvatarUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserAvatarCreateManyUserInputEnvelope
+    set?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    disconnect?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    delete?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    connect?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    update?: UserAvatarUpdateWithWhereUniqueWithoutUserInput | UserAvatarUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserAvatarUpdateManyWithWhereWithoutUserInput | UserAvatarUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserAvatarScalarWhereInput | UserAvatarScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -8385,14 +9986,24 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
+  export type UserAvatarUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserAvatarCreateWithoutUserInput, UserAvatarUncheckedCreateWithoutUserInput> | UserAvatarCreateWithoutUserInput[] | UserAvatarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAvatarCreateOrConnectWithoutUserInput | UserAvatarCreateOrConnectWithoutUserInput[]
+    upsert?: UserAvatarUpsertWithWhereUniqueWithoutUserInput | UserAvatarUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserAvatarCreateManyUserInputEnvelope
+    set?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    disconnect?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    delete?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    connect?: UserAvatarWhereUniqueInput | UserAvatarWhereUniqueInput[]
+    update?: UserAvatarUpdateWithWhereUniqueWithoutUserInput | UserAvatarUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserAvatarUpdateManyWithWhereWithoutUserInput | UserAvatarUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserAvatarScalarWhereInput | UserAvatarScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutUserMetadataInput = {
     create?: XOR<UserCreateWithoutUserMetadataInput, UserUncheckedCreateWithoutUserMetadataInput>
     connectOrCreate?: UserCreateOrConnectWithoutUserMetadataInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -8405,6 +10016,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutUserMetadataInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserMetadataInput, UserUpdateWithoutUserMetadataInput>, UserUncheckedUpdateWithoutUserMetadataInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserAvatarsInput = {
+    create?: XOR<UserCreateWithoutUserAvatarsInput, UserUncheckedCreateWithoutUserAvatarsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserAvatarsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUserAvatarsNestedInput = {
+    create?: XOR<UserCreateWithoutUserAvatarsInput, UserUncheckedCreateWithoutUserAvatarsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserAvatarsInput
+    upsert?: UserUpsertWithoutUserAvatarsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserAvatarsInput, UserUpdateWithoutUserAvatarsInput>, UserUncheckedUpdateWithoutUserAvatarsInput>
   }
 
   export type UserCreateNestedOneWithoutAuthAccountsInput = {
@@ -8497,6 +10122,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumDeletionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.DeletionStatus | EnumDeletionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DeletionStatus[] | ListEnumDeletionStatusFieldRefInput<$PrismaModel>
@@ -8587,6 +10223,20 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumDeletionStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.DeletionStatus | EnumDeletionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DeletionStatus[] | ListEnumDeletionStatusFieldRefInput<$PrismaModel>
@@ -8611,34 +10261,9 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -8771,6 +10396,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserAvatarCreateWithoutUserInput = {
+    avatarUrl: string
+    createdAt?: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+  }
+
+  export type UserAvatarUncheckedCreateWithoutUserInput = {
+    id?: number
+    avatarUrl: string
+    createdAt?: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+  }
+
+  export type UserAvatarCreateOrConnectWithoutUserInput = {
+    where: UserAvatarWhereUniqueInput
+    create: XOR<UserAvatarCreateWithoutUserInput, UserAvatarUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserAvatarCreateManyUserInputEnvelope = {
+    data: UserAvatarCreateManyUserInput | UserAvatarCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserMetadataUpsertWithoutUserInput = {
     update: XOR<UserMetadataUpdateWithoutUserInput, UserMetadataUncheckedUpdateWithoutUserInput>
     create: XOR<UserMetadataCreateWithoutUserInput, UserMetadataUncheckedCreateWithoutUserInput>
@@ -8882,9 +10530,42 @@ export namespace Prisma {
     deletionStatus?: EnumDeletionStatusFilter<"Post"> | $Enums.DeletionStatus
   }
 
+  export type UserAvatarUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserAvatarWhereUniqueInput
+    update: XOR<UserAvatarUpdateWithoutUserInput, UserAvatarUncheckedUpdateWithoutUserInput>
+    create: XOR<UserAvatarCreateWithoutUserInput, UserAvatarUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserAvatarUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserAvatarWhereUniqueInput
+    data: XOR<UserAvatarUpdateWithoutUserInput, UserAvatarUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserAvatarUpdateManyWithWhereWithoutUserInput = {
+    where: UserAvatarScalarWhereInput
+    data: XOR<UserAvatarUpdateManyMutationInput, UserAvatarUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserAvatarScalarWhereInput = {
+    AND?: UserAvatarScalarWhereInput | UserAvatarScalarWhereInput[]
+    OR?: UserAvatarScalarWhereInput[]
+    NOT?: UserAvatarScalarWhereInput | UserAvatarScalarWhereInput[]
+    id?: IntFilter<"UserAvatar"> | number
+    userId?: IntFilter<"UserAvatar"> | number
+    avatarUrl?: StringFilter<"UserAvatar"> | string
+    createdAt?: DateTimeFilter<"UserAvatar"> | Date | string
+    deletionStatus?: EnumDeletionStatusFilter<"UserAvatar"> | $Enums.DeletionStatus
+  }
+
   export type UserCreateWithoutUserMetadataInput = {
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -8892,12 +10573,19 @@ export namespace Prisma {
     authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
     devices?: DeviceCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserMetadataInput = {
     id?: number
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -8905,6 +10593,7 @@ export namespace Prisma {
     authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
     devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserMetadataInput = {
@@ -8926,6 +10615,12 @@ export namespace Prisma {
   export type UserUpdateWithoutUserMetadataInput = {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8933,16 +10628,118 @@ export namespace Prisma {
     authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
     devices?: DeviceUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserMetadataInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
+    devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutUserAvatarsInput = {
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
+    passwordHash?: string | null
+    deletionStatus?: $Enums.DeletionStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userMetadata?: UserMetadataCreateNestedOneWithoutUserInput
+    authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
+    devices?: DeviceCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUserAvatarsInput = {
+    id?: number
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
+    passwordHash?: string | null
+    deletionStatus?: $Enums.DeletionStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userMetadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
+    authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
+    devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUserAvatarsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserAvatarsInput, UserUncheckedCreateWithoutUserAvatarsInput>
+  }
+
+  export type UserUpsertWithoutUserAvatarsInput = {
+    update: XOR<UserUpdateWithoutUserAvatarsInput, UserUncheckedUpdateWithoutUserAvatarsInput>
+    create: XOR<UserCreateWithoutUserAvatarsInput, UserUncheckedCreateWithoutUserAvatarsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserAvatarsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserAvatarsInput, UserUncheckedUpdateWithoutUserAvatarsInput>
+  }
+
+  export type UserUpdateWithoutUserAvatarsInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userMetadata?: UserMetadataUpdateOneWithoutUserNestedInput
+    authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
+    devices?: DeviceUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserAvatarsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userMetadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
     authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
     devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -8951,6 +10748,12 @@ export namespace Prisma {
   export type UserCreateWithoutAuthAccountsInput = {
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -8958,12 +10761,19 @@ export namespace Prisma {
     userMetadata?: UserMetadataCreateNestedOneWithoutUserInput
     devices?: DeviceCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAuthAccountsInput = {
     id?: number
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -8971,6 +10781,7 @@ export namespace Prisma {
     userMetadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
     devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAuthAccountsInput = {
@@ -8992,6 +10803,12 @@ export namespace Prisma {
   export type UserUpdateWithoutAuthAccountsInput = {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8999,12 +10816,19 @@ export namespace Prisma {
     userMetadata?: UserMetadataUpdateOneWithoutUserNestedInput
     devices?: DeviceUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuthAccountsInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9012,11 +10836,18 @@ export namespace Prisma {
     userMetadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
     devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPostsInput = {
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -9024,12 +10855,19 @@ export namespace Prisma {
     userMetadata?: UserMetadataCreateNestedOneWithoutUserInput
     authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
     devices?: DeviceCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
     id?: number
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -9037,6 +10875,7 @@ export namespace Prisma {
     userMetadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
     authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
     devices?: DeviceUncheckedCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -9058,6 +10897,12 @@ export namespace Prisma {
   export type UserUpdateWithoutPostsInput = {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9065,12 +10910,19 @@ export namespace Prisma {
     userMetadata?: UserMetadataUpdateOneWithoutUserNestedInput
     authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
     devices?: DeviceUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9078,11 +10930,18 @@ export namespace Prisma {
     userMetadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
     authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
     devices?: DeviceUncheckedUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDevicesInput = {
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -9090,12 +10949,19 @@ export namespace Prisma {
     userMetadata?: UserMetadataCreateNestedOneWithoutUserInput
     authAccounts?: AuthAccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDevicesInput = {
     id?: number
     username: string
     email: string
+    firstName?: string | null
+    lastName?: string | null
+    dateOfBirth?: Date | string | null
+    country?: string | null
+    city?: string | null
+    aboutMe?: string | null
     passwordHash?: string | null
     deletionStatus?: $Enums.DeletionStatus
     createdAt?: Date | string
@@ -9103,6 +10969,7 @@ export namespace Prisma {
     userMetadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
     authAccounts?: AuthAccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    userAvatars?: UserAvatarUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDevicesInput = {
@@ -9124,6 +10991,12 @@ export namespace Prisma {
   export type UserUpdateWithoutDevicesInput = {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9131,12 +11004,19 @@ export namespace Prisma {
     userMetadata?: UserMetadataUpdateOneWithoutUserNestedInput
     authAccounts?: AuthAccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDevicesInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutMe?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9144,6 +11024,7 @@ export namespace Prisma {
     userMetadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
     authAccounts?: AuthAccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    userAvatars?: UserAvatarUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AuthAccountCreateManyUserInput = {
@@ -9166,6 +11047,13 @@ export namespace Prisma {
     id?: number
     description?: string | null
     imageUrl?: PostCreateimageUrlInput | string[]
+    createdAt?: Date | string
+    deletionStatus?: $Enums.DeletionStatus
+  }
+
+  export type UserAvatarCreateManyUserInput = {
+    id?: number
+    avatarUrl: string
     createdAt?: Date | string
     deletionStatus?: $Enums.DeletionStatus
   }
@@ -9236,6 +11124,26 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: PostUpdateimageUrlInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+  }
+
+  export type UserAvatarUpdateWithoutUserInput = {
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+  }
+
+  export type UserAvatarUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
+  }
+
+  export type UserAvatarUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletionStatus?: EnumDeletionStatusFieldUpdateOperationsInput | $Enums.DeletionStatus
   }
