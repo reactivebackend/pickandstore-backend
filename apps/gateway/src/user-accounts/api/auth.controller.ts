@@ -214,7 +214,7 @@ export class AuthController {
         sameSite: 'none',
         maxAge: 15 * 60 * 1000,
       })
-      .json({ accessToken: accessToken });
+      .redirect('https://pickandstore.com/auth/google/callback');
   }
 
   @GithubAuthDocs()
