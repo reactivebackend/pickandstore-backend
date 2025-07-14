@@ -118,8 +118,24 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(@ExtractDeviceFromCookie() deviceId: string): Promise<void> {
-    return this.commandBus.execute(new LogoutUserCommand(deviceId));
+  async logout(
+    @ExtractDeviceFromCookie() deviceId: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    await this.commandBus.execute(new LogoutUserCommand(deviceId));
+
+    res
+      .clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      })
+      .clearCookie('accessToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      })
+      .sendStatus(HttpStatus.NO_CONTENT);
   }
 
   @RefreshTokensDocs()
