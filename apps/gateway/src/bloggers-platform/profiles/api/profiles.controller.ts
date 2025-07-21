@@ -93,4 +93,9 @@ export class ProfileController {
   ): Promise<void> {
     await this.commandBus.execute(new DeleteUserProfileAvatarCommand(userId));
   }
+  @UseGuards(JwtBearerGuard)
+  @Get('subscriptions')
+  async getSubscriptions(@ExtractUserFromRequest() userId: number) {
+    return this.profilesQueryRepository.getCurrentSubscriptions(userId);
+  }
 }

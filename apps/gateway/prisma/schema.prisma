@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../generated/prisma"
   binaryTargets = ["native", "windows", "darwin-arm64"]
 }
 
@@ -14,10 +14,16 @@ enum DeletionStatus {
   Deleted
 }
 
+enum PaymentStatus {
+  Confirmend
+  PandingPayment
+  Failed
+}
+
 model User {
-  id             Int            @id @default(autoincrement())
-  username       String         @unique
-  email          String         @unique
+  id             Int                    @id @default(autoincrement())
+  username       String                 @unique
+  email          String                 @unique
   firstName      String?
   lastName       String?
   dateOfBirth    DateTime?
@@ -25,14 +31,16 @@ model User {
   city           String?
   aboutMe        String?
   passwordHash   String?
-  deletionStatus DeletionStatus @default(NotDeleted)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  userMetadata   UserMetadata?  @relation("UserMetadata")
-  authAccounts   AuthAccount[]  @relation("AuthAccounts")
-  devices        Device[]       @relation("Devices")
+  deletionStatus DeletionStatus         @default(NotDeleted)
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  userMetadata   UserMetadata?          @relation("UserMetadata")
+  authAccounts   AuthAccount[]          @relation("AuthAccounts")
+  devices        Device[]               @relation("Devices")
   posts          Post[]
-  userAvatars    UserAvatar[]   @relation("UserAvatars")
+  userAvatars    UserAvatar[]           @relation("UserAvatars")
+  subscription   Subscription[]         @relation("Subscription")
+  payments       PaymentsTransactions[] @relation("PaymentsTransactions")
 }
 
 model UserMetadata {
@@ -51,7 +59,7 @@ model UserAvatar {
   avatarUrl      String
   createdAt      DateTime       @default(now())
   deletionStatus DeletionStatus @default(NotDeleted)
-  user          User        @relation("UserAvatars", fields: [userId], references: [id])
+  user           User           @relation("UserAvatars", fields: [userId], references: [id])
 }
 
 model AuthAccount {
@@ -84,4 +92,36 @@ model Device {
   expirationDate DateTime
   deletionStatus DeletionStatus @default(NotDeleted)
   user           User           @relation("Devices", fields: [userId], references: [id])
+}
+
+model Subscription {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  planName        String
+  expireAt        DateTime
+  nextPaymentDate DateTime
+  autoRenewal     Boolean  @default(false)
+  paymentMethod   String
+  isActive        Boolean
+  user            User     @relation("Subscription", fields: [userId], references: [id])
+}
+
+model SubscriptionPayments {
+  id    Int    @id @default(autoincrement())
+  title String
+  price Int
+}
+
+model PaymentsTransactions {
+  id                    Int           @id @default(autoincrement())
+  productIds            Int
+  price                 Int
+  paymentSystems        String
+  status                PaymentStatus @default(PandingPayment)
+  createAt              DateTime
+  updateAt              DateTime?
+  url                   String
+  anyPaymentsSystemData String?
+  userId                Int
+  user                  User          @relation("PaymentsTransactions", fields: [userId], references: [id])
 }

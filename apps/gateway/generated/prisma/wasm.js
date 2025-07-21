@@ -180,6 +180,36 @@ exports.Prisma.DeviceScalarFieldEnum = {
   deletionStatus: 'deletionStatus'
 };
 
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  planName: 'planName',
+  expireAt: 'expireAt',
+  nextPaymentDate: 'nextPaymentDate',
+  autoRenewal: 'autoRenewal',
+  paymentMethod: 'paymentMethod',
+  isActive: 'isActive'
+};
+
+exports.Prisma.SubscriptionPaymentsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  price: 'price'
+};
+
+exports.Prisma.PaymentsTransactionsScalarFieldEnum = {
+  id: 'id',
+  productIds: 'productIds',
+  price: 'price',
+  paymentSystems: 'paymentSystems',
+  status: 'status',
+  createAt: 'createAt',
+  updateAt: 'updateAt',
+  url: 'url',
+  anyPaymentsSystemData: 'anyPaymentsSystemData',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -199,13 +229,22 @@ exports.DeletionStatus = exports.$Enums.DeletionStatus = {
   Deleted: 'Deleted'
 };
 
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  Confirmend: 'Confirmend',
+  PandingPayment: 'PandingPayment',
+  Failed: 'Failed'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   UserMetadata: 'UserMetadata',
   UserAvatar: 'UserAvatar',
   AuthAccount: 'AuthAccount',
   Post: 'Post',
-  Device: 'Device'
+  Device: 'Device',
+  Subscription: 'Subscription',
+  SubscriptionPayments: 'SubscriptionPayments',
+  PaymentsTransactions: 'PaymentsTransactions'
 };
 
 /**

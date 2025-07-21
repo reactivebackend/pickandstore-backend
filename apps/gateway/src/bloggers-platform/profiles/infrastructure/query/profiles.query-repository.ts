@@ -3,6 +3,7 @@ import { PrismaService } from '../../../../../prisma/prisma.service';
 import { ProfileViewDto } from '../../api/view-dto/profile.view-dto';
 import { DeletionStatus } from '../../../../../generated/prisma';
 import { ProfileAvatarViewDto } from '../../api/view-dto/profile-avatar.view-dto';
+import { CurrentSubscriptionsViewDto } from '../../api/view-dto/current-subscription.view-dto';
 
 @Injectable()
 export class ProfilesQueryRepository {
@@ -45,5 +46,20 @@ export class ProfilesQueryRepository {
     }
 
     return ProfileAvatarViewDto.mapToView(avatar);
+  }
+  async getCurrentSubscriptions(
+    userId: number,
+  ): Promise<CurrentSubscriptionsViewDto> {
+    const subscriptions = await this.prismaService.subscription.findFirst({
+      where: {
+        userId: userId,
+      },
+    });
+
+    if (!subscriptions) {
+      throw new NotFoundException('Subscriptions not found');
+    }
+
+    return CurrentSubscriptionsViewDto.mapToView(subscriptions);
   }
 }
