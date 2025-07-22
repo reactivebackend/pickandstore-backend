@@ -266,6 +266,6 @@ export class AuthController {
         sameSite: 'none',
         maxAge: 15 * 60 * 1000,
       })
-      .json({ accessToken: accessToken });
+      .redirect('http://localhost:3000/auth/github/callback');
   }
 }
