@@ -37,10 +37,6 @@ import { TerminateDeviceUseCase } from './application/usecases/devices/terminate
 import { RecaptchaService } from './application/recaptcha.service';
 import { HttpModule } from '@nestjs/axios';
 import { RecaptchaConfig } from './config/recaptcha.config';
-import { PaymentsController } from './api/payments.controller';
-import { BuySubscriptionUseCase } from './application/usecases/payments/stripe-buy.usecase';
-import { SubscriptionRepository } from './infrastructure/subscription-repository';
-import { PaymentsRepository } from './infrastructure/payments-repository';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -52,7 +48,6 @@ const userUseCases = [
   LoginUserUseCase,
   PasswordRecoveryUseCase,
   PasswordUpdateUseCase,
-  BuySubscriptionUseCase,
 ];
 
 const deviceUseCases = [
@@ -81,15 +76,13 @@ const strategies = [
     JwtModule,
     HttpModule.register({}),
   ],
-  controllers: [AuthController, DevicesController, PaymentsController],
+  controllers: [AuthController, DevicesController],
   providers: [
     AuthConfig,
     JwtConfig,
     OAuthConfig,
     RecaptchaConfig,
     UsersRepository,
-    SubscriptionRepository,
-    PaymentsRepository,
     UsersQueryRepository,
     DevicesRepository,
     DevicesQueryRepository,

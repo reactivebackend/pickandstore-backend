@@ -180,31 +180,33 @@ exports.Prisma.DeviceScalarFieldEnum = {
   deletionStatus: 'deletionStatus'
 };
 
-exports.Prisma.SubscriptionScalarFieldEnum = {
+exports.Prisma.UserSubscriptionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  planName: 'planName',
   expireAt: 'expireAt',
+  dateOfPayment: 'dateOfPayment',
   nextPaymentDate: 'nextPaymentDate',
   autoRenewal: 'autoRenewal',
-  paymentMethod: 'paymentMethod',
-  isActive: 'isActive'
+  paymentMethod: 'paymentMethod'
 };
 
-exports.Prisma.SubscriptionPaymentsScalarFieldEnum = {
+exports.Prisma.AvailableSubscriptionScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  price: 'price'
+  price: 'price',
+  typeSubscription: 'typeSubscription'
 };
 
-exports.Prisma.PaymentsTransactionsScalarFieldEnum = {
+exports.Prisma.SubscriptionTransactionsScalarFieldEnum = {
   id: 'id',
-  productIds: 'productIds',
+  subscriptionId: 'subscriptionId',
   price: 'price',
   paymentSystems: 'paymentSystems',
   status: 'status',
   createAt: 'createAt',
-  updateAt: 'updateAt',
+  dateOfPayment: 'dateOfPayment',
+  endDateOfSubscription: 'endDateOfSubscription',
+  subscriptionType: 'subscriptionType',
   url: 'url',
   anyPaymentsSystemData: 'anyPaymentsSystemData',
   userId: 'userId'
@@ -229,6 +231,12 @@ exports.DeletionStatus = exports.$Enums.DeletionStatus = {
   Deleted: 'Deleted'
 };
 
+exports.SubscriptionType = exports.$Enums.SubscriptionType = {
+  MONTHLY: 'MONTHLY',
+  DAY: 'DAY',
+  WEEKLY: 'WEEKLY'
+};
+
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   Confirmend: 'Confirmend',
   PandingPayment: 'PandingPayment',
@@ -242,9 +250,9 @@ exports.Prisma.ModelName = {
   AuthAccount: 'AuthAccount',
   Post: 'Post',
   Device: 'Device',
-  Subscription: 'Subscription',
-  SubscriptionPayments: 'SubscriptionPayments',
-  PaymentsTransactions: 'PaymentsTransactions'
+  UserSubscription: 'UserSubscription',
+  AvailableSubscription: 'AvailableSubscription',
+  SubscriptionTransactions: 'SubscriptionTransactions'
 };
 
 /**

@@ -20,10 +20,16 @@ enum PaymentStatus {
   Failed
 }
 
+enum SubscriptionType {
+  MONTHLY
+  DAY
+  WEEKLY
+}
+
 model User {
-  id             Int                    @id @default(autoincrement())
-  username       String                 @unique
-  email          String                 @unique
+  id             Int                        @id @default(autoincrement())
+  username       String                     @unique
+  email          String                     @unique
   firstName      String?
   lastName       String?
   dateOfBirth    DateTime?
@@ -31,16 +37,16 @@ model User {
   city           String?
   aboutMe        String?
   passwordHash   String?
-  deletionStatus DeletionStatus         @default(NotDeleted)
-  createdAt      DateTime               @default(now())
-  updatedAt      DateTime               @updatedAt
-  userMetadata   UserMetadata?          @relation("UserMetadata")
-  authAccounts   AuthAccount[]          @relation("AuthAccounts")
-  devices        Device[]               @relation("Devices")
+  deletionStatus DeletionStatus             @default(NotDeleted)
+  createdAt      DateTime                   @default(now())
+  updatedAt      DateTime                   @updatedAt
+  userMetadata   UserMetadata?              @relation("UserMetadata")
+  authAccounts   AuthAccount[]              @relation("AuthAccounts")
+  devices        Device[]                   @relation("Devices")
   posts          Post[]
-  userAvatars    UserAvatar[]           @relation("UserAvatars")
-  subscription   Subscription[]         @relation("Subscription")
-  payments       PaymentsTransactions[] @relation("PaymentsTransactions")
+  userAvatars    UserAvatar[]               @relation("UserAvatars")
+  subscription   UserSubscription[]         @relation("UserSubscription")
+  payments       SubscriptionTransactions[] @relation("SubscriptionTransactions")
 }
 
 model UserMetadata {
@@ -94,34 +100,38 @@ model Device {
   user           User           @relation("Devices", fields: [userId], references: [id])
 }
 
-model Subscription {
+model UserSubscription {
   id              Int      @id @default(autoincrement())
   userId          Int
-  planName        String
   expireAt        DateTime
+  dateOfPayment   DateTime
   nextPaymentDate DateTime
-  autoRenewal     Boolean  @default(false)
+  autoRenewal     Boolean  @default(true)
   paymentMethod   String
-  isActive        Boolean
-  user            User     @relation("Subscription", fields: [userId], references: [id])
+  user            User     @relation("UserSubscription", fields: [userId], references: [id])
 }
 
-model SubscriptionPayments {
-  id    Int    @id @default(autoincrement())
-  title String
-  price Int
+model AvailableSubscription {
+  id                       Int                        @id @default(autoincrement())
+  title                    String
+  price                    Int
+  typeSubscription         SubscriptionType
+  subscriptionTransactions SubscriptionTransactions[] @relation("SubscriptionTransactions")
 }
 
-model PaymentsTransactions {
-  id                    Int           @id @default(autoincrement())
-  productIds            Int
+model SubscriptionTransactions {
+  id                    Int                   @id @default(autoincrement())
+  subscriptionId        Int
   price                 Int
   paymentSystems        String
-  status                PaymentStatus @default(PandingPayment)
-  createAt              DateTime
-  updateAt              DateTime?
+  status                PaymentStatus         @default(PandingPayment)
+  createAt              DateTime              @default(now())
+  dateOfPayment         DateTime?
+  endDateOfSubscription DateTime?
+  subscriptionType      SubscriptionType
   url                   String
   anyPaymentsSystemData String?
   userId                Int
-  user                  User          @relation("PaymentsTransactions", fields: [userId], references: [id])
+  user                  User                  @relation("SubscriptionTransactions", fields: [userId], references: [id])
+  availableSubscription AvailableSubscription @relation("SubscriptionTransactions", fields: [subscriptionId], references: [id])
 }
