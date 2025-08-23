@@ -3,9 +3,12 @@ import { AppModule } from './app.module';
 import { CoreConfig } from '../../../libs/config/core.config';
 import { appSetup } from '../../../libs/setup/app.setup';
 import cookieParser from 'cookie-parser';
+import * as express from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true,
+  });
   const appConfig = app.get<CoreConfig>(CoreConfig);
 
   app.use(cookieParser());

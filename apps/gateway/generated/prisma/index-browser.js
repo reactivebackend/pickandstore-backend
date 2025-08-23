@@ -131,6 +131,7 @@ exports.Prisma.UserScalarFieldEnum = {
   city: 'city',
   aboutMe: 'aboutMe',
   passwordHash: 'passwordHash',
+  hasActiveSubscription: 'hasActiveSubscription',
   deletionStatus: 'deletionStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -180,6 +181,39 @@ exports.Prisma.DeviceScalarFieldEnum = {
   deletionStatus: 'deletionStatus'
 };
 
+exports.Prisma.AvailableSubscriptionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  price: 'price',
+  period: 'period'
+};
+
+exports.Prisma.SubscriptionTransactionsScalarFieldEnum = {
+  id: 'id',
+  subscriptionId: 'subscriptionId',
+  userId: 'userId',
+  externalTransactionId: 'externalTransactionId',
+  paymentSystem: 'paymentSystem',
+  status: 'status',
+  paymentDate: 'paymentDate',
+  createdAt: 'createdAt',
+  url: 'url'
+};
+
+exports.Prisma.UserSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subscriptionId: 'subscriptionId',
+  transactionId: 'transactionId',
+  subscriptionStartDate: 'subscriptionStartDate',
+  subscriptionEndDate: 'subscriptionEndDate',
+  nextPaymentDate: 'nextPaymentDate',
+  autoRenewal: 'autoRenewal',
+  notified: 'notified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -199,13 +233,33 @@ exports.DeletionStatus = exports.$Enums.DeletionStatus = {
   Deleted: 'Deleted'
 };
 
+exports.SubscriptionPeriod = exports.$Enums.SubscriptionPeriod = {
+  DAY: 'DAY',
+  WEEK: 'WEEK',
+  MONTH: 'MONTH'
+};
+
+exports.PaymentSystem = exports.$Enums.PaymentSystem = {
+  STRIPE: 'STRIPE',
+  PAYPAL: 'PAYPAL',
+  CREDIT_CARD: 'CREDIT_CARD'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  Confirmed: 'Confirmed',
+  Pending: 'Pending'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   UserMetadata: 'UserMetadata',
   UserAvatar: 'UserAvatar',
   AuthAccount: 'AuthAccount',
   Post: 'Post',
-  Device: 'Device'
+  Device: 'Device',
+  AvailableSubscription: 'AvailableSubscription',
+  SubscriptionTransactions: 'SubscriptionTransactions',
+  UserSubscription: 'UserSubscription'
 };
 
 /**
