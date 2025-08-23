@@ -23,6 +23,8 @@
     "start:dev:gateway": "cross-env NODE_ENV=development nest start gateway --watch",
     "build:files": "nest build files",
     "start:files": "node dist/apps/files/main",
+    "build:payments": "nest build payments",
+    "start:payments": "node dist/apps/payments/main",
     "start:dev:debug:files": "cross-env NODE_ENV=development nest start files --watch --debug",
     "start:dev:debug:payments": "cross-env NODE_ENV=development nest start payments --watch --debug",
     "start:dev:debug:gateway": "cross-env NODE_ENV=development nest start gateway --watch --debug",
