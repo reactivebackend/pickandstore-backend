@@ -202,6 +202,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "darwin-arm64"
       }
     ],
     "previewFeatures": [],
@@ -219,6 +227,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -227,8 +236,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum DeletionStatus {\n  NotDeleted\n  Deleted\n}\n\nmodel User {\n  id             Int            @id @default(autoincrement())\n  username       String         @unique\n  email          String         @unique\n  firstName      String?\n  lastName       String?\n  dateOfBirth    DateTime?\n  country        String?\n  city           String?\n  aboutMe        String?\n  passwordHash   String?\n  deletionStatus DeletionStatus @default(NotDeleted)\n  createdAt      DateTime       @default(now())\n  updatedAt      DateTime       @updatedAt\n  userMetadata   UserMetadata?  @relation(\"UserMetadata\")\n  authAccounts   AuthAccount[]  @relation(\"AuthAccounts\")\n  devices        Device[]       @relation(\"Devices\")\n  posts          Post[]\n  userAvatars    UserAvatar[]   @relation(\"UserAvatars\")\n}\n\nmodel UserMetadata {\n  userId                      Int       @id\n  user                        User      @relation(\"UserMetadata\", fields: [userId], references: [id])\n  emailConfirmationCode       String?   @db.VarChar(255)\n  emailConfirmationExpiration DateTime?\n  isEmailConfirmed            Boolean   @default(false)\n  passwordRecoveryCode        String?   @db.VarChar(255)\n  passwordRecoveryExpiration  DateTime?\n}\n\nmodel UserAvatar {\n  id             Int            @id @default(autoincrement())\n  userId         Int\n  avatarUrl      String\n  createdAt      DateTime       @default(now())\n  deletionStatus DeletionStatus @default(NotDeleted)\n  user           User           @relation(\"UserAvatars\", fields: [userId], references: [id])\n}\n\nmodel AuthAccount {\n  id         Int      @id @default(autoincrement())\n  provider   String\n  providerId String\n  userId     Int\n  user       User     @relation(\"AuthAccounts\", fields: [userId], references: [id])\n  createdAt  DateTime @default(now())\n\n  @@unique([provider, providerId])\n}\n\nmodel Post {\n  id             Int            @id @default(autoincrement())\n  userId         Int\n  description    String?\n  imageUrl       String[]       @default([])\n  createdAt      DateTime       @default(now())\n  deletionStatus DeletionStatus @default(NotDeleted)\n  user           User           @relation(fields: [userId], references: [id])\n}\n\nmodel Device {\n  id             String         @id @db.Uuid\n  userId         Int\n  title          String\n  ip             String\n  lastActiveDate DateTime\n  expirationDate DateTime\n  deletionStatus DeletionStatus @default(NotDeleted)\n  user           User           @relation(\"Devices\", fields: [userId], references: [id])\n}\n",
-  "inlineSchemaHash": "72e6590c9ba5d7e4083358d0ee00553467e0a4853b3c4f6d9ef9a31f90f98a20",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"windows\", \"darwin-arm64\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum DeletionStatus {\n  NotDeleted\n  Deleted\n}\n\nmodel User {\n  id             Int            @id @default(autoincrement())\n  username       String         @unique\n  email          String         @unique\n  firstName      String?\n  lastName       String?\n  dateOfBirth    DateTime?\n  country        String?\n  city           String?\n  aboutMe        String?\n  passwordHash   String?\n  deletionStatus DeletionStatus @default(NotDeleted)\n  createdAt      DateTime       @default(now())\n  updatedAt      DateTime       @updatedAt\n  userMetadata   UserMetadata?  @relation(\"UserMetadata\")\n  authAccounts   AuthAccount[]  @relation(\"AuthAccounts\")\n  devices        Device[]       @relation(\"Devices\")\n  posts          Post[]\n  userAvatars    UserAvatar[]   @relation(\"UserAvatars\")\n}\n\nmodel UserMetadata {\n  userId                      Int       @id\n  user                        User      @relation(\"UserMetadata\", fields: [userId], references: [id])\n  emailConfirmationCode       String?   @db.VarChar(255)\n  emailConfirmationExpiration DateTime?\n  isEmailConfirmed            Boolean   @default(false)\n  passwordRecoveryCode        String?   @db.VarChar(255)\n  passwordRecoveryExpiration  DateTime?\n}\n\nmodel UserAvatar {\n  id             Int            @id @default(autoincrement())\n  userId         Int\n  avatarUrl      String\n  createdAt      DateTime       @default(now())\n  deletionStatus DeletionStatus @default(NotDeleted)\n  user           User           @relation(\"UserAvatars\", fields: [userId], references: [id])\n}\n\nmodel AuthAccount {\n  id         Int      @id @default(autoincrement())\n  provider   String\n  providerId String\n  userId     Int\n  user       User     @relation(\"AuthAccounts\", fields: [userId], references: [id])\n  createdAt  DateTime @default(now())\n\n  @@unique([provider, providerId])\n}\n\nmodel Post {\n  id             Int            @id @default(autoincrement())\n  userId         Int\n  description    String?\n  imageUrl       String[]       @default([])\n  createdAt      DateTime       @default(now())\n  deletionStatus DeletionStatus @default(NotDeleted)\n  user           User           @relation(fields: [userId], references: [id])\n}\n\nmodel Device {\n  id             String         @id @db.Uuid\n  userId         Int\n  title          String\n  ip             String\n  lastActiveDate DateTime\n  expirationDate DateTime\n  deletionStatus DeletionStatus @default(NotDeleted)\n  user           User           @relation(\"Devices\", fields: [userId], references: [id])\n}\n",
+  "inlineSchemaHash": "ff9f39962a33317f77e6a20d759eaef81e95bb990f89625383a8edb6b18ed28c",
   "copyEngine": true
 }
 
@@ -269,6 +278,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "apps/gateway/generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "apps/gateway/generated/prisma/libquery_engine-darwin-arm64.dylib.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "apps/gateway/generated/prisma/schema.prisma")

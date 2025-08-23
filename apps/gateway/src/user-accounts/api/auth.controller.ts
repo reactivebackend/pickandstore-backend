@@ -105,6 +105,12 @@ export class AuthController {
         secure: true,
         sameSite: 'none',
       })
+      .cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
+      })
       .json({ accessToken: accessToken });
   }
 
@@ -112,8 +118,24 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(@ExtractDeviceFromCookie() deviceId: string): Promise<void> {
-    return this.commandBus.execute(new LogoutUserCommand(deviceId));
+  async logout(
+    @ExtractDeviceFromCookie() deviceId: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    await this.commandBus.execute(new LogoutUserCommand(deviceId));
+
+    res
+      .clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      })
+      .clearCookie('accessToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      })
+      .sendStatus(HttpStatus.NO_CONTENT);
   }
 
   @RefreshTokensDocs()
@@ -138,6 +160,12 @@ export class AuthController {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
+      })
+      .cookie('accessToken', newAccessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
       })
       .json({ accessToken: newAccessToken });
   }
@@ -196,7 +224,14 @@ export class AuthController {
         secure: true,
         sameSite: 'none',
       })
-      .json({ accessToken: accessToken });
+      .cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
+      })
+      // .redirect('https://pickandstore.com/auth/google/callback');
+      .redirect('http://localhost:3000/auth/google/callback');
   }
 
   @GithubAuthDocs()
@@ -225,6 +260,12 @@ export class AuthController {
         secure: true,
         sameSite: 'none',
       })
-      .json({ accessToken: accessToken });
+      .cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 15 * 60 * 1000,
+      })
+      .redirect('http://localhost:3000/auth/github/callback');
   }
 }

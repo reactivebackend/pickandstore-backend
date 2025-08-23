@@ -35,6 +35,7 @@ export class DevicesRepository {
     const device = await this.prismaService.device.findUnique({
       where: {
         id: deviceId,
+        deletionStatus: DeletionStatus.NotDeleted,
       },
     });
 
@@ -49,6 +50,7 @@ export class DevicesRepository {
     return this.prismaService.device.findUnique({
       where: {
         id: deviceId,
+        deletionStatus: DeletionStatus.NotDeleted,
       },
     });
   }
@@ -97,6 +99,7 @@ export class DevicesRepository {
     return this.prismaService.device.update({
       where: {
         id: deviceId,
+        deletionStatus: DeletionStatus.NotDeleted,
       },
       data: {
         lastActiveDate: dto.lastActiveDate,

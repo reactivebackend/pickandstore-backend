@@ -4,6 +4,8 @@ import { CryptoService } from './crypto.service';
 import { User } from '../../../generated/prisma';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDataDto } from '../dto/refresh-token-data.dto';
+import { nanoid } from 'nanoid';
+import { BadRequestDomainException } from '../../../../../libs/exceptions/domain-exceptions';
 
 @Injectable()
 export class AuthService {
@@ -66,16 +68,26 @@ export class AuthService {
     let user = await this.usersRepository.getUserByEmail(email);
 
     if (!user) {
-      let username: string;
+      let baseUsername: string;
 
       if (provider === 'github') {
-        username = profile.username;
+        baseUsername = profile.username;
       } else {
-        username = profile.displayName;
+        baseUsername = profile.displayName || 'user';
       }
 
-      user = await this.usersRepository.createUser(username, email);
-      await this.usersRepository.updateEmailConfirmationStatus(user.id);
+      const username = `${baseUsername}-${nanoid(6)}`;
+
+      try {
+        user = await this.usersRepository.createUser(username, email);
+        await this.usersRepository.updateEmailConfirmationStatus(user.id);
+      } catch (err) {
+        console.error('Ошибка при создании пользователя:', err);
+        throw BadRequestDomainException.create(
+          'User with this email or username already exists',
+          'username/email',
+        );
+      }
     }
 
     await this.usersRepository.createAuthAccountForUser(
