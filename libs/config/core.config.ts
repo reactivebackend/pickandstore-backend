@@ -17,11 +17,31 @@ export class CoreConfig {
   @IsNumber({}, { message: 'Set ENV variable FILES_SERVICE_PORT' })
   filesPort: number;
 
+  @IsNotEmpty({ message: 'Set ENV variable PAYMENTS_SERVICE_HOST' })
+  paymentsHost: string;
+
+  @IsNumber({}, { message: 'Set ENV variable PAYMENTS_SERVICE_TCP_PORT' })
+  paymentsTcpPort: number;
+
+  @IsNumber({}, { message: 'Set ENV variable PAYMENTS_SERVICE_HTTP_PORT' })
+  paymentsHttpPort: number;
+
+  @IsNotEmpty({ message: 'Set ENV variable RABBIT_MQ_URL' })
+  rabbitMqUrl: string;
+
   constructor(private configService: ConfigService<any, true>) {
     this.port = Number(this.configService.get('PORT'));
     this.databaseURL = this.configService.get('DATABASE_URL');
     this.filesHost = this.configService.get('FILES_SERVICE_HOST');
     this.filesPort = Number(this.configService.get('FILES_SERVICE_PORT'));
+    this.paymentsHost = this.configService.get('PAYMENTS_SERVICE_HOST');
+    this.paymentsTcpPort = Number(
+      this.configService.get('PAYMENTS_SERVICE_TCP_PORT'),
+    );
+    this.paymentsHttpPort = Number(
+      this.configService.get('PAYMENTS_SERVICE_HTTP_PORT'),
+    );
+    this.rabbitMqUrl = this.configService.get('RABBIT_MQ_URL');
 
     configValidationUtility.validateConfig(this);
   }

@@ -131,6 +131,7 @@ exports.Prisma.UserScalarFieldEnum = {
   city: 'city',
   aboutMe: 'aboutMe',
   passwordHash: 'passwordHash',
+  hasActiveSubscription: 'hasActiveSubscription',
   deletionStatus: 'deletionStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -180,36 +181,37 @@ exports.Prisma.DeviceScalarFieldEnum = {
   deletionStatus: 'deletionStatus'
 };
 
-exports.Prisma.UserSubscriptionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  expireAt: 'expireAt',
-  dateOfPayment: 'dateOfPayment',
-  nextPaymentDate: 'nextPaymentDate',
-  autoRenewal: 'autoRenewal',
-  paymentMethod: 'paymentMethod'
-};
-
 exports.Prisma.AvailableSubscriptionScalarFieldEnum = {
   id: 'id',
   title: 'title',
   price: 'price',
-  typeSubscription: 'typeSubscription'
+  period: 'period'
 };
 
 exports.Prisma.SubscriptionTransactionsScalarFieldEnum = {
   id: 'id',
   subscriptionId: 'subscriptionId',
-  price: 'price',
-  paymentSystems: 'paymentSystems',
+  userId: 'userId',
+  externalTransactionId: 'externalTransactionId',
+  paymentSystem: 'paymentSystem',
   status: 'status',
-  createAt: 'createAt',
-  dateOfPayment: 'dateOfPayment',
-  endDateOfSubscription: 'endDateOfSubscription',
-  subscriptionType: 'subscriptionType',
-  url: 'url',
-  anyPaymentsSystemData: 'anyPaymentsSystemData',
-  userId: 'userId'
+  paymentDate: 'paymentDate',
+  createdAt: 'createdAt',
+  url: 'url'
+};
+
+exports.Prisma.UserSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subscriptionId: 'subscriptionId',
+  transactionId: 'transactionId',
+  subscriptionStartDate: 'subscriptionStartDate',
+  subscriptionEndDate: 'subscriptionEndDate',
+  nextPaymentDate: 'nextPaymentDate',
+  autoRenewal: 'autoRenewal',
+  notified: 'notified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -231,16 +233,21 @@ exports.DeletionStatus = exports.$Enums.DeletionStatus = {
   Deleted: 'Deleted'
 };
 
-exports.SubscriptionType = exports.$Enums.SubscriptionType = {
-  MONTHLY: 'MONTHLY',
+exports.SubscriptionPeriod = exports.$Enums.SubscriptionPeriod = {
   DAY: 'DAY',
-  WEEKLY: 'WEEKLY'
+  WEEK: 'WEEK',
+  MONTH: 'MONTH'
+};
+
+exports.PaymentSystem = exports.$Enums.PaymentSystem = {
+  STRIPE: 'STRIPE',
+  PAYPAL: 'PAYPAL',
+  CREDIT_CARD: 'CREDIT_CARD'
 };
 
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
-  Confirmend: 'Confirmend',
-  PandingPayment: 'PandingPayment',
-  Failed: 'Failed'
+  Confirmed: 'Confirmed',
+  Pending: 'Pending'
 };
 
 exports.Prisma.ModelName = {
@@ -250,9 +257,9 @@ exports.Prisma.ModelName = {
   AuthAccount: 'AuthAccount',
   Post: 'Post',
   Device: 'Device',
-  UserSubscription: 'UserSubscription',
   AvailableSubscription: 'AvailableSubscription',
-  SubscriptionTransactions: 'SubscriptionTransactions'
+  SubscriptionTransactions: 'SubscriptionTransactions',
+  UserSubscription: 'UserSubscription'
 };
 
 /**
