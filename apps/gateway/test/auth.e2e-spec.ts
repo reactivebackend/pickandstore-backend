@@ -92,6 +92,7 @@ describe('auth', () => {
 
     expect(responseBody).toEqual({
       username: expect.anything(),
+      hasActiveSubscription: false,
       userId: expect.anything(),
       email: expect.anything(),
     } as MeViewDto);

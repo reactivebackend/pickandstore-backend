@@ -12,6 +12,7 @@ import { PostsTestManager } from './posts-test-manager';
 import { AppService } from '../../src/app.service';
 import { FilesMicroserviceMock } from '../mock/files-microservice.mock';
 import { ProfilesTestManager } from './profiles-test-manager';
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 
 export const initSettings = async (
   addSettingsToModuleBuilder?: (moduleBuilder: TestingModuleBuilder) => void,
@@ -22,7 +23,9 @@ export const initSettings = async (
     .overrideProvider(EmailService)
     .useClass(EmailServiceMock)
     .overrideProvider(AppService)
-    .useClass(FilesMicroserviceMock);
+    .useClass(FilesMicroserviceMock)
+    .overrideProvider(RabbitMQModule)
+    .useValue({});
 
   if (addSettingsToModuleBuilder) {
     addSettingsToModuleBuilder(testingModuleBuilder);
