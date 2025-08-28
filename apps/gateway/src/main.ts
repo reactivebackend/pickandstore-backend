@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { CoreConfig } from '../../../libs/config/core.config';
 import { appSetup } from '../../../libs/setup/app.setup';
 import cookieParser from 'cookie-parser';
-import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -22,6 +22,12 @@ async function bootstrap() {
   });
   app.getHttpAdapter().getInstance().set('trust proxy', 1);
   appSetup(app);
+
+  app.use(
+    '/api/v1/subscriptions/stripe/notification-hook',
+    bodyParser.raw({ type: 'application/json' }),
+  );
+
   await app.listen(appConfig.port);
 }
 

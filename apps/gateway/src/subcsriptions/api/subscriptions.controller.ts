@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Inject,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ExtractUserFromRequest } from '../../user-accounts/guards/decorators/extract-user-id-from-request.decorator';
@@ -146,5 +147,24 @@ export class SubscriptionsController {
         data.hasActiveSubscription,
       ),
     );
+  }
+
+  @Post('stripe/notification-hook')
+  async stripeWebhook(@Req() req: Request) {
+    try {
+      const rawBodyBuffer = req.body as unknown as Buffer;
+      const signature = req.headers['stripe-signature'] as string;
+
+      console.log('rawBodyBuffer: ', rawBodyBuffer);
+
+      return await this.paymentsClient
+        .send('stripe_webhook', {
+          rawBodyBase64: rawBodyBuffer.toString('base64'),
+          signature,
+        })
+        .toPromise();
+    } catch (error) {
+      handleRpcError(error);
+    }
   }
 }

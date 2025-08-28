@@ -27,7 +27,7 @@ const subscriptionsUseCases = [UpdateUserSubscriptionStatusUseCase];
           transport: Transport.TCP,
           options: {
             host: coreConfig.paymentsHost,
-            port: coreConfig.paymentsTcpPort,
+            port: coreConfig.paymentsPort,
           },
         }),
       },

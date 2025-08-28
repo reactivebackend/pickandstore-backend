@@ -1,4 +1,4 @@
-import { Controller, Post, Req } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateStripePaymentCommand } from '../application/usecases/create-stripe-payment.usecase';
 import { FinishStripePaymentCommand } from '../application/usecases/finish-stripe-payment.usecase';
@@ -60,14 +60,16 @@ export class PaymentsSubscriptionsController {
     return this.paymentsQueryRepository.getMyPaymentsOrNotFoundFail(userId);
   }
 
-  @Post('stripe/notification-hook')
-  async stripeWebhook(@Req() req: Request) {
-    const rawBodyBuffer = req.body as unknown as Buffer;
-    const signature = req.headers['stripe-signature'] as string;
+  @MessagePattern('stripe_webhook')
+  async stripeWebhook(
+    @Payload() data: { rawBodyBase64: string; signature: string },
+  ) {
+    const rawBodyBuffer = Buffer.from(data.rawBodyBase64, 'base64');
 
     await this.commandBus.execute(
-      new FinishStripePaymentCommand(rawBodyBuffer, signature),
+      new FinishStripePaymentCommand(rawBodyBuffer, data.signature),
     );
+
     return { status: 'ok' };
   }
 
