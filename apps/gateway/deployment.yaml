@@ -127,16 +127,11 @@ spec:
                 secretKeyRef:
                   name: gateway-mono-production-config-secret
                   key: PAYMENTS_SERVICE_HOST
-            - name: PAYMENTS_SERVICE_TCP_PORT
+            - name: PAYMENTS_SERVICE_PORT
               valueFrom:
                 secretKeyRef:
                   name: gateway-mono-production-config-secret
-                  key: PAYMENTS_SERVICE_TCP_PORT
-            - name: PAYMENTS_SERVICE_HTTP_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: gateway-mono-production-config-secret
-                  key: PAYMENTS_SERVICE_HTTP_PORT
+                  key: PAYMENTS_SERVICE_PORT
             - name: RABBIT_MQ_URL
               valueFrom:
                 secretKeyRef:

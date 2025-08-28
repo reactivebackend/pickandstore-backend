@@ -27,16 +27,11 @@ spec:
                 secretKeyRef:
                   name: payments-mono-production-config-secret
                   key: PAYMENTS_SERVICE_HOST
-            - name: PAYMENTS_SERVICE_TCP_PORT
+            - name: PAYMENTS_SERVICE_PORT
               valueFrom:
                 secretKeyRef:
                   name: payments-mono-production-config-secret
-                  key: PAYMENTS_SERVICE_TCP_PORT
-            - name: PAYMENTS_SERVICE_HTTP_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: payments-mono-production-config-secret
-                  key: PAYMENTS_SERVICE_HTTP_PORT
+                  key: PAYMENTS_SERVICE_PORT
             - name: STRIPE_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
