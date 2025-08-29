@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: payments-mono-production-config-secret
                   key: STRIPE_EVENT_KEY
+            - name: RABBIT_MQ_URL
+              valueFrom:
+                secretKeyRef:
+                  name: payments-mono-production-config-secret
+                  key: RABBIT_MQ_URL
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
