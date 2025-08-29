@@ -155,8 +155,6 @@ export class SubscriptionsController {
       const rawBodyBuffer = req.body as unknown as Buffer;
       const signature = req.headers['stripe-signature'] as string;
 
-      console.log('rawBodyBuffer: ', rawBodyBuffer);
-
       return await this.paymentsClient
         .send('stripe_webhook', {
           rawBodyBase64: rawBodyBuffer.toString('base64'),
