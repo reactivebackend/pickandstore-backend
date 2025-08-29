@@ -37,12 +37,19 @@ export class MeViewDto extends OmitType(UserViewDto, [
   })
   userId: string;
 
+  @ApiProperty({
+    example: true,
+    type: 'boolean',
+  })
+  hasActiveSubscription: boolean;
+
   static mapToView(user: User): MeViewDto {
     const dto = new MeViewDto();
 
     dto.email = user.email;
     dto.username = user.username;
     dto.userId = user.id.toString();
+    dto.hasActiveSubscription = user.hasActiveSubscription;
 
     return dto;
   }

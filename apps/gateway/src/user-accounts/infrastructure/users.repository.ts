@@ -197,4 +197,18 @@ export class UsersRepository {
       },
     });
   }
+
+  async updateSubscriptionStatus(
+    userId: number,
+    hasActiveSubscription: boolean,
+  ): Promise<void> {
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hasActiveSubscription: hasActiveSubscription,
+      },
+    });
+  }
 }

@@ -1,7 +1,7 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../generated/prisma"
-  binaryTargets = ["native", "windows", "darwin-arm64"]
+  binaryTargets = ["native", "windows", "darwin-arm64", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -14,25 +14,45 @@ enum DeletionStatus {
   Deleted
 }
 
+enum PaymentStatus {
+  Confirmed
+  Pending
+}
+
+enum SubscriptionPeriod {
+  DAY
+  WEEK
+  MONTH
+}
+
+enum PaymentSystem {
+  STRIPE
+  PAYPAL
+  CREDIT_CARD
+}
+
 model User {
-  id             Int            @id @default(autoincrement())
-  username       String         @unique
-  email          String         @unique
-  firstName      String?
-  lastName       String?
-  dateOfBirth    DateTime?
-  country        String?
-  city           String?
-  aboutMe        String?
-  passwordHash   String?
-  deletionStatus DeletionStatus @default(NotDeleted)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  userMetadata   UserMetadata?  @relation("UserMetadata")
-  authAccounts   AuthAccount[]  @relation("AuthAccounts")
-  devices        Device[]       @relation("Devices")
-  posts          Post[]
-  userAvatars    UserAvatar[]   @relation("UserAvatars")
+  id                    Int                        @id @default(autoincrement())
+  username              String                     @unique
+  email                 String                     @unique
+  firstName             String?
+  lastName              String?
+  dateOfBirth           DateTime?
+  country               String?
+  city                  String?
+  aboutMe               String?
+  passwordHash          String?
+  hasActiveSubscription Boolean                    @default(false)
+  deletionStatus        DeletionStatus             @default(NotDeleted)
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @updatedAt
+  userMetadata          UserMetadata?              @relation("UserMetadata")
+  authAccounts          AuthAccount[]              @relation("AuthAccounts")
+  devices               Device[]                   @relation("Devices")
+  posts                 Post[]
+  userAvatars           UserAvatar[]               @relation("UserAvatars")
+  subscription          UserSubscription[]         @relation("UserSubscription")
+  payments              SubscriptionTransactions[] @relation("SubscriptionTransactions")
 }
 
 model UserMetadata {
@@ -84,4 +104,48 @@ model Device {
   expirationDate DateTime
   deletionStatus DeletionStatus @default(NotDeleted)
   user           User           @relation("Devices", fields: [userId], references: [id])
+}
+
+model AvailableSubscription {
+  id     Int                @id @default(autoincrement())
+  title  String
+  price  Int
+  period SubscriptionPeriod
+
+  subscriptionTransactions SubscriptionTransactions[] @relation("AvailableSubscription_Transactions")
+  userSubscriptions        UserSubscription[]         @relation("AvailableSubscription_UserSubscriptions")
+}
+
+model SubscriptionTransactions {
+  id                    Int           @id @default(autoincrement())
+  subscriptionId        Int
+  userId                Int
+  externalTransactionId String?
+  paymentSystem         PaymentSystem
+  status                PaymentStatus @default(Pending)
+  paymentDate           DateTime?
+  createdAt             DateTime      @default(now())
+  url                   String?
+
+  user                  User                  @relation("SubscriptionTransactions", fields: [userId], references: [id])
+  availableSubscription AvailableSubscription @relation("AvailableSubscription_Transactions", fields: [subscriptionId], references: [id])
+  userSubscription      UserSubscription?     @relation("Transaction_UserSubscription")
+}
+
+model UserSubscription {
+  id                    Int       @id @default(autoincrement())
+  userId                Int
+  subscriptionId        Int
+  transactionId         Int       @unique
+  subscriptionStartDate DateTime
+  subscriptionEndDate   DateTime
+  nextPaymentDate       DateTime?
+  autoRenewal           Boolean   @default(true)
+  notified              Boolean   @default(false)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user                     User                     @relation("UserSubscription", fields: [userId], references: [id])
+  availableSubscription    AvailableSubscription    @relation("AvailableSubscription_UserSubscriptions", fields: [subscriptionId], references: [id])
+  subscriptionTransactions SubscriptionTransactions @relation("Transaction_UserSubscription", fields: [transactionId], references: [id])
 }

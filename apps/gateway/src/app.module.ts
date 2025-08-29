@@ -13,6 +13,7 @@ import { AllExceptionsFilter } from '../../../libs/exceptions/filters/all-except
 import { YandexS3Service } from '../../files/src/yandexS3.service';
 import { PostModule } from './bloggers-platform/posts/posts.module';
 import { ProfileModule } from './bloggers-platform/profiles/profiles.module';
+import { SubscriptionsModule } from './subcsriptions/subscriptions.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ProfileModule } from './bloggers-platform/profiles/profiles.module';
     UserModule,
     PostModule,
     ProfileModule,
+    SubscriptionsModule,
     ClientsModule.registerAsync([
       {
         name: 'FILE_SERVICE',
