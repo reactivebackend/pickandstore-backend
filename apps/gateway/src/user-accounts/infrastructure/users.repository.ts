@@ -21,6 +21,13 @@ export type AuthAccountWithUser = Prisma.AuthAccountGetPayload<{
 export class UsersRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async getUsersWithSubscriptions(): Promise<any> {
+    return this.prismaService.user.findMany({
+      include: {
+        subscription: true,
+      },
+    });
+  }
   async createUser(
     username: string,
     email: string,

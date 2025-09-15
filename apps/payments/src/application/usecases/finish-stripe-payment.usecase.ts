@@ -10,6 +10,8 @@ import { UserSubscriptionRepository } from '../../infrastructure/user-subsciptio
 import { SubscriptionRepository } from '../../infrastructure/subscription-repository';
 import { calculateDate } from '../../utils/calculate-date';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { SocketNotificationsService } from '../../../../gateway/src/sockets/notificationsSocket/socket-notifications.service';
+import { NotificationsRepository } from '../../../../gateway/src/notifications/infrastructure/notifications.repository';
 
 export class FinishStripePaymentCommand {
   constructor(
@@ -30,6 +32,8 @@ export class FinishStripePaymentUseCase
     private userSubscriptionRepository: UserSubscriptionRepository,
     private subscriptionRepository: SubscriptionRepository,
     private amqpConnection: AmqpConnection,
+    private socketNotificationsService: SocketNotificationsService,
+    private notificationsRepository: NotificationsRepository,
   ) {
     this.stripe = new Stripe(this.stripeConfig.secretKey, {
       apiVersion: this.stripeConfig.apiVersion,
@@ -152,6 +156,15 @@ export class FinishStripePaymentUseCase
           nextPaymentDate,
           isAutoRenew,
         );
+        await this.socketNotificationsService.sendSubscriptionExpiredNotification(
+          String(userId),
+          `Ваша подписка активирована и действует до ${subscriptionEndDate}`,
+        );
+        await this.notificationsRepository.createNotification({
+          userId: userId,
+          notifyType: 'SUBSCRIPTION_IS_ACTIVE',
+          targetDate: subscriptionEndDate,
+        });
       }
 
       // Автопродление
@@ -188,6 +201,15 @@ export class FinishStripePaymentUseCase
           externalTransactionId: stripeSubscriptionId,
           paymentDate: paidAtDate,
           status: PaymentStatus.Confirmed,
+        });
+        await this.socketNotificationsService.sendSubscriptionExpiredNotification(
+          String(userId),
+          `Ваша подписка активирована и действует до ${newEndDate}`,
+        );
+        await this.notificationsRepository.createNotification({
+          userId: userId,
+          notifyType: 'SUBSCRIPTION_IS_ACTIVE',
+          targetDate: newEndDate,
         });
       }
 

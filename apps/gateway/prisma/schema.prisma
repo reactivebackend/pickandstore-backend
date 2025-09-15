@@ -31,28 +31,36 @@ enum PaymentSystem {
   CREDIT_CARD
 }
 
+enum NotificationType {
+  SEVEN_DAYS_BEFORE
+  ONE_DAYS_BEFORE
+  IN_ONE_DAY
+  SUBSCRIPTION_IS_ACTIVE
+}
+
 model User {
-  id                        Int                             @id @default(autoincrement())
-  username                  String                          @unique
-  email                     String                          @unique
-  firstName                 String?
-  lastName                  String?
-  dateOfBirth               DateTime?
-  country                   String?
-  city                      String?
-  aboutMe                   String?
-  passwordHash              String?
-  hasActiveSubscription     Boolean                         @default(false)
-  deletionStatus            DeletionStatus                  @default(NotDeleted)
-  createdAt                 DateTime                        @default(now())
-  updatedAt                 DateTime                        @updatedAt
-  userMetadata              UserMetadata?                   @relation("UserMetadata")
-  authAccounts              AuthAccount[]                   @relation("AuthAccounts")
-  devices                   Device[]                        @relation("Devices")
-  posts                     Post[]
-  userAvatars               UserAvatar[]                    @relation("UserAvatars")
-  subscription              UserSubscription[]              @relation("UserSubscription")
-  payments                  SubscriptionTransactions[]      @relation("SubscriptionTransactions")
+  id                    Int                        @id @default(autoincrement())
+  username              String                     @unique
+  email                 String                     @unique
+  firstName             String?
+  lastName              String?
+  dateOfBirth           DateTime?
+  country               String?
+  city                  String?
+  aboutMe               String?
+  passwordHash          String?
+  hasActiveSubscription Boolean                    @default(false)
+  deletionStatus        DeletionStatus             @default(NotDeleted)
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @updatedAt
+  userMetadata          UserMetadata?              @relation("UserMetadata")
+  authAccounts          AuthAccount[]              @relation("AuthAccounts")
+  devices               Device[]                   @relation("Devices")
+  posts                 Post[]
+  userAvatars           UserAvatar[]               @relation("UserAvatars")
+  subscription          UserSubscription[]         @relation("UserSubscription")
+  payments              SubscriptionTransactions[] @relation("SubscriptionTransactions")
+  otification           UserNotification[]         @relation("UserNotification")
 }
 
 model UserMetadata {
@@ -107,45 +115,55 @@ model Device {
 }
 
 model AvailableSubscription {
-  id            Int                    @id @default(autoincrement())
-  title         String
-  price         Int
-  period        SubscriptionPeriod
+  id     Int                @id @default(autoincrement())
+  title  String
+  price  Int
+  period SubscriptionPeriod
 
   subscriptionTransactions SubscriptionTransactions[] @relation("AvailableSubscription_Transactions")
   userSubscriptions        UserSubscription[]         @relation("AvailableSubscription_UserSubscriptions")
 }
 
 model SubscriptionTransactions {
-  id                      Int                    @id @default(autoincrement())
-  subscriptionId          Int
-  userId                  Int
-  externalTransactionId   String?
-  paymentSystem           PaymentSystem
-  status                  PaymentStatus          @default(Pending)
-  paymentDate             DateTime?
-  createdAt               DateTime               @default(now())
-  url                     String?
+  id                    Int           @id @default(autoincrement())
+  subscriptionId        Int
+  userId                Int
+  externalTransactionId String?
+  paymentSystem         PaymentSystem
+  status                PaymentStatus @default(Pending)
+  paymentDate           DateTime?
+  createdAt             DateTime      @default(now())
+  url                   String?
 
-  user                   User                   @relation("SubscriptionTransactions", fields: [userId], references: [id])
-  availableSubscription  AvailableSubscription  @relation("AvailableSubscription_Transactions", fields: [subscriptionId], references: [id])
-  userSubscription       UserSubscription?      @relation("Transaction_UserSubscription")
+  user                  User                  @relation("SubscriptionTransactions", fields: [userId], references: [id])
+  availableSubscription AvailableSubscription @relation("AvailableSubscription_Transactions", fields: [subscriptionId], references: [id])
+  userSubscription      UserSubscription?     @relation("Transaction_UserSubscription")
 }
 
 model UserSubscription {
-  id                      Int                   @id @default(autoincrement())
-  userId                  Int
-  subscriptionId          Int
-  transactionId           Int                   @unique
-  subscriptionStartDate   DateTime
-  subscriptionEndDate     DateTime
-  nextPaymentDate         DateTime?
-  autoRenewal             Boolean               @default(true)
-  notified                Boolean               @default(false)
-  createdAt               DateTime              @default(now())
-  updatedAt               DateTime              @updatedAt
+  id                    Int       @id @default(autoincrement())
+  userId                Int
+  subscriptionId        Int
+  transactionId         Int       @unique
+  subscriptionStartDate DateTime
+  subscriptionEndDate   DateTime
+  nextPaymentDate       DateTime?
+  autoRenewal           Boolean   @default(true)
+  notified              Boolean   @default(false)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
-  user                      User                  @relation("UserSubscription", fields: [userId], references: [id])
-  availableSubscription     AvailableSubscription @relation("AvailableSubscription_UserSubscriptions", fields: [subscriptionId], references: [id])
-  subscriptionTransactions  SubscriptionTransactions @relation("Transaction_UserSubscription", fields: [transactionId], references: [id])
+  user                     User                     @relation("UserSubscription", fields: [userId], references: [id])
+  availableSubscription    AvailableSubscription    @relation("AvailableSubscription_UserSubscriptions", fields: [subscriptionId], references: [id])
+  subscriptionTransactions SubscriptionTransactions @relation("Transaction_UserSubscription", fields: [transactionId], references: [id])
+}
+
+model UserNotification {
+  id         Int              @id @default(autoincrement())
+  userId     Int
+  notifyType NotificationType
+  isRead     Boolean          @default(false)
+  targetDate DateTime
+  notifyAt   DateTime         @default(now())
+  user       User             @relation("UserNotification", fields: [userId], references: [id])
 }
