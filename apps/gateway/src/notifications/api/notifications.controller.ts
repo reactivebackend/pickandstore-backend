@@ -13,30 +13,31 @@ import {
 import { UpdateNotificationsInputDto } from './input-dto/update-notifications.input-dto';
 import { JwtBearerGuard } from '../../user-accounts/guards/jwt-bearer.guard';
 import { ExtractUserFromRequest } from '../../user-accounts/guards/decorators/extract-user-id-from-request.decorator';
-import { SocketNotificationsService } from '../../sockets/notificationsSocket/socket-notifications.service';
 import { CommandBus } from '@nestjs/cqrs';
-import { DeletePostCommand } from '../../bloggers-platform/posts/application/usecases/delete-post.usecase';
 import { DeleteNotificationCommand } from '../application/usecases/delete-notification.usecase';
 import { UpdateNotificationsCommand } from '../application/usecases/update-notifications.usecase';
+import { NotificationViewDto } from './view-dto/notification.view-dto';
+import { GetNotificationsQueryParams } from './input-dto/get-notifications-query-params';
+import { NotificationsPaginatedViewDto } from './view-dto/notifications.paginated.view-dto';
+import { NotificationsQueryRepository } from '../infrastructure/query/notifications.query-repository';
 
 @Controller('notifications')
 export class NotificationsController {
   constructor(
-    private socketNotificationsService: SocketNotificationsService,
+    private notificationsQueryRepository: NotificationsQueryRepository,
     private commandBus: CommandBus,
   ) {}
 
-  @Get('1')
-  async getNotificationByProfile1(
-    // @ExtractUserFromRequest() userId: number,
-    @Query('cursor') cursor?: string,
-  ): Promise<any> {
-    ///return this.postsQueryRepository.getAllUserPosts(query, userId);
-    await this.socketNotificationsService.sendSubscriptionExpiredNotification(
-      '4',
-      'dsfsf',
+  @UseGuards(JwtBearerGuard)
+  @Get()
+  async getNotificationByProfile(
+    @ExtractUserFromRequest() userId: number,
+    @Query() query: GetNotificationsQueryParams,
+  ): Promise<NotificationsPaginatedViewDto<NotificationViewDto[]>> {
+    return this.notificationsQueryRepository.getUserNotifications(
+      query,
+      userId,
     );
-    return '55555';
   }
 
   @UseGuards(JwtBearerGuard)
