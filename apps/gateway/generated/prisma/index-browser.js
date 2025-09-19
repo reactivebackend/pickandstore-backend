@@ -217,10 +217,12 @@ exports.Prisma.UserSubscriptionScalarFieldEnum = {
 exports.Prisma.UserNotificationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  message: 'message',
   notifyType: 'notifyType',
   isRead: 'isRead',
   targetDate: 'targetDate',
-  notifyAt: 'notifyAt'
+  createdAt: 'createdAt',
+  deletionStatus: 'deletionStatus'
 };
 
 exports.Prisma.SortOrder = {

@@ -60,7 +60,7 @@ model User {
   userAvatars           UserAvatar[]               @relation("UserAvatars")
   subscription          UserSubscription[]         @relation("UserSubscription")
   payments              SubscriptionTransactions[] @relation("SubscriptionTransactions")
-  otification           UserNotification[]         @relation("UserNotification")
+  notification           UserNotification[]         @relation("UserNotification")
 }
 
 model UserMetadata {
@@ -159,11 +159,13 @@ model UserSubscription {
 }
 
 model UserNotification {
-  id         Int              @id @default(autoincrement())
-  userId     Int
-  notifyType NotificationType
-  isRead     Boolean          @default(false)
-  targetDate DateTime
-  notifyAt   DateTime         @default(now())
-  user       User             @relation("UserNotification", fields: [userId], references: [id])
+  id                Int              @id @default(autoincrement())
+  userId            Int
+  message           String
+  notifyType        NotificationType
+  isRead            Boolean          @default(false)
+  targetDate        DateTime
+  createdAt         DateTime         @default(now())
+  deletionStatus    DeletionStatus   @default(NotDeleted)
+  user              User             @relation("UserNotification", fields: [userId], references: [id])
 }
