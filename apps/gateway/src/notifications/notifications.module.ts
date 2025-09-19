@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { NotificationsController } from './api/notifications.controller';
-import { SocketNotificationsService } from '../sockets/notificationsSocket/socket-notifications.service';
+import { SocketNotificationsService } from './application/socket-notifications.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtConfig } from '../user-accounts/config/jwt.config';
 import { SubscriptionExpirationRemindersUseCase } from './application/usecases/subscription-expiration-reminders.usecase';
@@ -10,6 +10,8 @@ import { NotificationsRepository } from './infrastructure/notifications.reposito
 import { PaymentWithdrawalWarningUseCase } from './application/usecases/payment-withdrawal-warning.usecase';
 import { DeletePostUseCase } from './application/usecases/delete-notification.usecase';
 import { UpdateUserProfileUseCase } from './application/usecases/update-notifications.usecase';
+import { JwtWsStrategy } from '../user-accounts/strategies/jwt.ws.strategy';
+import { NotificationsQueryRepository } from './infrastructure/query/notifications.query-repository';
 
 const notificationsUseCases = [
   SubscriptionExpirationRemindersUseCase,
@@ -26,8 +28,11 @@ const notificationsUseCases = [
     SocketNotificationsService,
     JwtService,
     JwtConfig,
+    JwtWsStrategy,
     UsersRepository,
     NotificationsRepository,
+    NotificationsQueryRepository,
+    SocketNotificationsService,
   ],
   exports: [],
 })
