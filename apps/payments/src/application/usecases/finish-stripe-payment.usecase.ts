@@ -2,6 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { StripeConfig } from '../../config/stripe.config';
 import Stripe from 'stripe';
 import {
+  NotificationType,
   PaymentStatus,
   PaymentSystem,
 } from '../../../../gateway/generated/prisma';
@@ -10,7 +11,7 @@ import { UserSubscriptionRepository } from '../../infrastructure/user-subsciptio
 import { SubscriptionRepository } from '../../infrastructure/subscription-repository';
 import { calculateDate } from '../../utils/calculate-date';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { SocketNotificationsService } from '../../../../gateway/src/sockets/notificationsSocket/socket-notifications.service';
+import { SocketNotificationsService } from '../../../../gateway/src/notifications/application/socket-notifications.service';
 import { NotificationsRepository } from '../../../../gateway/src/notifications/infrastructure/notifications.repository';
 
 export class FinishStripePaymentCommand {
@@ -156,13 +157,15 @@ export class FinishStripePaymentUseCase
           nextPaymentDate,
           isAutoRenew,
         );
-        await this.socketNotificationsService.sendSubscriptionExpiredNotification(
-          String(userId),
-          `Ваша подписка активирована и действует до ${subscriptionEndDate}`,
-        );
+
+        const message = `Your subscription is activated and valid until ${subscriptionEndDate.toLocaleDateString()}`;
+
+        this.socketNotificationsService.sendNotification(userId, message);
+
         await this.notificationsRepository.createNotification({
           userId: userId,
-          notifyType: 'SUBSCRIPTION_IS_ACTIVE',
+          message: message,
+          notifyType: NotificationType.SUBSCRIPTION_IS_ACTIVE,
           targetDate: subscriptionEndDate,
         });
       }
@@ -202,13 +205,14 @@ export class FinishStripePaymentUseCase
           paymentDate: paidAtDate,
           status: PaymentStatus.Confirmed,
         });
-        await this.socketNotificationsService.sendSubscriptionExpiredNotification(
-          String(userId),
-          `Ваша подписка активирована и действует до ${newEndDate}`,
-        );
+
+        const message = `Your subscription is activated and valid until ${newEndDate.toLocaleDateString()}`;
+
+        this.socketNotificationsService.sendNotification(userId, message);
         await this.notificationsRepository.createNotification({
           userId: userId,
-          notifyType: 'SUBSCRIPTION_IS_ACTIVE',
+          message: message,
+          notifyType: NotificationType.SUBSCRIPTION_IS_ACTIVE,
           targetDate: newEndDate,
         });
       }

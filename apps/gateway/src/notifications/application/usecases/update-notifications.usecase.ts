@@ -17,16 +17,14 @@ export class UpdateUserProfileUseCase
   constructor(private notificationsRepository: NotificationsRepository) {}
 
   async execute({ userId, dto }: UpdateNotificationsCommand): Promise<void> {
-    debugger;
     const notifications =
-      await this.notificationsRepository.findNotificationByIds(dto.ids);
-    debugger;
+      await this.notificationsRepository.getNotificationByIds(dto.ids);
+
     if (!notifications || notifications.length === 0) {
       throw new NotFoundException('Notification not found');
     }
 
     for (const notification of notifications) {
-      debugger;
       if (notification.userId !== userId) {
         throw new ForbiddenException('You are not entitled to notice');
       }

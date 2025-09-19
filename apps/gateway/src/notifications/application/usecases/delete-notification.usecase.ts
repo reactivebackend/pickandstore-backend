@@ -1,6 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { NotificationsRepository } from '../../infrastructure/notifications.repository';
-import { BadRequestDomainException } from '../../../../../../libs/exceptions/domain-exceptions';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 
 export class DeleteNotificationCommand {
@@ -20,16 +19,17 @@ export class DeletePostUseCase
     notificationId,
     userId,
   }: DeleteNotificationCommand): Promise<void> {
-    debugger;
     const findNotification =
-      await this.notificationsRepository.findNotificationById(notificationId);
+      await this.notificationsRepository.getNotificationById(notificationId);
+
     if (!findNotification) {
       throw new NotFoundException('Notification not found');
     }
+
     if (findNotification.userId !== userId) {
       throw new ForbiddenException('You are not entitled to notice');
     }
-    debugger;
-    await this.notificationsRepository.deleteNotificationById(notificationId);
+
+    await this.notificationsRepository.makeDeleted(notificationId);
   }
 }

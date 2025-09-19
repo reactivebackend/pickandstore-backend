@@ -22,7 +22,7 @@ import { UserSubscriptionQueryRepository } from './infrastructure/query/user-sub
 import { PaymentsQueryRepository } from './infrastructure/query/payments.query-repository';
 import { CheckExpiredSubscriptionsUseCase } from './application/usecases/check-expired-subscriptions.usecase';
 import { NotificationsRepository } from '../../gateway/src/notifications/infrastructure/notifications.repository';
-import { SocketNotificationsService } from '../../gateway/src/sockets/notificationsSocket/socket-notifications.service';
+import { SocketNotificationsService } from '../../gateway/src/notifications/application/socket-notifications.service';
 import { JwtConfig } from '../../gateway/src/user-accounts/config/jwt.config';
 import { JwtService } from '@nestjs/jwt';
 

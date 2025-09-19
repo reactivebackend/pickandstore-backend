@@ -12,7 +12,7 @@ import { JwtConfig } from '../../user-accounts/config/jwt.config';
   cors: {
     origin: '*',
   },
-  namespace: 'inctagram.work',
+  namespace: 'notifications',
 })
 export class SocketNotificationsService
   implements OnGatewayConnection, OnGatewayDisconnect
@@ -23,11 +23,10 @@ export class SocketNotificationsService
   ) {}
   @WebSocketServer()
   server: Server;
-
   private connectedUsers = new Map<string, Socket>();
 
   handleConnection(client: Socket): any {
-    const token = client.handshake.query.token as string; //// это jwt
+    const token = client.handshake.query.token as string;
     if (!token) {
       client.disconnect();
       return;
@@ -46,6 +45,7 @@ export class SocketNotificationsService
       client.disconnect();
     }
   }
+
   handleDisconnect(client: Socket): any {
     for (const [userId, socket] of this.connectedUsers.entries()) {
       if (socket.id === client.id) {
@@ -56,11 +56,14 @@ export class SocketNotificationsService
     }
   }
 
-  sendSubscriptionExpiredNotification(userId: string, message: string) {
-    console.log(userId);
-    const client = this.connectedUsers.get(userId);
+  sendNotification(userId: number, message: string) {
+    const client = this.connectedUsers.get(userId.toString());
     if (client) {
-      this.server.to(userId).emit('NOTIFICATION', message);
+      this.server.to(userId.toString()).emit('NOTIFICATION', {
+        userId: userId,
+        message: message,
+        notifyAt: new Date().toISOString(),
+      });
     }
   }
 }

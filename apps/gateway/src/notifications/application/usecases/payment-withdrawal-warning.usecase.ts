@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { NotificationsRepository } from '../../infrastructure/notifications.repository';
-import { UsersRepository } from '../../../user-accounts/infrastructure/users.repository';
-import { SocketNotificationsService } from '../../../sockets/notificationsSocket/socket-notifications.service';
+import { SocketNotificationsService } from '../socket-notifications.service';
 import { Interval } from '@nestjs/schedule';
+import { NotificationType } from '../../../../generated/prisma';
 
 export class PaymentWithdrawalWarningCommand {}
 
@@ -14,30 +14,36 @@ export class PaymentWithdrawalWarningUseCase
     private readonly notificationsRepository: NotificationsRepository,
     private readonly socketNotificationsService: SocketNotificationsService,
   ) {}
+
   @Interval(20000)
-  async execute(command: PaymentWithdrawalWarningCommand): Promise<any> {
+  async execute(): Promise<void> {
     const now = new Date();
     const targetDate = new Date(now);
     targetDate.setDate(now.getDate() + 1);
+
     const upcomingSubscriptions =
-      await this.notificationsRepository.findSubscriptionsWithinHour(
-        targetDate,
-      );
+      await this.notificationsRepository.getSubscriptionsWithinHour(targetDate);
+
     for (const subscription of upcomingSubscriptions) {
       const notificationSent =
         await this.notificationsRepository.getNotificationByUserIdAndDate({
           userId: subscription.userId,
-          notifyType: 'IN_ONE_DAY',
+          notifyType: NotificationType.IN_ONE_DAY,
           targetDate: subscription.subscriptionEndDate,
         });
+
       if (!notificationSent || notificationSent.length === 0) {
-        await this.socketNotificationsService.sendSubscriptionExpiredNotification(
-          String(subscription.userId),
-          'Следующий платеж у вас спишется через 1 день',
+        const message = 'Your next payment will be charged in 1 day';
+
+        this.socketNotificationsService.sendNotification(
+          subscription.userId,
+          message,
         );
+
         await this.notificationsRepository.createNotification({
           userId: subscription.userId,
-          notifyType: 'IN_ONE_DAY',
+          message: message,
+          notifyType: NotificationType.IN_ONE_DAY,
           targetDate: subscription.subscriptionEndDate,
         });
       }

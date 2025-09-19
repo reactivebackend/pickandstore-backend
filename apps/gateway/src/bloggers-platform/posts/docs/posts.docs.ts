@@ -16,7 +16,7 @@ import {
 import { PostViewDto } from '../api/view-dto/post.view-dto';
 import { CreatePostInputDto } from '../api/input-dto/create-post.input-dto';
 import { APIErrorResult } from '../../../../../../libs/exceptions/dto/api-error-result.dto';
-import { PaginatedViewDto } from '../../../../../../libs/dto/base.paginated.view-dto';
+import { PaginatedViewDto } from '../../../../../../libs/dto/view-dto/base.paginated.view-dto';
 
 export function CreatePostDocs() {
   return applyDecorators(

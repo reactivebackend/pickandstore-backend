@@ -1,4 +1,4 @@
-import { BaseSortablePaginationParams } from '../../../../../../../libs/dto/base.query-params.input-dto';
+import { BaseSortablePaginationParams } from '../../../../../../../libs/dto/input-dto/base.query-params.input-dto';
 import { PostsSortBy } from './posts-sort-by';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
