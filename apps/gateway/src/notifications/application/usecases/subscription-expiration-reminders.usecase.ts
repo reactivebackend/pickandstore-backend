@@ -1,8 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Interval } from '@nestjs/schedule';
 import { UsersRepository } from '../../../user-accounts/infrastructure/users.repository';
-import { SocketNotificationsService } from '../../../sockets/notificationsSocket/socket-notifications.service';
+import { SocketNotificationsService } from '../socket-notifications.service';
 import { NotificationsRepository } from '../../infrastructure/notifications.repository';
+import { NotificationType } from '../../../../generated/prisma';
 
 export class SubscriptionExpirationRemindersCommand {}
 
@@ -15,55 +16,57 @@ export class SubscriptionExpirationRemindersUseCase
     private readonly usersRepository: UsersRepository,
     private readonly socketNotificationsService: SocketNotificationsService,
   ) {}
-  @Interval(200000)
-  async execute(command: SubscriptionExpirationRemindersCommand): Promise<any> {
+
+  @Interval(20 * 1000)
+  async execute(): Promise<any> {
     const users = await this.usersRepository.getUsersWithSubscriptions();
-    const today = new Date();
+    const now = new Date();
+    const twoMinutes = 2 * 60 * 1000;
+
     for (const user of users) {
       const subscription = user.subscription[user.subscription.length - 1];
-      console.log(user.subscription);
       if (!subscription) continue;
 
       const expiryDate = subscription.subscriptionEndDate;
-      const diffTime = expiryDate.getTime() - today.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      console.log(expiryDate);
-      console.log(diffDays);
-      let notifyType: string | null = null;
+
+      const sevenDaysBefore = new Date(
+        expiryDate.getTime() - 7 * 24 * 60 * 60 * 1000,
+      );
+      const oneDayBefore = new Date(
+        expiryDate.getTime() - 1 * 24 * 60 * 60 * 1000,
+      );
+
+      let notifyType: NotificationType | null = null;
       let message: string | null = null;
 
-      if (diffDays === 7) {
-        notifyType = 'SEVEN_DAYS_BEFORE';
-        message =
-          'Ваша подписка заканчивается через 7 дней. Пожалуйста, продлите её.';
-      } else if (diffDays === 1) {
-        notifyType = 'ONE_DAYS_BEFORE';
-        message =
-          'Ваша подписка заканчивается через 1 день. Пожалуйста, продлите её.';
+      if (
+        now.getTime() >= sevenDaysBefore.getTime() - twoMinutes &&
+        now.getTime() <= sevenDaysBefore.getTime() + twoMinutes
+      ) {
+        notifyType = NotificationType.SEVEN_DAYS_BEFORE;
+        message = 'Your subscription expires in 7 days';
+      } else if (
+        now.getTime() >= oneDayBefore.getTime() - twoMinutes &&
+        now.getTime() <= oneDayBefore.getTime() + twoMinutes
+      ) {
+        notifyType = NotificationType.ONE_DAYS_BEFORE;
+        message = 'Your subscription expires in 1 day';
       }
+
       if (notifyType && message) {
         const notificationSent =
           await this.notificationsRepository.getNotificationByUserIdAndDate({
             userId: user.id,
-            notifyType: notifyType as
-              | 'SEVEN_DAYS_BEFORE'
-              | 'ONE_DAYS_BEFORE'
-              | 'IN_ONE_DAY'
-              | 'SUBSCRIPTION_IS_ACTIVE',
+            notifyType: notifyType,
             targetDate: expiryDate,
           });
+
         if (!notificationSent || notificationSent.length === 0) {
-          await this.socketNotificationsService.sendSubscriptionExpiredNotification(
-            String(user.id),
-            message,
-          );
+          this.socketNotificationsService.sendNotification(user.id, message);
           await this.notificationsRepository.createNotification({
             userId: user.id,
-            notifyType: notifyType as
-              | 'SEVEN_DAYS_BEFORE'
-              | 'ONE_DAYS_BEFORE'
-              | 'IN_ONE_DAY'
-              | 'SUBSCRIPTION_IS_ACTIVE',
+            message: message,
+            notifyType: notifyType,
             targetDate: expiryDate,
           });
         }
