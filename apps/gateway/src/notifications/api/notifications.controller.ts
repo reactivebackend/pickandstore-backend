@@ -20,6 +20,11 @@ import { NotificationViewDto } from './view-dto/notification.view-dto';
 import { GetNotificationsQueryParams } from './input-dto/get-notifications-query-params';
 import { NotificationsPaginatedViewDto } from './view-dto/notifications.paginated.view-dto';
 import { NotificationsQueryRepository } from '../infrastructure/query/notifications.query-repository';
+import {
+  DeleteNotificationByIdDocs,
+  GetNotificationByProfileDocs,
+  UpdateNotificationsByIdDocs,
+} from '../docs/notifications.docs';
 
 @Controller('notifications')
 export class NotificationsController {
@@ -27,7 +32,7 @@ export class NotificationsController {
     private notificationsQueryRepository: NotificationsQueryRepository,
     private commandBus: CommandBus,
   ) {}
-
+  @GetNotificationByProfileDocs()
   @UseGuards(JwtBearerGuard)
   @Get()
   async getNotificationByProfile(
@@ -39,7 +44,7 @@ export class NotificationsController {
       userId,
     );
   }
-
+  @UpdateNotificationsByIdDocs()
   @UseGuards(JwtBearerGuard)
   @Put('mark-as-read')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -51,7 +56,7 @@ export class NotificationsController {
       new UpdateNotificationsCommand(userId, inputUpdateDto),
     );
   }
-
+  @DeleteNotificationByIdDocs()
   @UseGuards(JwtBearerGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
