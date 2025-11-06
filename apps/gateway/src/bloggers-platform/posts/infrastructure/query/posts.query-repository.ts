@@ -2,7 +2,7 @@ import { PrismaService } from '../../../../../prisma/prisma.service';
 import { PostViewDto } from '../../api/view-dto/post.view-dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeletionStatus } from '../../../../../generated/prisma';
-import { PaginatedViewDto } from '../../../../../../../libs/dto/base.paginated.view-dto';
+import { PaginatedViewDto } from '../../../../../../../libs/dto/view-dto/base.paginated.view-dto';
 import { GetPostsQueryParams } from '../../api/input-dto/get-posts-query-params';
 
 @Injectable()

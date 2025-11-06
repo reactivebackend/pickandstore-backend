@@ -14,6 +14,8 @@ import { YandexS3Service } from '../../files/src/yandexS3.service';
 import { PostModule } from './bloggers-platform/posts/posts.module';
 import { ProfileModule } from './bloggers-platform/profiles/profiles.module';
 import { SubscriptionsModule } from './subcsriptions/subscriptions.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -23,7 +25,9 @@ import { SubscriptionsModule } from './subcsriptions/subscriptions.module';
     UserModule,
     PostModule,
     ProfileModule,
+    NotificationsModule,
     SubscriptionsModule,
+    ScheduleModule.forRoot(),
     ClientsModule.registerAsync([
       {
         name: 'FILE_SERVICE',

@@ -37,6 +37,7 @@ import { TerminateDeviceUseCase } from './application/usecases/devices/terminate
 import { RecaptchaService } from './application/recaptcha.service';
 import { HttpModule } from '@nestjs/axios';
 import { RecaptchaConfig } from './config/recaptcha.config';
+import { JwtWsStrategy } from './strategies/jwt.ws.strategy';
 
 const userUseCases = [
   CreateUserUseCase,
@@ -64,6 +65,7 @@ const strategies = [
   LocalStrategy,
   GoogleStrategy,
   GithubStrategy,
+  JwtWsStrategy,
 ];
 
 @Global()

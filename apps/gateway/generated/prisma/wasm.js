@@ -214,6 +214,17 @@ exports.Prisma.UserSubscriptionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserNotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  message: 'message',
+  notifyType: 'notifyType',
+  isRead: 'isRead',
+  targetDate: 'targetDate',
+  createdAt: 'createdAt',
+  deletionStatus: 'deletionStatus'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -250,6 +261,13 @@ exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   Pending: 'Pending'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  SEVEN_DAYS_BEFORE: 'SEVEN_DAYS_BEFORE',
+  ONE_DAYS_BEFORE: 'ONE_DAYS_BEFORE',
+  IN_ONE_DAY: 'IN_ONE_DAY',
+  SUBSCRIPTION_IS_ACTIVE: 'SUBSCRIPTION_IS_ACTIVE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   UserMetadata: 'UserMetadata',
@@ -259,7 +277,8 @@ exports.Prisma.ModelName = {
   Device: 'Device',
   AvailableSubscription: 'AvailableSubscription',
   SubscriptionTransactions: 'SubscriptionTransactions',
-  UserSubscription: 'UserSubscription'
+  UserSubscription: 'UserSubscription',
+  UserNotification: 'UserNotification'
 };
 
 /**

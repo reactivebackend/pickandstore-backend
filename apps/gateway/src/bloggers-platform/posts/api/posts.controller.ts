@@ -24,7 +24,7 @@ import { UpdatePostCommand } from '../application/usecases/update-post.usecase';
 import { PostsQueryRepository } from '../infrastructure/query/posts.query-repository';
 import { DeletePostCommand } from '../application/usecases/delete-post.usecase';
 import { GetPostsQueryParams } from './input-dto/get-posts-query-params';
-import { PaginatedViewDto } from '../../../../../../libs/dto/base.paginated.view-dto';
+import { PaginatedViewDto } from '../../../../../../libs/dto/view-dto/base.paginated.view-dto';
 import {
   CreatePostDocs,
   DeletePostByIdDocs,

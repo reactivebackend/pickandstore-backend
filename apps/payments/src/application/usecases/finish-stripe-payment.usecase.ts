@@ -2,6 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { StripeConfig } from '../../config/stripe.config';
 import Stripe from 'stripe';
 import {
+  NotificationType,
   PaymentStatus,
   PaymentSystem,
 } from '../../../../gateway/generated/prisma';
@@ -10,6 +11,8 @@ import { UserSubscriptionRepository } from '../../infrastructure/user-subsciptio
 import { SubscriptionRepository } from '../../infrastructure/subscription-repository';
 import { calculateDate } from '../../utils/calculate-date';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { SocketNotificationsService } from '../../../../gateway/src/notifications/application/socket-notifications.service';
+import { NotificationsRepository } from '../../../../gateway/src/notifications/infrastructure/notifications.repository';
 
 export class FinishStripePaymentCommand {
   constructor(
@@ -30,6 +33,8 @@ export class FinishStripePaymentUseCase
     private userSubscriptionRepository: UserSubscriptionRepository,
     private subscriptionRepository: SubscriptionRepository,
     private amqpConnection: AmqpConnection,
+    private socketNotificationsService: SocketNotificationsService,
+    private notificationsRepository: NotificationsRepository,
   ) {
     this.stripe = new Stripe(this.stripeConfig.secretKey, {
       apiVersion: this.stripeConfig.apiVersion,
@@ -152,6 +157,17 @@ export class FinishStripePaymentUseCase
           nextPaymentDate,
           isAutoRenew,
         );
+
+        const message = `Your subscription is activated and valid until ${subscriptionEndDate.toLocaleDateString()}`;
+
+        this.socketNotificationsService.sendNotification(userId, message);
+
+        await this.notificationsRepository.createNotification({
+          userId: userId,
+          message: message,
+          notifyType: NotificationType.SUBSCRIPTION_IS_ACTIVE,
+          targetDate: subscriptionEndDate,
+        });
       }
 
       // Автопродление
@@ -188,6 +204,16 @@ export class FinishStripePaymentUseCase
           externalTransactionId: stripeSubscriptionId,
           paymentDate: paidAtDate,
           status: PaymentStatus.Confirmed,
+        });
+
+        const message = `Your subscription is activated and valid until ${newEndDate.toLocaleDateString()}`;
+
+        this.socketNotificationsService.sendNotification(userId, message);
+        await this.notificationsRepository.createNotification({
+          userId: userId,
+          message: message,
+          notifyType: NotificationType.SUBSCRIPTION_IS_ACTIVE,
+          targetDate: newEndDate,
         });
       }
 

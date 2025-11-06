@@ -21,6 +21,10 @@ import { SubscriptionQueryRepository } from './infrastructure/query/subscription
 import { UserSubscriptionQueryRepository } from './infrastructure/query/user-subscription.query-repository';
 import { PaymentsQueryRepository } from './infrastructure/query/payments.query-repository';
 import { CheckExpiredSubscriptionsUseCase } from './application/usecases/check-expired-subscriptions.usecase';
+import { NotificationsRepository } from '../../gateway/src/notifications/infrastructure/notifications.repository';
+import { SocketNotificationsService } from '../../gateway/src/notifications/application/socket-notifications.service';
+import { JwtConfig } from '../../gateway/src/user-accounts/config/jwt.config';
+import { JwtService } from '@nestjs/jwt';
 
 const subscriptionsUseCases = [
   CreateStripePaymentUseCase,
@@ -64,6 +68,10 @@ const subscriptionsUseCases = [
     UserSubscriptionRepository,
     UserSubscriptionQueryRepository,
     ...subscriptionsUseCases,
+    NotificationsRepository,
+    SocketNotificationsService,
+    JwtConfig,
+    JwtService,
   ],
 })
 export class PaymentsModule {}

@@ -31,6 +31,13 @@ enum PaymentSystem {
   CREDIT_CARD
 }
 
+enum NotificationType {
+  SEVEN_DAYS_BEFORE
+  ONE_DAYS_BEFORE
+  IN_ONE_DAY
+  SUBSCRIPTION_IS_ACTIVE
+}
+
 model User {
   id                    Int                        @id @default(autoincrement())
   username              String                     @unique
@@ -53,6 +60,7 @@ model User {
   userAvatars           UserAvatar[]               @relation("UserAvatars")
   subscription          UserSubscription[]         @relation("UserSubscription")
   payments              SubscriptionTransactions[] @relation("SubscriptionTransactions")
+  notification          UserNotification[]         @relation("UserNotification")
 }
 
 model UserMetadata {
@@ -148,4 +156,16 @@ model UserSubscription {
   user                     User                     @relation("UserSubscription", fields: [userId], references: [id])
   availableSubscription    AvailableSubscription    @relation("AvailableSubscription_UserSubscriptions", fields: [subscriptionId], references: [id])
   subscriptionTransactions SubscriptionTransactions @relation("Transaction_UserSubscription", fields: [transactionId], references: [id])
+}
+
+model UserNotification {
+  id             Int              @id @default(autoincrement())
+  userId         Int
+  message        String
+  notifyType     NotificationType
+  isRead         Boolean          @default(false)
+  targetDate     DateTime
+  createdAt      DateTime         @default(now())
+  deletionStatus DeletionStatus   @default(NotDeleted)
+  user           User             @relation("UserNotification", fields: [userId], references: [id])
 }
